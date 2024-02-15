@@ -1,0 +1,47 @@
+/* font */
+@font-face {
+  font-family: "iranSans";
+  src: url("../fonts/iranSans.eot") format("embedded-opentype"),
+    url("../fonts/iranSans.woff") format("woff"),
+    url("../fonts/iranSans.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+body * {
+  font-family: iranSans;
+  font-size: 14px;
+  -webkit-print-color-adjust: exact !important;
+  /* Chrome, Safari 6 – 15.3, Edge */
+  color-adjust: exact !important;
+  /* Firefox 48 – 96 */
+  print-color-adjust: exact !important;
+}
+
+.borderRadius-15 {
+  border-radius: 15px;
+}
+
+.list ul.ant-pagination {
+  direction: ltr !important;
+}
+
+.baxshadow {
+  box-shadow: 0px 0px 5px 0px;
+}
+
+/* cards hover in dashboard section */
+.cards {
+  transition: 0.5s;
+  cursor: pointer;
+}
+.cards:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  background-color: rgb(236, 236, 236);
+  border-radius: 15px;
+}
+/* login form style for transparency */
+.login-form {
+  background-color: rgba(255, 255, 255, 0.664);
+}
