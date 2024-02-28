@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { Input, Space, Table, ConfigProvider, Empty } from "antd";
+import { Input, Space, Table, ConfigProvider, Empty, Popconfirm } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { Container, Row, Col, Button, Tabs, Tab } from "react-bootstrap";
@@ -10,51 +10,45 @@ import ListIcon from "@mui/icons-material/List";
 import EssentialGoodsEditModal from "./modal/EssentialGoodsEditmodal";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import EssentialGoodsAddModal from "./modal/EssentialGoodsAddModal";
+import { getessentialgoods } from "../../services/authServices";
 // -------------------------slices
 import { selectLoading, RsetLoading } from "../../slices/mainSlices";
 import {
   RsetessentialGoodsAddmodal,
   RsetessentialGoodsCurrentUser,
   RsetessentialGoodsEditModal,
+  RsetessentialGoodsList,
+  fetchessentialgoodlist,
   selectessentialGoodsAddmodal,
   selectessentialGoodsCurrentUser,
   selectessentialGoodsEditModal,
+  selectessentialGoodsList,
 } from "../../slices/essentialGoodsSlices";
 const data = [
   {
-    sort: "آجر",
-    modelcode: "golestani",
-    type: "منتظم",
-    Weight: "0kg",
-    wightperkg: "وزن در واحد كيوگرم",
-    a: "aيا  (x)",
-    b: 230.0,
-    I: 230.0,
-    h: 76.0,
+    category: "آجر",
+    manufacturing_country: "ايران	",
+
+    type_name: "مگنسايت",
+
+    manufacturer: "آمل کربوراندوم",
+
     userName: "wolfi",
   },
   {
-    sort: "سنگ",
-    modelcode: "golestani",
-    type: "منتظم",
-    Weight: "0kg",
-    wightperkg: "وزن در واحد كيوگرم",
-    a: "aيا  (x)",
-    b: 231.0,
-    I: 230.0,
-    h: 76.0,
+    category: "سنگ",
+    manufacturing_country: "ايتاليا",
+    type_name: "مگنسايت",
+    manufacturer: "ديرگداز ايران ",
+
     userName: "wolfi",
   },
   {
-    sort: "آجر",
-    modelcode: "golestani",
-    type: "منتظم",
-    Weight: "0kg",
-    wightperkg: "وزن در واحد كيوگرم",
-    a: "a يا  (x)",
-    b: 230.0,
-    I: 230.0,
-    h: 25.0,
+    category: "آجر",
+    countryoforigin: "ايران	",
+    type_name: "مگنسايت",
+    manufacturer: "رفل",
+
     userName: "wolfi",
   },
 ];
@@ -69,10 +63,17 @@ const EssentialGoods = () => {
   const essentialGoodsCurrentUser = useSelector(
     selectessentialGoodsCurrentUser
   );
+  const essentialGoodsList = useSelector(selectessentialGoodsList);
+
   const essentialGoodsAddmodal = useSelector(selectessentialGoodsAddmodal);
   const handleAddUserModalOpen = () => {
     dispatch(RsetessentialGoodsAddmodal(true));
   };
+
+  // ---------------------fetching data
+  useEffect(() => {
+    dispatch(fetchessentialgoodlist());
+  }, [dispatch]);
   // --------------------------tabale search
   const getColumnSearchProps = (dataIndex, placeholder) => ({
     filterDropdown: ({
@@ -167,132 +168,83 @@ const EssentialGoods = () => {
   //table column
   const columns = [
     {
-      key: "sort",
+      key: "category",
       title: "دسته بندي",
-      dataIndex: "sort",
+      dataIndex: "category",
       sorter: (a, b) => {
-        if (!a.sort && !b.sort) {
+        if (!a.category && !b.category) {
           return 0;
         }
-        if (!a.sort) {
+        if (!a.category) {
           return 1;
         }
-        if (!b.sort) {
+        if (!b.category) {
           return -1;
         }
-        return a.sort.localeCompare(b.sort);
+        return a.category.localeCompare(b.category);
       },
       ...getColumnSearchProps("sort", "جستجو..."),
-      width: 50,
-    },
-    {
-      key: "modelcode",
-      title: "كد مدل",
-      dataIndex: "modelcode",
-      sorter: (a, b) => {
-        if (!a.modelcode && !b.modelcode) {
-          return 0;
-        }
-        if (!a.modelcode) {
-          return 1;
-        }
-        if (!b.modelcode) {
-          return -1;
-        }
-        return a.modelcode.localeCompare(b.modelcode);
-      },
-      ...getColumnSearchProps("modelcode", "جستجو..."),
-      width: 200,
-    },
-    {
-      key: "type",
-      title: "نوع",
-      dataIndex: "type",
-      sorter: (a, b) => {
-        if (!a.type && !b.type) {
-          return 0;
-        }
-        if (!a.type) {
-          return 1;
-        }
-        if (!b.type) {
-          return -1;
-        }
-        return a.type.localeCompare(b.type);
-      },
-      ...getColumnSearchProps("type", "جستجو..."),
-      width: 50,
-    },
-    {
-      key: "Weight",
-      title: "وزن",
-      dataIndex: "Weight",
-      sorter: (a, b) => {
-        if (!a.Weight && !b.Weight) {
-          return 0;
-        }
-        if (!a.Weight) {
-          return 1;
-        }
-        if (!b.Weight) {
-          return -1;
-        }
-        return a.Weight.localeCompare(b.Weight);
-      },
-      ...getColumnSearchProps("Weight", "جستجو..."),
       width: 100,
     },
     {
-      key: "wightperkg",
-      title: "وزن بر كيلوگرم",
-      dataIndex: "wightperkg",
+      key: "type_name",
+      title: "نوع (متریال)",
+      dataIndex: "type_name",
       sorter: (a, b) => {
-        if (!a.wightperkg && !b.wightperkg) {
+        if (!a.type_name && !b.type_name) {
           return 0;
         }
-        if (!a.wightperkg) {
+        if (!a.type_name) {
           return 1;
         }
-        if (!b.wightperkg) {
+        if (!b.type_name) {
           return -1;
         }
-        return a.wightperkg.localeCompare(b.wightperkg);
+        return a.type_name.localeCompare(b.type_name);
       },
-      ...getColumnSearchProps("wightperkg", "جستجو..."),
-      width: 50,
+      ...getColumnSearchProps("type_name", "جستجو..."),
+      width: 100,
     },
     {
-      key: "a",
-      title: "a يا  (x)",
-      dataIndex: "a",
-      sorter: (a, b) => a.a - b.a, // Sorts numbers from lower to higher
-      ...getColumnSearchProps("a", "جستجو..."),
-      width: 50,
+      key: "manufacturing_country",
+      title: "كشور سازنده",
+      dataIndex: "manufacturing_country",
+      sorter: (a, b) => {
+        if (!a.manufacturing_country && !b.manufacturing_country) {
+          return 0;
+        }
+        if (!a.manufacturing_country) {
+          return 1;
+        }
+        if (!b.manufacturing_country) {
+          return -1;
+        }
+        return a.manufacturing_country.localeCompare(b.manufacturing_country);
+      },
+      ...getColumnSearchProps("manufacturing_country", "جستجو..."),
+      width: 100,
     },
+
     {
-      key: "b",
-      title: " b",
-      dataIndex: "b",
-      sorter: (a, b) => a.b - b.b, // Sorts numbers from lower to higher
-      ...getColumnSearchProps("b", "جستجو..."),
-      width: 50,
+      key: "manufacturer",
+      title: "شركت سازنده",
+      dataIndex: "manufacturer",
+      sorter: (a, b) => {
+        if (!a.manufacturer && !b.manufacturer) {
+          return 0;
+        }
+        if (!a.manufacturer) {
+          return 1;
+        }
+        if (!b.manufacturer) {
+          return -1;
+        }
+        return a.manufacturer.localeCompare(b.manufacturer);
+      },
+      ...getColumnSearchProps("manufacturer", "جستجو..."),
+      width: 100,
     },
-    {
-      key: "I",
-      title: " I",
-      dataIndex: "I",
-      sorter: (a, b) => a.I - b.I, // Sorts numbers from lower to higher
-      ...getColumnSearchProps("b", "جستجو..."),
-      width: 200,
-    },
-    {
-      key: "h",
-      title: " h",
-      dataIndex: "h",
-      sorter: (a, b) => a.h - b.h, // Sorts numbers from lower to higher
-      ...getColumnSearchProps("b", "جستجو..."),
-      width: 50,
-    },
+
     // {
     //   key: "devices",
     //   title: "تعداد وسیله نقلیه",
@@ -346,17 +298,21 @@ const EssentialGoods = () => {
             dispatch(RsetessentialGoodsCurrentUser(request));
           }}
         >
+          ويرايش
           <EditIcon />
         </Button>
-        <Button
-          title="حذف"
+        <Popconfirm
+          title="آيا از حذف اين سطر مطمعن هستيد"
           className="btn btn-danger d-flex align-items-center  mb-2 mb-md-2"
           size="sm"
+          okText={<span>تایید</span>} // Change the color of "تایید"
+          cancelText={<span>انصراف</span>}
           active
-          onClick={() => {}}
+          // onConfirm={() => handleDelete(request._id)}
         >
+          <span>حذف</span>
           <DeleteForeverIcon />
-        </Button>
+        </Popconfirm>
       </div>
     );
   };
@@ -371,7 +327,7 @@ const EssentialGoods = () => {
             <div className="ms-4 mt-1">
               <span className="me-2">
                 <ListIcon className="mx-2" />
-                مدل و ابعاد نسوز ها
+                لیست ملزومات
               </span>
             </div>
             <Button
@@ -430,7 +386,7 @@ const EssentialGoods = () => {
                       }}
                       className="list"
                       bordered
-                      dataSource={data}
+                      dataSource={essentialGoodsList}
                       columns={columns}
                       pagination={paginationConfig}
                       scroll={{ x: "max-content" }}
@@ -449,8 +405,8 @@ const EssentialGoods = () => {
             </div>
           </div>
         </section>
-        {EssentialGoodsAddModal && <EssentialGoodsAddModal />}
-        {EssentialGoodsEditModal && <EssentialGoodsEditModal />}
+        {essentialGoodsAddmodal && <EssentialGoodsAddModal />}
+        {essentialGoodsEditModal && <EssentialGoodsEditModal />}
       </Fragment>
     </Container>
   );

@@ -22,8 +22,6 @@ const MainLayout = ({ children }) => {
     }
   }, [token]);
 
-  console.log(isLoggedIn, token);
-
   return (
     <div className="bg-dark overflow-hidden">
       <div

@@ -7,9 +7,9 @@ import faIR from "antd/lib/locale/fa_IR";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import ListIcon from "@mui/icons-material/List";
-import UserManagementEditModal from "./modal/UserManagementEditModal";
+import FactoryManagmentEditModal from "./modal/FactoryManagmentEditModal";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import AddModal from "./modal/addUsermodal";
+import FactoryManagmentAddModal from "./modal/FactoryManagmentAddModal";
 import { getUserList } from "../../services/authServices";
 import { deleteUser } from "../../services/authServices";
 
@@ -31,10 +31,19 @@ import {
   selectUserManagmentList,
   selectuserManagmentDeleteModal,
   RsetuserManagmentDeleteModal,
-  fetchUserList,
-  deleteuserlist,
 } from "../../slices/userManagmentSlices";
 import { Popconfirm } from "antd/lib";
+import {
+  RsetFactoryManagmentAddmodal,
+  RsetFactoryManagmentCurrentUser,
+  RsetFactoryManagmentEditModal,
+  RsetFactoryManagmentList,
+  fetchdata,
+  getFactoryManagmentDatas,
+  selectFactoryManagmentAddmodal,
+  selectFactoryManagmentEditModal,
+  selectFactoryManagmentList,
+} from "../../slices/FactoryManagment";
 
 const data = [
   {
@@ -84,17 +93,19 @@ const data = [
   },
 ];
 
-const UsersList = () => {
+const FactoryManagment = () => {
   const dispatch = useDispatch();
   //table state
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   //select
   const loading = useSelector(selectLoading);
-  const userManagmentEditModal = useSelector(selectUserManagmentEditModal);
+  const factoryManagmentEditModal = useSelector(
+    selectFactoryManagmentEditModal
+  );
   const userManagmentDeleteModal = useSelector(selectuserManagmentDeleteModal);
   const userManagmentCurrentUser = useSelector(selectUserManagmentCurrentUser);
-  const userManagmentAddmodal = useSelector(selectuserManagmentAddmodal);
+  const factoryManagmentAddmodal = useSelector(selectFactoryManagmentAddmodal);
   const UserManagmentList = useSelector(selectUserManagmentList);
 
   // console.log(userManagmentDeleteModal, userManagmentEditModal);
@@ -115,12 +126,21 @@ const UsersList = () => {
   };
 
   const handleAddUserModalOpen = () => {
-    dispatch(RsetuserManagmentAddmodal(true));
+    dispatch(RsetFactoryManagmentAddmodal(true));
   };
 
   useEffect(() => {
-    dispatch(fetchUserList());
-  }, [dispatch]);
+    const fetchData = async () => {
+      try {
+        const userlistdata = await getUserList();
+        dispatch(RsetUserManagmentList(userlistdata.data));
+      } catch (error) {
+        console.error("Error fetching user list:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   //table search
   // useEffect(async() => {
@@ -224,72 +244,94 @@ const UsersList = () => {
   //table column
   const columns = [
     {
-      key: "first_name",
+      key: "name",
       title: "نام",
-      dataIndex: "first_name",
+      dataIndex: "name",
       sorter: (a, b) => {
-        if (!a.first_name && !b.first_name) {
+        if (!a.name && !b.name) {
           return 0;
         }
 
-        if (!a.first_name) {
+        if (!a.name) {
           return 1;
         }
 
-        if (!b.first_name) {
+        if (!b.name) {
           return -1;
         }
 
-        return a.first_name.localeCompare(b.first_name);
+        return a.name.localeCompare(b.name);
       },
-      ...getColumnSearchProps("first_name", "جستجو..."),
+      ...getColumnSearchProps("name", "جستجو..."),
       width: 50,
     },
     {
-      key: "last_name",
-      title: "نام خانوادگی",
-      dataIndex: "last_name",
+      key: "factory_type",
+      title: "نوع ",
+      dataIndex: "factory_type",
       sorter: (a, b) => {
-        if (!a.last_name && !b.last_name) {
+        if (!a.factory_type && !b.factory_type) {
           return 0;
         }
 
-        if (!a.last_name) {
+        if (!a.factory_type) {
           return 1;
         }
 
-        if (!b.last_name) {
+        if (!b.factory_type) {
           return -1;
         }
 
-        return a.last_name.localeCompare(b.last_name);
+        return a.factory_type.localeCompare(b.factory_type);
       },
       ...getColumnSearchProps("last_name", "جستجو..."),
       width: 50,
     },
     {
-      key: "user_access",
-      title: "دسترسي ها ",
-      dataIndex: "user_access",
+      key: "foundation_year",
+      title: "سال تاسیس ",
+      dataIndex: "foundation_year",
       sorter: (a, b) => {
-        if (!a.user_access && !b.user_access) {
+        if (!a.foundation_year && !b.foundation_year) {
           return 0;
         }
 
-        if (!a.user_access) {
+        if (!a.foundation_year) {
           return 1;
         }
 
-        if (!b.user_access) {
+        if (!b.foundation_year) {
           return -1;
         }
 
-        return a.user_access.localeCompare(b.user_access);
+        return a.foundation_year.localeCompare(b.foundation_year);
       },
-      ...getColumnSearchProps("user_access", "جستجو..."),
-      render: (_, record) => <span>{handleaccess(record)}</span>,
+      ...getColumnSearchProps("foundation_year", "جستجو..."),
       width: 50,
     },
+    {
+      key: "address",
+      title: "آدرس",
+      dataIndex: "address",
+      sorter: (a, b) => {
+        if (!a.address && !b.address) {
+          return 0;
+        }
+
+        if (!a.address) {
+          return 1;
+        }
+
+        if (!b.address) {
+          return -1;
+        }
+
+        return a.address.localeCompare(b.address);
+      },
+      ...getColumnSearchProps("address", "جستجو..."),
+      width: 50,
+    },
+
     // {
     //   key: "user_access",
     //   title: "دسترسی",
@@ -343,11 +385,12 @@ const UsersList = () => {
     pageSizeOptions: [],
     size: "small",
   };
-
+  const factorymanagmentData = useSelector(selectFactoryManagmentList);
+  useEffect(() => {
+    dispatch(fetchdata());
+  }, [dispatch]);
+  console.log(factorymanagmentData);
   // ---------------------handle delete
-  const handleDelete = (value) => {
-    dispatch(deleteuserlist(value));
-  };
 
   //table functions
 
@@ -360,26 +403,13 @@ const UsersList = () => {
           size="sm"
           active
           onClick={() => {
-            dispatch(RsetUserManagmentEditModal(true));
-            dispatch(RsetUserManagmentCurrentUser(request));
+            dispatch(RsetFactoryManagmentEditModal(true));
+            dispatch(RsetFactoryManagmentCurrentUser(request));
           }}
         >
           ويرايش
           <EditIcon />
         </Button>
-        <Popconfirm
-          title="آيا از حذف اين سطر مطمعن هستيد"
-          className="btn btn-danger d-flex align-items-center  mb-2 mb-md-2"
-          size="sm"
-          okText={<span>تایید</span>} // Change the color of "تایید"
-          cancelText={<span>انصراف</span>}
-          active
-          onConfirm={() => handleDelete(request._id)}
-        >
-          {console.log(userManagmentCurrentUser)}
-          <span>حذف</span>
-          <DeleteForeverIcon />
-        </Popconfirm>
       </div>
     );
   };
@@ -396,7 +426,7 @@ const UsersList = () => {
               <span className="me-2">
                 <ListIcon />
               </span>
-              مدیریت کاریران{" "}
+              مديريت كارخانه ها
             </div>
             <Button
               title="افزودن کاربر جدید"
@@ -455,7 +485,7 @@ const UsersList = () => {
                       }}
                       className="list"
                       bordered
-                      dataSource={UserManagmentList}
+                      dataSource={factorymanagmentData}
                       columns={columns}
                       pagination={paginationConfig}
                       scroll={{ x: "max-content" }}
@@ -474,11 +504,11 @@ const UsersList = () => {
             </div>
           </div>
         </section>
-        {userManagmentEditModal && <UserManagementEditModal />}
-        {userManagmentAddmodal && <AddModal />}
+        {factoryManagmentEditModal && <FactoryManagmentEditModal />}
+        {factoryManagmentAddmodal && <FactoryManagmentAddModal />}
       </Fragment>
     </Container>
   );
 };
 
-export default UsersList;
+export default FactoryManagment;

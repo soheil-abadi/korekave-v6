@@ -23,7 +23,11 @@ import {
 //   faUserCircle,
 //   faBars,
 // } from "@fortawesome/free-solid-svg-icons";
-import { selectLoggedIn } from "../../slices/authSlices";
+import {
+  selectLoggedIn,
+  handleUsetInfo,
+  selectuser,
+} from "../../slices/authSlices";
 import { selectAvatar } from "../../slices/mainSlices";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
@@ -37,6 +41,7 @@ import { useEffect } from "react";
 import { handleUserData, RsetIsLoggedIn } from "../../slices/authSlices";
 import { selectUser } from "../../slices/mainSlices";
 import { selectSmallNav } from "../../slices/mainSlices";
+import { refreshuser } from "../../services/authServices";
 
 const Header = () => {
   const [deviceDrop, setDeviceDrop] = useState(false);
@@ -52,6 +57,15 @@ const Header = () => {
   const navigate = useNavigate();
 
   const smallNav = useSelector(selectSmallNav);
+  const user = useSelector(selectuser);
+  const userInfo = user.user;
+
+  useEffect(() => {
+    console.log(userInfo);
+    if (userInfo === undefined) {
+      dispatch(handleUsetInfo());
+    }
+  }, [userInfo]);
 
   const handleStatesFalse = () => {
     setDeviceDrop(false);
@@ -85,6 +99,7 @@ const Header = () => {
     handleStatesFalse();
     setShow(false);
   };
+
   const handleShow = () => setShow(true);
 
   return (
@@ -128,8 +143,8 @@ const Header = () => {
               className="line me-4 d-none d-md-inline ms-4"
               id="line-break"
             ></div>
-            <div className="" id="profile-name">
-              <Nav.Link className="d-flex flex-row gap-2 justify-content-center align-items-end text-light">
+            <div className="" id="profile-name w-100">
+              <Nav.Link className="d-flex flex-row gap-5 justify-content-center align-items-center text-light ">
                 <Clock
                   format="HH:mm:ss"
                   interval={1000}
@@ -138,9 +153,12 @@ const Header = () => {
                   style={{ width: "60px" }}
                   // onChange={(date) => console.log(date)}
                 />
-                <p className="mb-0">soheil_ab</p>
+                {/* <p className="mb-0">{`${userInfo.username}`}</p> */}
                 <div className="">
-                  <p className="mb-0">سهیل آبادی</p>
+                  {/* <p className="mb-0">
+                    {`  خوش آمديد ${userInfo.first_name}` +
+                      `${userInfo.last_name}`}
+                  </p> */}
                 </div>
               </Nav.Link>
             </div>

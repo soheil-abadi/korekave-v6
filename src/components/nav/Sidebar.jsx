@@ -105,7 +105,7 @@ const Sidebar = () => {
                   </h3>
                   <h3
                     class
-                    onClick={() => navigate("/Factorymanagement")}
+                    onClick={() => navigate("/FactoryManagment")}
                     className="sidebar-link text-white mt-3h3 my-3 "
                     style={{ cursor: "pointer" }}
                   >
@@ -118,7 +118,7 @@ const Sidebar = () => {
 
                   <h3
                     class
-                    onClick={() => navigate("/home")}
+                    onClick={() => navigate("/FurnaceDistribute")}
                     className="sidebar-link text-white mt-3h3 my-3 "
                     style={{ cursor: "pointer" }}
                   >

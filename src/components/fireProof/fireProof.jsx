@@ -1,5 +1,13 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { Input, Space, Table, ConfigProvider, Empty, Modal } from "antd";
+import {
+  Input,
+  Space,
+  Table,
+  ConfigProvider,
+  Empty,
+  Modal,
+  Popconfirm,
+} from "antd";
 import {
   SearchOutlined,
   ExclamationCircleFilled,
@@ -14,6 +22,7 @@ import ListIcon from "@mui/icons-material/List";
 import EditFireProofModal from "./modal/EditFireProofModal";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import AddFireProofModal from "./modal/AddFireProofModal";
+import { deletefireproof, getfireprooflist } from "../../services/authServices";
 
 //slices
 import { selectLoading, RsetLoading } from "../../slices/mainSlices";
@@ -21,9 +30,13 @@ import {
   RsetfireProofAddmodal,
   RsetfireProofCurrentUser,
   RsetfireProofEditModal,
+  RsetfireProofList,
+  deletefireprooflist,
+  fetchfireprooflistList,
   selectfireProofAddmodal,
   selectfireProofCurrentUser,
   selectfireProofEditModal,
+  selectfireProofList,
 } from "../../slices/fireProofSlices";
 
 // delete conformation
@@ -31,38 +44,38 @@ const { confirm } = Modal;
 
 const data = [
   {
-    sort: "آجر",
-    modelcode: "golestani",
-    type: "منتظم",
-    Weight: "0kg",
+    category: "آجر",
+    shape_code: "golestani",
+    type_name: "منتظم",
+    weight: "0kg",
     wightperkg: "وزن در واحد كيوگرم",
-    a: "aيا  (x)",
-    b: 230.0,
-    I: 230.0,
+    a_size: "aيا  (x)",
+    b_size: 230.0,
+    l_size: 230.0,
     h: 76.0,
     userName: "wolfi",
   },
   {
-    sort: "سنگ",
-    modelcode: "golestani",
+    category: "سنگ",
+    shape_code: "golestani",
     type: "منتظم",
-    Weight: "0kg",
+    weight: "0kg",
     wightperkg: "وزن در واحد كيوگرم",
-    a: "aيا  (x)",
-    b: 231.0,
-    I: 230.0,
+    a_size: "aيا  (x)",
+    b_size: 231.0,
+    l_size: 230.0,
     h: 76.0,
     userName: "wolfi",
   },
   {
-    sort: "آجر",
-    modelcode: "golestani",
-    type: "منتظم",
-    Weight: "0kg",
+    category: "آجر",
+    shape_code: "golestani",
+    type_name: "منتظم",
+    weight: "0kg",
     wightperkg: "وزن در واحد كيوگرم",
-    a: "a يا  (x)",
-    b: 230.0,
-    I: 230.0,
+    a_size: "a يا  (x)",
+    b_size: 230.0,
+    l_size: 230.0,
     h: 25.0,
     userName: "wolfi",
   },
@@ -89,15 +102,24 @@ const FireProof = () => {
   //table state
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
-  //select
+  ////////////////select
   const loading = useSelector(selectLoading);
   const fireProofEditModal = useSelector(selectfireProofEditModal);
   const fireProofCurrentUser = useSelector(selectfireProofCurrentUser);
   const fireProofAddmodal = useSelector(selectfireProofAddmodal);
+  const fireprooflistuser = useSelector(selectfireProofList);
+
+  console.log(fireprooflistuser);
+
   const handleAddUserModalOpen = () => {
     dispatch(RsetfireProofAddmodal(true));
   };
-  console.log(fireProofAddmodal);
+  // ---------------------------userfireprooflist fetching
+  useEffect(() => {
+    dispatch(fetchfireprooflistList());
+  }, [dispatch]);
+
+  // ------------------------------------------------------
 
   //table search
   const getColumnSearchProps = (dataIndex, placeholder) => ({
@@ -194,91 +216,94 @@ const FireProof = () => {
   //table column
   const columns = [
     {
-      key: "sort",
+      key: "category",
       title: "دسته بندي",
-      dataIndex: "sort",
+      dataIndex: "category",
       sorter: (a, b) => {
-        if (!a.sort && !b.sort) {
+        if (!a.category && !b.category) {
           return 0;
         }
 
-        if (!a.sort) {
+        if (!a.category) {
           return 1;
         }
 
-        if (!b.sort) {
+        if (!b.category) {
           return -1;
         }
 
-        return a.sort.localeCompare(b.sort);
+        return a.category.localeCompare(b.category);
       },
-      ...getColumnSearchProps("sort", "جستجو..."),
+      ...getColumnSearchProps("category", "جستجو..."),
       width: 50,
     },
     {
-      key: "modelcode",
+      key: "shape_code",
       title: "كد مدل",
-      dataIndex: "modelcode",
+      dataIndex: "shape_code",
       sorter: (a, b) => {
-        if (!a.modelcode && !b.modelcode) {
+        if (!a.shape_code && !b.shape_code) {
           return 0;
         }
 
-        if (!a.modelcode) {
+        if (!a.shape_code) {
           return 1;
         }
 
-        if (!b.modelcode) {
+        if (!b.shape_code) {
           return -1;
         }
 
-        return a.modelcode.localeCompare(b.modelcode);
+        return a.shape_code.localeCompare(b.shape_code);
       },
-      ...getColumnSearchProps("modelcode", "جستجو..."),
+      ...getColumnSearchProps("shape_code", "جستجو..."),
       width: 200,
     },
     {
-      key: "type",
+      key: "type_name",
       title: "نوع",
-      dataIndex: "type",
+      dataIndex: "type_name",
       sorter: (a, b) => {
-        if (!a.type && !b.type) {
+        if (!a.type_name && !b.type_name) {
           return 0;
         }
 
-        if (!a.type) {
+        if (!a.type_name) {
           return 1;
         }
 
-        if (!b.type) {
+        if (!b.type_name) {
           return -1;
         }
 
-        return a.type.localeCompare(b.type);
+        return a.type_name.localeCompare(b.type_name);
       },
-      ...getColumnSearchProps("type", "جستجو..."),
+      ...getColumnSearchProps("type_name", "جستجو..."),
+
       width: 50,
     },
     {
-      key: "Weight",
+      key: "weight",
       title: "وزن",
-      dataIndex: "Weight",
+      dataIndex: "weight",
       sorter: (a, b) => {
-        if (!a.Weight && !b.Weight) {
+        if (!a.weight && !b.weight) {
           return 0;
         }
 
-        if (!a.Weight) {
+        if (!a.weight) {
           return 1;
         }
 
-        if (!b.Weight) {
+        if (!b.weight) {
           return -1;
         }
 
-        return a.Weight.localeCompare(b.Weight);
+        return a.weight.localeCompare(b.weight);
       },
-      ...getColumnSearchProps("Weight", "جستجو..."),
+      ...getColumnSearchProps("weight", "جستجو..."),
+      render: (text) => (text == "NULL" ? " " : text),
+
       width: 100,
     },
     {
@@ -304,29 +329,35 @@ const FireProof = () => {
       width: 50,
     },
     {
-      key: "a",
+      key: "a_size",
       title: "a يا  (x)",
-      dataIndex: "a",
-      sorter: (a, b) => a.a - b.a, // Sorts numbers from lower to higher
+      dataIndex: "a_size",
+      sorter: (a, b) => a.a_size - b.a_size, // Sorts numbers from lower to higher
 
-      ...getColumnSearchProps("a", "جستجو..."),
+      ...getColumnSearchProps("a_size", "جستجو..."),
+      render: (text) => (text == "NULL" ? " " : text),
+
       width: 50,
     },
     {
-      key: "b",
+      key: "b_size",
       title: " b",
-      dataIndex: "b",
-      sorter: (a, b) => a.b - b.b, // Sorts numbers from lower to higher
+      dataIndex: "b_size",
+      sorter: (a, b) => a.b_size - b.b_size, // Sorts numbers from lower to higher
       ...getColumnSearchProps("b", "جستجو..."),
+      render: (text) => (text == "NULL" ? " " : text),
+
       width: 50,
     },
     {
-      key: "I",
+      key: "l_size",
       title: " I",
-      dataIndex: "I",
-      sorter: (a, b) => a.I - b.I, // Sorts numbers from lower to higher
-      ...getColumnSearchProps("b", "جستجو..."),
-      width: 200,
+      dataIndex: "l_size",
+      sorter: (a, b) => a.l_size - b.l_size, // Sorts numbers from lower to higher
+      ...getColumnSearchProps("l_size", "جستجو..."),
+      render: (text) => (text == "NULL" ? " " : text),
+
+      width: 100,
     },
     {
       key: "h",
@@ -334,6 +365,8 @@ const FireProof = () => {
       dataIndex: "h",
       sorter: (a, b) => a.h - b.h, // Sorts numbers from lower to higher
       ...getColumnSearchProps("b", "جستجو..."),
+      render: (text) => (text == "NULL" ? " " : text),
+
       width: 50,
     },
 
@@ -365,7 +398,7 @@ const FireProof = () => {
       title: "عملیات",
       dataIndex: "operation",
       render: (_, record) => <span>{operation(record)}</span>,
-      width: 100,
+      width: 200,
     },
   ];
 
@@ -381,32 +414,39 @@ const FireProof = () => {
     size: "small",
   };
   //table functions
+  // --------------------------handeling delete
+  const handleDelete = async (value) => {
+    dispatch(deletefireprooflist(value));
+  };
 
   const operation = (request) => {
     return (
       <div className="d-flex justify-content-center gap-1 ms-2 flex-wrap">
-        {console.log(request.sort)}
         <Button
           title="ویرایش"
           className="btn btn-primary d-flex align-items-center  mb-2 mb-md-2"
           size="sm"
           active
           onClick={() => {
-            dispatch(RsetfireProofEditModal(true));
             dispatch(RsetfireProofCurrentUser(request));
+            dispatch(RsetfireProofEditModal(true));
           }}
         >
+          ويرايش
           <EditIcon />
         </Button>
-        <Button
-          title="حذف"
+        <Popconfirm
+          title="آيا از حذف اين سطر مطمعن هستيد"
           className="btn btn-danger d-flex align-items-center  mb-2 mb-md-2"
           size="sm"
+          okText={<span>تایید</span>} // Change the color of "تایید"
+          cancelText={<span>انصراف</span>}
           active
-          onClick={() => showDeleteConfirm()}
+          onConfirm={() => handleDelete(request._id)}
         >
+          <span>حذف</span>
           <DeleteForeverIcon />
-        </Button>
+        </Popconfirm>
       </div>
     );
   };
@@ -482,7 +522,7 @@ const FireProof = () => {
                       }}
                       className="list"
                       bordered
-                      dataSource={data}
+                      dataSource={fireprooflistuser}
                       columns={columns}
                       pagination={paginationConfig}
                       scroll={{ x: "max-content" }}
@@ -501,8 +541,8 @@ const FireProof = () => {
             </div>
           </div>
         </section>
-        {EditFireProofModal && <EditFireProofModal />}
-        {AddFireProofModal && <AddFireProofModal />}
+        {fireProofEditModal && <EditFireProofModal />}
+        {fireProofAddmodal && <AddFireProofModal />}
       </Fragment>
     </Container>
   );

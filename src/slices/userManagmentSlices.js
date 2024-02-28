@@ -1,16 +1,24 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { errorMessage, successMessage } from "../utils/toast";
+import {
+  adduser,
+  deleteUser,
+  edituser,
+  getUserList,
+} from "../services/authServices";
 
 const initialState = {
   userManagmentList: [],
-  userManagmentUserName: "",
+
   userManagmentCurrentUser: "",
   //modal
+  userManagmentUserName: "",
   userManagmentEditModal: false,
   userManagmentAddmodal: false,
   userManagmentDeleteModal: false,
   userManagmentLastName: "",
   userManagmentFirstName: "",
+  userManagmentPassword: "",
   userManagmentAccess: [],
 };
 
@@ -57,7 +65,10 @@ const userManagmentSlices = createSlice({
       return { ...state, userManagmentLastName: payload };
     },
     RsetUserManagmentUserName: (state, { payload }) => {
-      return { ...state, userMangmentUserName: payload };
+      return { ...state, userManagmentUserName: payload };
+    },
+    RsetUserManagmentPassword: (state, { payload }) => {
+      return { ...state, userManagmentPassword: payload };
     },
 
     RsetUserManagmentAccess: (state, { payload }) => {
@@ -91,6 +102,7 @@ export const {
   RsetuserManagmentAddmodal,
   RsetUserManagmentAccess,
   RsetuserManagmentDeleteModal,
+  RsetUserManagmentPassword,
 } = userManagmentSlices.actions;
 
 export const selectUserManagmentList = (state) =>
@@ -101,6 +113,8 @@ export const selectUserManagmentLastName = (state) =>
   state.userManagment.userManagmentLastName;
 export const selectUserManagmentUserName = (state) =>
   state.userManagment.userManagmentUserName;
+export const selectUserManagmentPassword = (state) =>
+  state.userManagment.userManagmentPassword;
 export const selectUserManagmentCurrentUser = (state) =>
   state.userManagment.userManagmentCurrentUser;
 export const selectUserManagmentEditModal = (state) =>
@@ -113,3 +127,58 @@ export const selectuserManagmentDeleteModal = (state) =>
   state.userManagment.userManagmentDeleteModal;
 
 export default userManagmentSlices.reducer;
+
+// ---------------------------------------------handle api
+export const fetchUserList = createAsyncThunk(
+  "userManagement/fetchUserList",
+
+  async (obj, { dispatch }) => {
+    try {
+      const getuser = await getUserList();
+      console.log(getuser);
+      if (getuser.status === 200) {
+        dispatch(RsetUserManagmentList(getuser.data));
+      } else {
+        errorMessage("عدم دريافت اطلاعات");
+      }
+    } catch (ex) {
+      console.log(ex);
+    }
+  }
+);
+export const deleteuserlist = createAsyncThunk(
+  "userManagement/deleteuserlist",
+
+  async (value, { dispatch }) => {
+    try {
+      const deleteuserlist = await deleteUser(value);
+      dispatch(fetchUserList());
+    } catch (ex) {
+      console.log("عدم دريافت اطلاعات");
+    }
+  }
+);
+export const editusers = createAsyncThunk(
+  "userManagement/editusers",
+
+  async (value, { dispatch }) => {
+    try {
+      const editusers = await edituser(value);
+      dispatch(fetchUserList());
+    } catch (ex) {
+      console.log("عدم دريافت اطلاعات");
+    }
+  }
+);
+export const addusers = createAsyncThunk(
+  "userManagement/addusers",
+
+  async (value, { dispatch }) => {
+    try {
+      const adduserdata = await adduser(value);
+      dispatch(fetchUserList());
+    } catch (ex) {
+      console.log("عدم دريافت اطلاعات");
+    }
+  }
+);

@@ -1,5 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { errorMessage, successMessage } from "../utils/toast";
+import {
+  editessentialgoods,
+  essentialgoodsadd,
+  getessentialgoods,
+} from "../services/authServices";
 
 const initialState = {
   essentialGoodsList: [],
@@ -7,14 +12,10 @@ const initialState = {
   //modal
   essentialGoodsEditModal: false,
   essentialGoodsAddmodal: false,
-  modelCode: "",
+  countryoforigin: "",
   sort: "",
-  weight: "",
+  firmorigin: "",
   type: "",
-  a: "",
-  b: "",
-  I: "",
-  h: "",
 };
 
 // export const handleStaffLogin = createAsyncThunk(
@@ -51,14 +52,9 @@ const essentialGoodsSlices = createSlice({
   initialState,
   reducers: {
     RsetessentialGoodsList: (state, { payload }) => {
-      return { ...state, essentialGoodstList: payload };
+      return { ...state, essentialGoodsList: payload };
     },
-    RsetessentialGoodsFirstName: (state, { payload }) => {
-      return { ...state, essentialGoodstFirstName: payload };
-    },
-    RsetessentialGoodsLastName: (state, { payload }) => {
-      return { ...state, essentialGoodstLastName: payload };
-    },
+
     RsetessentialGoodsUserName: (state, { payload }) => {
       return { ...state, essentialGoodstUserName: payload };
     },
@@ -66,35 +62,19 @@ const essentialGoodsSlices = createSlice({
       return { ...state, essentialGoodsCurrentUser: payload };
     },
     // -------------------------------modal--------------------------------------
-    RsetessentialGoodsmodelCode: (state, { payload }) => {
-      return { ...state, modelCode: payload };
+    RsetessentialGoodscountryoforigin: (state, { payload }) => {
+      return { ...state, countryoforigin: payload };
     },
     RsetessentialGoodssort: (state, { payload }) => {
       return { ...state, sort: payload };
     },
 
-    RsetessentialGoodsweight: (state, { payload }) => {
-      return { ...state, weight: payload };
+    RsetessentialGoodsfirmorigin: (state, { payload }) => {
+      return { ...state, firmorigin: payload };
     },
 
     RsetessentialGoodstype: (state, { payload }) => {
       return { ...state, type: payload };
-    },
-
-    RsetessentialGoodsa: (state, { payload }) => {
-      return { ...state, a: payload };
-    },
-
-    RsetessentialGoodsb: (state, { payload }) => {
-      return { ...state, b: payload };
-    },
-
-    RsetessentialGoodsI: (state, { payload }) => {
-      return { ...state, I: payload };
-    },
-
-    RsetessentialGoodsh: (state, { payload }) => {
-      return { ...state, h: payload };
     },
 
     // --------------------------------------------------------------------------------
@@ -110,48 +90,31 @@ const essentialGoodsSlices = createSlice({
 
 export const {
   RsetessentialGoodsList,
-  RsetessentialGoodsFirstName,
-  RsetessentialGoodsLastName,
   RsetessentialGoodsUserName,
   RsetessentialGoodsCurrentUser,
   RsetessentialGoodsEditModal,
   RsetessentialGoodsAddmodal,
-  RsetessentialGoodsmodelCode,
+  RsetessentialGoodscountryoforigin,
   RsetessentialGoodssort,
-  RsetessentialGoodsweight,
+  RsetessentialGoodsfirmorigin,
   RsetessentialGoodstype,
-  RsetessentialGoodsa,
-  RsetessentialGoodsb,
-  RsetessentialGoodsI,
-  RsetessentialGoodsh,
 } = essentialGoodsSlices.actions;
 
 export const selectessentialGoodsList = (state) =>
   state.essentialGoods.essentialGoodsList;
-export const selectessentialGoodsFirstName = (state) =>
-  state.essentialGoods.essentialGoodsFirstName;
-export const selectessentialGoodsLastName = (state) =>
-  state.essentialGoods.essentialGoodsLastName;
 export const selectessentialGoodsUserName = (state) =>
   state.essentialGoods.essentialGoodsUserName;
 export const selectessentialGoodsCurrentUser = (state) =>
   state.essentialGoods.essentialGoodsCurrentUser;
 // ---------------------------------------------------------------
-export const selectessentialGoodsModelCode = (state) =>
-  state.essentialGoods.modelCode;
+export const selectessentialGoodscountryoforigin = (state) =>
+  state.essentialGoods.countryoforigin;
 export const selectessentialGoodssort = (state) => state.essentialGoods.sort;
 
-export const selectessentialGoodsweight = (state) =>
-  state.essentialGoods.weight;
+export const selectessentialGoodsfirmorigin = (state) =>
+  state.essentialGoods.firmorigin;
 
 export const selectessentialGoodstype = (state) => state.essentialGoods.type;
-
-export const selectessentialGoodsa = (state) => state.essentialGoods.a;
-
-export const selectessentialGoodsb = (state) => state.essentialGoods.b;
-
-export const selectessentialGoodsI = (state) => state.essentialGoods.I;
-export const selectessentialGoodsh = (state) => state.essentialGoods.h;
 
 // -----------------------------------------------------------------
 export const selectessentialGoodsEditModal = (state) =>
@@ -160,3 +123,59 @@ export const selectessentialGoodsAddmodal = (state) =>
   state.essentialGoods.essentialGoodsAddmodal;
 
 export default essentialGoodsSlices.reducer;
+// ------------------------------------------------------handle api
+export const fetchessentialgoodlist = createAsyncThunk(
+  "userManagement/fetchessentialgoodlist",
+
+  async (obj, { dispatch }) => {
+    try {
+      const getuser = await getessentialgoods();
+      console.log(getuser);
+
+      if (getuser.status === 200) {
+        dispatch(RsetessentialGoodsList(getuser.data.data));
+      } else {
+        errorMessage("عدم دريافت اطلاعات");
+      }
+    } catch (ex) {
+      console.log(ex);
+    }
+  }
+);
+// export const deleteessentialgoodlist = createAsyncThunk(
+//   "userManagement/deleteessentialgoodlist",
+
+//   async (value, { dispatch }) => {
+//     try {
+//       const deleteuserlist = await deleteessentialgood(value);
+//       dispatch(fetchessentialgoodlistList());
+//     } catch (ex) {
+//       console.log("عدم دريافت اطلاعات");
+//     }
+//   }
+// );
+export const editessentialgood = createAsyncThunk(
+  "userManagement/editessentialgood",
+
+  async (value, { dispatch }) => {
+    try {
+      const editusers = await editessentialgoods(value);
+      dispatch(fetchessentialgoodlist());
+    } catch (ex) {
+      console.log("عدم دريافت اطلاعات");
+    }
+  }
+);
+export const addessentialgood = createAsyncThunk(
+  "userManagement/addessentialgood",
+
+  async (value, { dispatch }) => {
+    try {
+      console.log(value);
+      const adduserdata = await essentialgoodsadd(value);
+      dispatch(fetchessentialgoodlist());
+    } catch (ex) {
+      console.log("عدم دريافت اطلاعات");
+    }
+  }
+);

@@ -10,9 +10,14 @@ import {
   RsetPassword,
   selectUsername,
   selectPassword,
+  Rsettoken,
+  selecttoken,
+  selectuser,
+  Rsetuser,
+  parseJwt,
 } from "../../slices/authSlices";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-// import { successMessage } from "../../utils/toast";
+import { successMessage } from "../../utils/toast";
 import {
   Button,
   IconButton,
@@ -22,6 +27,7 @@ import {
 } from "@mui/material";
 import { AccountCircle } from "@mui/icons-material";
 import { postLogin } from "../../services/authServices";
+import { Navigate, useNavigate } from "react-router-dom";
 
 //add font to material inputs
 const theme = createTheme({
@@ -36,10 +42,27 @@ const Login = () => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const username = useSelector(selectUsername);
   const password = useSelector(selectPassword);
+  const token = useSelector(selectuser);
+  const navigate = useNavigate();
+
   const [showPassword, setShowPassword] = React.useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
+  };
+  const parseJwt = (token) => {
+    var base64Url = token.split(".")[1];
+    var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    var jsonPayload = decodeURIComponent(
+      window
+        .atob(base64)
+        .split("")
+        .map(function (c) {
+          return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+        })
+        .join("")
+    );
+    return JSON.parse(jsonPayload);
   };
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -48,15 +71,17 @@ const Login = () => {
       password,
     };
     const postLoginRes = await postLogin(values);
-    console.log(postLoginRes, "this si psotlogin ");
-    console.log(postLoginRes.data.user, "this is user ");
-
+    console.log(postLoginRes);
     if (postLoginRes.data.code === 200) {
-      let userfouned = postLoginRes.data.user;
+      const userInfo = parseJwt(postLoginRes.data.token);
 
+      dispatch(Rsetuser(userInfo));
+
+      console.log(userInfo);
+      navigate("/Dashboard");
       dispatch(RsetIsLoggedIn(true));
-      localStorage.setItem("token", JSON.stringify(userfouned));
-
+      localStorage.setItem("id", userInfo.user._id);
+      localStorage.setItem("token", postLoginRes.data.token);
       dispatch(Rsetusername(""));
       dispatch(RsetPassword(""));
     }
@@ -69,7 +94,8 @@ const Login = () => {
         {isLoggedIn ? (
           // Render this content when logged in
           <div>
-            {/* <successMessage /> */}
+            {/* {successMessage("ورود موفقيت آميز بود")} */}
+            {Navigate("/Dashboard")}
 
             {/* Add any other content you want to show when logged in */}
           </div>

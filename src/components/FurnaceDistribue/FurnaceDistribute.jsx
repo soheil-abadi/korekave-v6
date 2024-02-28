@@ -7,11 +7,10 @@ import faIR from "antd/lib/locale/fa_IR";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import ListIcon from "@mui/icons-material/List";
-import UserManagementEditModal from "./modal/UserManagementEditModal";
+import FurnaceDistributeEditModal from "./Modal/FurnaceDistributeEditModal";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import AddModal from "./modal/addUsermodal";
+import FurnaceDistributeAddModal from "./Modal/FurnaceDistributeAddModal";
 import { getUserList } from "../../services/authServices";
-import { deleteUser } from "../../services/authServices";
 
 // -------------------
 // import { ExclamationCircleFilled } from "@ant-design/icons";
@@ -31,10 +30,17 @@ import {
   selectUserManagmentList,
   selectuserManagmentDeleteModal,
   RsetuserManagmentDeleteModal,
-  fetchUserList,
-  deleteuserlist,
 } from "../../slices/userManagmentSlices";
-import { Popconfirm } from "antd/lib";
+import {
+  RsetFurnaceDistributeAddmodal,
+  RsetFurnaceDistributeCurrentUser,
+  RsetFurnaceDistributeEditModal,
+  fetchfurancepart,
+  selectFurnaceDistributeAddmodal,
+  selectFurnaceDistributeCurrentUser,
+  selectFurnaceDistributeEditModal,
+  selectFurnaceDistributeList,
+} from "../../slices/FurnaceDistribute";
 
 const data = [
   {
@@ -84,43 +90,54 @@ const data = [
   },
 ];
 
-const UsersList = () => {
+const FurnaceDistribute = () => {
+  const dataoffurance = useSelector(selectFurnaceDistributeList);
+  console.log(dataoffurance);
+
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchfurancepart());
+  }, [dispatch]);
   //table state
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   //select
   const loading = useSelector(selectLoading);
-  const userManagmentEditModal = useSelector(selectUserManagmentEditModal);
-  const userManagmentDeleteModal = useSelector(selectuserManagmentDeleteModal);
-  const userManagmentCurrentUser = useSelector(selectUserManagmentCurrentUser);
-  const userManagmentAddmodal = useSelector(selectuserManagmentAddmodal);
+  const furnaceDistributeEditModal = useSelector(
+    selectFurnaceDistributeEditModal
+  );
+
+  const FurnaceDistributeCurrentUser = useSelector(
+    selectFurnaceDistributeCurrentUser
+  );
+  const FurnaceDistributeAddmodal = useSelector(
+    selectFurnaceDistributeAddmodal
+  );
   const UserManagmentList = useSelector(selectUserManagmentList);
 
-  // console.log(userManagmentDeleteModal, userManagmentEditModal);
+  console.log(FurnaceDistributeAddmodal);
 
   // ---------------------------------------------------------------
 
   // ---------------------------delete handle
 
-  const handleaccess = (record) => {
-    return (
-      <div>
-        {record.user_access.map((permission, index) => (
-          <span key={index}>{permission.name},</span>
-        ))}
-      </div>
-    );
-    console.log(record);
-  };
-
   const handleAddUserModalOpen = () => {
-    dispatch(RsetuserManagmentAddmodal(true));
+    dispatch(RsetFurnaceDistributeAddmodal(true));
   };
 
-  useEffect(() => {
-    dispatch(fetchUserList());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const userlistdata = await getUserList();
+  //       dispatch(RsetUserManagmentList(userlistdata.data));
+  //     } catch (error) {
+  //       console.error("Error fetching user list:", error);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, []);
 
   //table search
   // useEffect(async() => {
@@ -224,105 +241,50 @@ const UsersList = () => {
   //table column
   const columns = [
     {
-      key: "first_name",
-      title: "نام",
-      dataIndex: "first_name",
+      key: "name",
+      title: "نام بخش",
+      dataIndex: "name",
       sorter: (a, b) => {
-        if (!a.first_name && !b.first_name) {
+        if (!a.name && !b.name) {
           return 0;
         }
 
-        if (!a.first_name) {
+        if (!a.name) {
           return 1;
         }
 
-        if (!b.first_name) {
+        if (!b.name) {
           return -1;
         }
 
-        return a.first_name.localeCompare(b.first_name);
+        return a.name.localeCompare(b.name);
       },
-      ...getColumnSearchProps("first_name", "جستجو..."),
+      ...getColumnSearchProps("name", "جستجو..."),
       width: 50,
     },
     {
-      key: "last_name",
-      title: "نام خانوادگی",
-      dataIndex: "last_name",
+      key: "furnace_type",
+      title: " نوع کوره	",
+      dataIndex: "furnace_type",
       sorter: (a, b) => {
-        if (!a.last_name && !b.last_name) {
+        if (!a.furnace_type && !b.furnace_type) {
           return 0;
         }
 
-        if (!a.last_name) {
+        if (!a.furnace_type) {
           return 1;
         }
 
-        if (!b.last_name) {
+        if (!b.furnace_type) {
           return -1;
         }
 
-        return a.last_name.localeCompare(b.last_name);
+        return a.furnace_type.localeCompare(b.furnace_type);
       },
-      ...getColumnSearchProps("last_name", "جستجو..."),
+      ...getColumnSearchProps("furnace_type", "جستجو..."),
       width: 50,
     },
-    {
-      key: "user_access",
-      title: "دسترسي ها ",
-      dataIndex: "user_access",
-      sorter: (a, b) => {
-        if (!a.user_access && !b.user_access) {
-          return 0;
-        }
 
-        if (!a.user_access) {
-          return 1;
-        }
-
-        if (!b.user_access) {
-          return -1;
-        }
-
-        return a.user_access.localeCompare(b.user_access);
-      },
-      ...getColumnSearchProps("user_access", "جستجو..."),
-      render: (_, record) => <span>{handleaccess(record)}</span>,
-      width: 50,
-    },
-    // {
-    //   key: "user_access",
-    //   title: "دسترسی",
-    //   dataIndex: "first_name",
-    //   // render: (_, record) => <span>shayan</span>,
-    //   sorter: (a, b) =>
-    //     a.user_access.join().localeCompare(b.user_access.join()),
-    //   ...getColumnSearchProps("user_access", "جستجو..."),
-    //   width: 200,
-    // },
-    // {
-    //   key: "devices",
-    //   title: "تعداد وسیله نقلیه",
-    //   dataIndex: "devices",
-    //   sorter: (a, b) => {
-    //     if (!a.driverName && !b.driverName) {
-    //       return 0;
-    //     }
-
-    //     if (!a.driverName) {
-    //       return 1;
-    //     }
-
-    //     if (!b.driverName) {
-    //       return -1;
-    //     }
-
-    //     return a.devices?.length.localeCompare(b.devices?.length);
-    //   },
-    //   render: (devices) => devices?.length,
-    //   ...getColumnSearchProps("devices", "جستجو..."),
-    //   width: 200,
-    // },
     {
       key: "operation",
       title: "عملیات",
@@ -344,11 +306,6 @@ const UsersList = () => {
     size: "small",
   };
 
-  // ---------------------handle delete
-  const handleDelete = (value) => {
-    dispatch(deleteuserlist(value));
-  };
-
   //table functions
 
   const operation = (request) => {
@@ -360,26 +317,13 @@ const UsersList = () => {
           size="sm"
           active
           onClick={() => {
-            dispatch(RsetUserManagmentEditModal(true));
-            dispatch(RsetUserManagmentCurrentUser(request));
+            dispatch(RsetFurnaceDistributeEditModal(true));
+            dispatch(RsetFurnaceDistributeCurrentUser(request));
           }}
         >
           ويرايش
           <EditIcon />
         </Button>
-        <Popconfirm
-          title="آيا از حذف اين سطر مطمعن هستيد"
-          className="btn btn-danger d-flex align-items-center  mb-2 mb-md-2"
-          size="sm"
-          okText={<span>تایید</span>} // Change the color of "تایید"
-          cancelText={<span>انصراف</span>}
-          active
-          onConfirm={() => handleDelete(request._id)}
-        >
-          {console.log(userManagmentCurrentUser)}
-          <span>حذف</span>
-          <DeleteForeverIcon />
-        </Popconfirm>
       </div>
     );
   };
@@ -396,7 +340,7 @@ const UsersList = () => {
               <span className="me-2">
                 <ListIcon />
               </span>
-              مدیریت کاریران{" "}
+              لیست پخش کوره ها
             </div>
             <Button
               title="افزودن کاربر جدید"
@@ -455,7 +399,7 @@ const UsersList = () => {
                       }}
                       className="list"
                       bordered
-                      dataSource={UserManagmentList}
+                      dataSource={dataoffurance}
                       columns={columns}
                       pagination={paginationConfig}
                       scroll={{ x: "max-content" }}
@@ -474,11 +418,11 @@ const UsersList = () => {
             </div>
           </div>
         </section>
-        {userManagmentEditModal && <UserManagementEditModal />}
-        {userManagmentAddmodal && <AddModal />}
+        {furnaceDistributeEditModal && <FurnaceDistributeEditModal />}
+        {FurnaceDistributeAddmodal && <FurnaceDistributeAddModal />}
       </Fragment>
     </Container>
   );
 };
 
-export default UsersList;
+export default FurnaceDistribute;

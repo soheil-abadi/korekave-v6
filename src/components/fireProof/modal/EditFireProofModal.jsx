@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   Box,
   Checkbox,
+  FormControl,
   FormControlLabel,
   FormGroup,
   InputLabel,
@@ -14,6 +15,7 @@ import {
   TextField,
 } from "@mui/material";
 import {
+  RsetfireProofAddmodal,
   RsetfireProofCurrentUser,
   RsetfireProofEditModal,
   RsetfireProofI,
@@ -24,6 +26,8 @@ import {
   RsetfireProofsort,
   RsetfireProoftype,
   RsetfireProofweight,
+  addfireproof,
+  editfireproofs,
   selectfireProofCurrentUser,
   selectfireProofEditModal,
   selectfireProofI,
@@ -35,10 +39,11 @@ import {
   selectfireProoftype,
   selectfireProofweight,
 } from "../../../slices/fireProofSlices";
+import { fireproofadd } from "../../../services/authServices";
+const selectoption = ["سنگ  ", "آجر  ", "  نسوز"];
+const type = ["غير منتظم  ", "منتظم  "];
 
 const EditFireProofModal = () => {
-  const selectoption = ["سنگ  ", "آجر  ", "  نسوز"];
-  const type = ["غير منتظم  ", "منتظم  "];
   //   -----------------------------handeling modal selectors
   const fireProofmodelCode = useSelector(selectfireProofModelCode);
   const fireProofa = useSelector(selectfireProofa);
@@ -51,9 +56,8 @@ const EditFireProofModal = () => {
   const fireProoftype = useSelector(selectfireProoftype);
   const fireProofweight = useSelector(selectfireProofweight);
   const fireProofsort = useSelector(selectfireProofsort);
-
   // -----------------------------------------------
-
+  console.log(fireProofsort);
   const dispatch = useDispatch();
   const fireProofEditModal = useSelector(selectfireProofEditModal);
 
@@ -66,19 +70,18 @@ const EditFireProofModal = () => {
   };
   // ------------------------sending new input to reducers
   const handleModalEdit = () => {
-    dispatch(
-      RsetfireProofCurrentUser({
-        ...fireProofCurrentUser,
-        sort: fireProofsort,
-        modelCode: fireProofmodelCode,
-        weight: fireProofweight,
-        type: fireProoftype,
-        a: fireProofa,
-        b: fireProofb,
-        I: fireProofI,
-        h: fireProofh,
-      })
-    );
+    const data = {
+      category: fireProofsort,
+      shape_code: fireProofmodelCode,
+      weight: fireProofweight,
+      type_name: fireProoftype,
+      a_size: fireProofa,
+      b_size: fireProofb,
+      l_size: fireProofI,
+      h_size: fireProofh,
+    };
+    dispatch(editfireproofs(data));
+    dispatch(RsetfireProofEditModal(false));
   };
 
   const modalStyles = {
@@ -104,26 +107,25 @@ const EditFireProofModal = () => {
   };
   // -----------------seting current data in reducer
   useEffect(() => {
-    dispatch(RsetfireProofmodelCode(fireProofCurrentUser.modelcode));
-    dispatch(RsetfireProofI(fireProofCurrentUser.I));
-    dispatch(RsetfireProofweight(fireProofCurrentUser.Weight));
-    dispatch(RsetfireProofa(fireProofCurrentUser.a));
+    dispatch(RsetfireProofmodelCode(fireProofCurrentUser.shape_code));
+    dispatch(RsetfireProofI(fireProofCurrentUser.l_size));
+    dispatch(RsetfireProofweight(fireProofCurrentUser.weight));
+    dispatch(RsetfireProofa(fireProofCurrentUser.a_size));
 
-    dispatch(RsetfireProofb(fireProofCurrentUser.b));
+    dispatch(RsetfireProofb(fireProofCurrentUser.b_size));
 
     dispatch(RsetfireProofh(fireProofCurrentUser.h));
 
-    dispatch(RsetfireProofsort(fireProofCurrentUser.sort));
+    dispatch(RsetfireProofsort(fireProofCurrentUser.category));
 
-    dispatch(RsetfireProoftype(fireProofCurrentUser.type));
-  }, [fireProofCurrentUser]);
+    dispatch(RsetfireProoftype(fireProofCurrentUser.type_name));
+  }, []);
 
-  console.log(fireProofh);
-
+  console.log(fireProofCurrentUser);
   return (
     <ConfigProvider direction="rtl" locale={fa_IR}>
       <Modal
-        title={`ويرايش مدل ${fireProofCurrentUser.modelcode}`}
+        title={`ويرايش مدل ${fireProofCurrentUser.shape_code}`}
         open={fireProofEditModal}
         styles={modalStyles}
         closable={false}
@@ -178,8 +180,9 @@ const EditFireProofModal = () => {
                 ))}
             </Select>
           </Box>
+
           <Box>
-            <InputLabel className="fw-bold fs-5">كد مدل </InputLabel>
+            <InputLabel className="fw-bold fs-5 mt-3">كد مدل </InputLabel>
             <TextField
               variant="outlined"
               fullWidth
@@ -196,7 +199,7 @@ const EditFireProofModal = () => {
               className="w-100  "
               labelId="demo-simple-select-filled-label"
               id="demo-simple-select-filled"
-              value={fireProoftype}
+              defaultValue={{ label: fireProoftype, value: 2 }}
               label="مدل"
               onChange={(e) => dispatch(RsetfireProoftype(e.target.value))}
             >
@@ -220,7 +223,7 @@ const EditFireProofModal = () => {
               variant="outlined"
               fullWidth
               margin="normal"
-              value={fireProofweight}
+              value={fireProofweight == "NULL" ? "" : fireProofweight}
               onChange={(e) => dispatch(RsetfireProofweight(e.target.value))}
             />
           </Box>

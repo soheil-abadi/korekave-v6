@@ -13,6 +13,11 @@ import {
   RsetUserManagmentAccess,
   RsetUserManagmentFirstName,
   RsetUserManagmentLastName,
+  RsetUserManagmentUserName,
+  RsetUserManagmentPassword,
+  selectUserManagmentUserName,
+  selectUserManagmentPassword,
+  editusers,
 } from "../../../slices/userManagmentSlices";
 import {
   Box,
@@ -22,6 +27,7 @@ import {
   InputLabel,
   TextField,
 } from "@mui/material";
+import { edituser } from "../../../services/authServices";
 
 const UserManagementEditModal = () => {
   const dispatch = useDispatch();
@@ -32,56 +38,72 @@ const UserManagementEditModal = () => {
   const userManagmentAccess = useSelector(selectuserManagmentAccess);
   const userManagmentEditModal = useSelector(selectUserManagmentEditModal);
   const userManagmentCurrentUser = useSelector(selectUserManagmentCurrentUser);
-
-  console.log(userManagmentCurrentUser);
+  const UserManagmentPassword = useSelector(selectUserManagmentPassword);
+  const UserManagmentUserName = useSelector(selectUserManagmentUserName);
 
   // -----------------------------------------------
   useEffect(() => {
     dispatch(RsetUserManagmentFirstName(userManagmentCurrentUser.first_name));
     dispatch(RsetUserManagmentLastName(userManagmentCurrentUser.last_name));
     dispatch(RsetUserManagmentAccess(userManagmentCurrentUser.user_access));
+    dispatch(RsetUserManagmentUserName(userManagmentCurrentUser.username));
+    dispatch(RsetUserManagmentPassword(userManagmentCurrentUser.password));
   }, [userManagmentCurrentUser]);
-  console.log(userManagmentAccess);
-
   // -----------------------------------------------------
 
   // Define all possible access options
   const allAccessOptions = [
-    "ادمین سیستم",
-    "مدیریت کارخانه ها",
-    "مدیریت کوره ها",
-    "مدیریت لیست بخش کوره ها",
-    "مدیریت مدل های نسوز ها",
-    "مدیریت ملزومات",
-    "مدیریت رویدادهای کوره",
-    "مدیریت ساخت کوره",
-  ];
+    { _id: "65c09a964e92ee075289d4ef", name: "ادمین سیستم" },
 
-  const handleAccessChange = (accessItem) => {
-    if (userManagmentAccess.includes(accessItem)) {
+    { _id: "65c09a964e92ee075289d4f0", name: "مدیریت رویدادهای کوره" },
+
+    { _id: "65c09a964e92ee075289d4f1", name: "مدیریت کارخانه‌ها" },
+
+    { _id: "65c09a964e92ee075289d4f2", name: "مدیریت کوره‌ها" },
+
+    { _id: "65c09a964e92ee075289d4f3", name: "مدیریت لیست بخش‌های کوره" },
+
+    { _id: "65c09a964e92ee075289d4f4", name: "مدیریت مدل‌های نسوز‌ها" },
+
+    { _id: "65c09a964e92ee075289d4f5", name: "مدیریت ملزومات" },
+
+    { _id: "65c09a964e92ee075289d4f6", name: "مدیریت ساخت کوره" },
+  ];
+  const handleAccessChange = (accessItemId) => {
+    if (userManagmentAccess.some((item) => item._id === accessItemId)) {
+      console.log(accessItemId);
       dispatch(
         RsetUserManagmentAccess(
-          userManagmentAccess.filter((item) => item !== accessItem)
+          userManagmentAccess.filter((item) => item._id !== accessItemId)
         )
       );
     } else {
-      dispatch(RsetUserManagmentAccess([...userManagmentAccess, accessItem]));
+      const updatedAccess = [
+        ...userManagmentAccess,
+        allAccessOptions.find((item) => item._id === accessItemId),
+      ];
+      dispatch(RsetUserManagmentAccess(updatedAccess));
     }
   };
 
   const handleModalCancel = () => {
     dispatch(RsetUserManagmentEditModal(false));
   };
+  console.log(userManagmentAccess);
+  const handleModalEdit = async () => {
+    // Dispatch an action to set loading state or any indication that the request is in progress
+    // For example: dispatch(setLoading(true));
 
-  const handleModalEdit = () => {
-    dispatch(
-      RsetUserManagmentCurrentUser({
-        ...userManagmentCurrentUser,
-        last_name: UserManagmentLastName,
-        first_name: UserManagmentFirstName,
-        user_access: userManagmentAccess,
-      })
-    );
+    // Make the API call to add the user
+    const userValues = {
+      first_name: UserManagmentFirstName,
+      last_name: UserManagmentLastName,
+      username: UserManagmentUserName,
+      user_access: userManagmentAccess,
+    };
+    dispatch(editusers(userValues));
+    console.log(userValues);
+    const editUserRes = await edituser(userValues);
     dispatch(RsetUserManagmentEditModal(false));
   };
 
@@ -110,7 +132,7 @@ const UserManagementEditModal = () => {
   return (
     <ConfigProvider direction="rtl" locale={fa_IR}>
       <Modal
-        title={`ویرایش کاربر ${userManagmentCurrentUser.userName}`}
+        title={`ویرایش کاربر ${userManagmentCurrentUser.username}`}
         open={userManagmentEditModal}
         styles={modalStyles}
         closable={false}
@@ -165,20 +187,48 @@ const UserManagementEditModal = () => {
               }
             />
           </Box>
+          <Box>
+            <InputLabel className="fw-bold fs-5"> نام كاربري</InputLabel>
+            <TextField
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              value={UserManagmentUserName}
+              onChange={(e) =>
+                dispatch(RsetUserManagmentUserName(e.target.value))
+              }
+            />
+          </Box>
+          <Box>
+            <InputLabel className="fw-bold fs-5"> رمز عبور</InputLabel>
+            <TextField
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              value={UserManagmentPassword}
+              onChange={(e) =>
+                dispatch(RsetUserManagmentPassword(e.target.value))
+              }
+            />
+          </Box>
 
           <FormGroup>
-            {allAccessOptions.map((item, index) => (
-              <FormControlLabel
-                key={index}
-                control={
-                  <Checkbox
-                    checked={userManagmentAccess.includes(item)}
-                    onChange={() => handleAccessChange(item)}
-                  />
-                }
-                label={item}
-              />
-            ))}
+            {allAccessOptions.map((item, index) => {
+              return (
+                <FormControlLabel
+                  key={item._id}
+                  control={
+                    <Checkbox
+                      checked={userManagmentAccess.some(
+                        (access) => access._id === item._id
+                      )}
+                      onChange={() => handleAccessChange(item._id)}
+                    />
+                  }
+                  label={item.name}
+                />
+              );
+            })}
           </FormGroup>
         </form>
       </Modal>

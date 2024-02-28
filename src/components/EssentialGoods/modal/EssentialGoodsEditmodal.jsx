@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   Box,
   Checkbox,
+  FormControl,
   FormControlLabel,
   FormGroup,
   InputLabel,
@@ -16,40 +17,33 @@ import {
 import {
   RsetessentialGoodsCurrentUser,
   RsetessentialGoodsEditModal,
-  RsetessentialGoodsI,
-  RsetessentialGoodsa,
-  RsetessentialGoodsb,
-  RsetessentialGoodsh,
-  RsetessentialGoodsmodelCode,
+  RsetessentialGoodscountryoforigin,
   RsetessentialGoodssort,
   RsetessentialGoodstype,
-  RsetessentialGoodsweight,
+  RsetessentialGoodsfirmorigin,
   selectessentialGoodsCurrentUser,
   selectessentialGoodsEditModal,
-  selectessentialGoodsI,
-  selectessentialGoodsModelCode,
-  selectessentialGoodsa,
-  selectessentialGoodsb,
-  selectessentialGoodsh,
+  selectessentialGoodscountryoforigin,
   selectessentialGoodssort,
   selectessentialGoodstype,
-  selectessentialGoodsweight,
+  selectessentialGoodsfirmorigin,
 } from "../../../slices/essentialGoodsSlices";
+import { editessentialgoods } from "../../../services/authServices";
 
 const EssentialGoodsEdditModal = () => {
-  const selectoption = ["سنگ  ", "آجر  ", "  نسوز"];
-  const type = ["غير منتظم  ", "منتظم  "];
+  const selectoption = [
+    "نسوز - ملات",
+    "نسوز - آجر",
+    "نسوز - فیبر",
+    "نسوز - جرم	",
+  ];
   //   -----------------------------handeling modal selectors
-  const essentialGoodsmodelCode = useSelector(selectessentialGoodsModelCode);
-  const essentialGoodsa = useSelector(selectessentialGoodsa);
+  const essentialGoodscountryoforigin = useSelector(
+    selectessentialGoodscountryoforigin
+  );
 
-  const essentialGoodsb = useSelector(selectessentialGoodsb);
-
-  const essentialGoodsI = useSelector(selectessentialGoodsI);
-
-  const essentialGoodsh = useSelector(selectessentialGoodsh);
   const essentialGoodstype = useSelector(selectessentialGoodstype);
-  const essentialGoodsweight = useSelector(selectessentialGoodsweight);
+  const essentialGoodsfirmorigin = useSelector(selectessentialGoodsfirmorigin);
   const essentialGoodssort = useSelector(selectessentialGoodssort);
 
   // -----------------------------------------------
@@ -67,21 +61,6 @@ const EssentialGoodsEdditModal = () => {
     dispatch(RsetessentialGoodsEditModal(false));
   };
   // ------------------------sending new input to reducers
-  const handleModalEdit = () => {
-    dispatch(
-      RsetessentialGoodsCurrentUser({
-        ...essentialGoodsCurrentUser,
-        sort: essentialGoodssort,
-        modelCode: essentialGoodsmodelCode,
-        weight: essentialGoodsweight,
-        type: essentialGoodstype,
-        a: essentialGoodsa,
-        b: essentialGoodsb,
-        I: essentialGoodsI,
-        h: essentialGoodsh,
-      })
-    );
-  };
 
   const modalStyles = {
     header: {
@@ -106,24 +85,52 @@ const EssentialGoodsEdditModal = () => {
   };
   // -----------------seting current data in reducer
   useEffect(() => {
-    dispatch(RsetessentialGoodsmodelCode(essentialGoodsCurrentUser.modelcode));
-    dispatch(RsetessentialGoodsI(essentialGoodsCurrentUser.I));
-    dispatch(RsetessentialGoodsweight(essentialGoodsCurrentUser.Weight));
-    dispatch(RsetessentialGoodsa(essentialGoodsCurrentUser.a));
+    dispatch(
+      RsetessentialGoodscountryoforigin(
+        essentialGoodsCurrentUser.manufacturing_country
+      )
+    );
+    dispatch(
+      RsetessentialGoodsfirmorigin(essentialGoodsCurrentUser.manufacturer)
+    );
 
-    dispatch(RsetessentialGoodsb(essentialGoodsCurrentUser.b));
+    dispatch(RsetessentialGoodssort(essentialGoodsCurrentUser.category));
 
-    dispatch(RsetessentialGoodsh(essentialGoodsCurrentUser.h));
-
-    dispatch(RsetessentialGoodssort(essentialGoodsCurrentUser.sort));
-
-    dispatch(RsetessentialGoodstype(essentialGoodsCurrentUser.type));
+    dispatch(RsetessentialGoodstype(essentialGoodsCurrentUser.type_name));
   }, [essentialGoodsCurrentUser]);
+  const handleModalEdit = async () => {
+    try {
+      // Dispatch an action to set loading state or any indication that the request is in progress
+      // For example: dispatch(setLoading(true));
+
+      // Make the API call to add the user
+      await editessentialgoods({
+        category: essentialGoodssort,
+        manufacturing_country: essentialGoodscountryoforigin,
+        manufacturer: essentialGoodsfirmorigin,
+        type: essentialGoodstype,
+      });
+      window.location.reload();
+
+      // Dispatch any actions necessary to handle the success scenario
+      // For example: dispatch(addUserSuccess(newUser));
+
+      // Dispatch an action to reset any form state or close the modal
+      // For example: dispatch(resetForm());
+
+      // Close the modal
+      dispatch(RsetessentialGoodsEditModal(false));
+    } catch (error) {
+      // Handle errors, you can dispatch actions to handle error state or show error messages
+      console.error("Error adding user:", error);
+      // For example: dispatch(addUserFailure(error));
+    }
+  };
 
   return (
     <ConfigProvider direction="rtl" locale={fa_IR}>
       <Modal
-        title={`ويرايش مدل ${essentialGoodsCurrentUser.modelcode}`}
+        title={`ويرايش مدل ${essentialGoodsCurrentUser.type}`}
         open={essentialGoodsEditModal}
         styles={modalStyles}
         closable={false}
@@ -155,117 +162,70 @@ const EssentialGoodsEdditModal = () => {
       >
         <form>
           <Box>
-            <InputLabel className="fw-bold fs-5" id="demo-simple-select-label">
-              دسته بندي
-            </InputLabel>
-            <Select
-              className="w-100  "
-              labelId="demo-simple-select-filled-label"
-              id="demo-simple-select-filled"
-              value={essentialGoodssort}
-              label=" دسته بندي"
-              onChange={(e) => dispatch(RsetessentialGoodssort(e.target.value))}
-            >
-              {selectoption &&
-                selectoption.map((item, index) => (
-                  <MenuItem
-                    className="text-center w-100 m-auto"
-                    key={index}
-                    value={item}
-                  >
-                    {item}
-                  </MenuItem>
-                ))}
-            </Select>
+            <FormControl className="w-100">
+              <InputLabel
+                className="fw-bold fs-5"
+                id="demo-simple-select-standard-label"
+              >
+                دسته بندي
+              </InputLabel>
+              <Select
+                className="w-100  "
+                labelId="demo-simple-select-filled-label"
+                id="demo-simple-select-filled"
+                value={essentialGoodssort}
+                label={"دسته بندي"}
+                onChange={(e) =>
+                  dispatch(RsetessentialGoodssort(e.target.value))
+                }
+              >
+                {selectoption &&
+                  selectoption.map((item, index) => (
+                    <MenuItem
+                      className="text-center w-100 m-auto"
+                      key={index}
+                      value={item}
+                    >
+                      {item}
+                    </MenuItem>
+                  ))}
+              </Select>
+            </FormControl>
           </Box>
+
           <Box>
-            <InputLabel className="fw-bold fs-5">كد مدل </InputLabel>
+            <InputLabel className="fw-bold fs-5">كشور سازنده</InputLabel>
             <TextField
               variant="outlined"
               fullWidth
               margin="normal"
-              value={essentialGoodsmodelCode}
+              value={essentialGoodscountryoforigin}
               onChange={(e) =>
-                dispatch(RsetessentialGoodsmodelCode(e.target.value))
+                dispatch(RsetessentialGoodscountryoforigin(e.target.value))
               }
             />
           </Box>
           <Box>
-            <InputLabel className="fw-bold fs-5" id="demo-simple-select-label">
-              نوع
-            </InputLabel>
-            <Select
-              className="w-100  "
-              labelId="demo-simple-select-filled-label"
-              id="demo-simple-select-filled"
+            <InputLabel className="fw-bold fs-5">نوع (متریال)</InputLabel>
+            <TextField
+              variant="outlined"
+              fullWidth
+              margin="normal"
               value={essentialGoodstype}
-              label="مدل"
               onChange={(e) => dispatch(RsetessentialGoodstype(e.target.value))}
-            >
-              {type &&
-                type.map((item, index) => (
-                  <MenuItem
-                    className="text-center w-100 m-auto"
-                    key={index}
-                    value={item}
-                  >
-                    {item}
-                  </MenuItem>
-                ))}
-            </Select>
+            />
           </Box>
+
           <Box>
-            <InputLabel className="fw-bold fs-5">
-              وزن در واحد (کیلوگرم):{" "}
-            </InputLabel>
+            <InputLabel className="fw-bold fs-5">شركت توليد كننده</InputLabel>
             <TextField
               variant="outlined"
               fullWidth
               margin="normal"
-              value={essentialGoodsweight}
+              value={essentialGoodsfirmorigin}
               onChange={(e) =>
-                dispatch(RsetessentialGoodsweight(e.target.value))
+                dispatch(RsetessentialGoodsfirmorigin(e.target.value))
               }
-            />
-          </Box>
-          <Box>
-            <InputLabel className="fw-bold fs-5">a(یا x): </InputLabel>
-            <TextField
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              value={essentialGoodsa}
-              onChange={(e) => dispatch(RsetessentialGoodsa(e.target.value))}
-            />
-          </Box>
-          <Box>
-            <InputLabel className="fw-bold fs-5">b: </InputLabel>
-            <TextField
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              value={essentialGoodsb}
-              onChange={(e) => dispatch(RsetessentialGoodsb(e.target.value))}
-            />
-          </Box>
-          <Box>
-            <InputLabel className="fw-bold fs-5">l: </InputLabel>
-            <TextField
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              value={essentialGoodsI}
-              onChange={(e) => dispatch(RsetessentialGoodsI(e.target.value))}
-            />
-          </Box>
-          <Box>
-            <InputLabel className="fw-bold fs-5">h: </InputLabel>
-            <TextField
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              value={essentialGoodsh}
-              onChange={(e) => dispatch(RsetessentialGoodsh(e.target.value))}
             />
           </Box>
         </form>

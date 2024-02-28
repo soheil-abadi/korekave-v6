@@ -1,5 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { errorMessage, successMessage } from "../utils/toast";
+import {
+  deletefireproof,
+  editfireproof,
+  fireproofadd,
+  getfireprooflist,
+} from "../services/authServices";
 
 const initialState = {
   fireProofList: [],
@@ -7,13 +13,13 @@ const initialState = {
   //modal
   fireProofEditModal: false,
   fireProofAddmodal: false,
-  modelCode: "",
-  sort: "",
+  fireProofShapeCode: "",
+  category: "",
   weight: "",
-  type: "",
-  a: "",
-  b: "",
-  I: "",
+  type_name: "",
+  a_size: "",
+  b_size: "",
+  l_size: "",
   h: "",
 };
 
@@ -51,13 +57,7 @@ const fireProofSlices = createSlice({
   initialState,
   reducers: {
     RsetfireProofList: (state, { payload }) => {
-      return { ...state, fireProoftList: payload };
-    },
-    RsetfireProofFirstName: (state, { payload }) => {
-      return { ...state, fireProoftFirstName: payload };
-    },
-    RsetfireProofLastName: (state, { payload }) => {
-      return { ...state, fireProoftLastName: payload };
+      return { ...state, fireProofList: payload };
     },
     RsetfireProofUserName: (state, { payload }) => {
       return { ...state, fireProoftUserName: payload };
@@ -67,10 +67,10 @@ const fireProofSlices = createSlice({
     },
     // -------------------------------modal--------------------------------------
     RsetfireProofmodelCode: (state, { payload }) => {
-      return { ...state, modelCode: payload };
+      return { ...state, fireProofShapeCode: payload };
     },
     RsetfireProofsort: (state, { payload }) => {
-      return { ...state, sort: payload };
+      return { ...state, category: payload };
     },
 
     RsetfireProofweight: (state, { payload }) => {
@@ -78,19 +78,19 @@ const fireProofSlices = createSlice({
     },
 
     RsetfireProoftype: (state, { payload }) => {
-      return { ...state, type: payload };
+      return { ...state, type_name: payload };
     },
 
     RsetfireProofa: (state, { payload }) => {
-      return { ...state, a: payload };
+      return { ...state, a_size: payload };
     },
 
     RsetfireProofb: (state, { payload }) => {
-      return { ...state, b: payload };
+      return { ...state, b_size: payload };
     },
 
     RsetfireProofI: (state, { payload }) => {
-      return { ...state, I: payload };
+      return { ...state, l_size: payload };
     },
 
     RsetfireProofh: (state, { payload }) => {
@@ -110,8 +110,6 @@ const fireProofSlices = createSlice({
 
 export const {
   RsetfireProofList,
-  RsetfireProofFirstName,
-  RsetfireProofLastName,
   RsetfireProofUserName,
   RsetfireProofCurrentUser,
   RsetfireProofEditModal,
@@ -127,27 +125,24 @@ export const {
 } = fireProofSlices.actions;
 
 export const selectfireProofList = (state) => state.fireProof.fireProofList;
-export const selectfireProofFirstName = (state) =>
-  state.fireProof.fireProofFirstName;
-export const selectfireProofLastName = (state) =>
-  state.fireProof.fireProofLastName;
 export const selectfireProofUserName = (state) =>
   state.fireProof.fireProofUserName;
 export const selectfireProofCurrentUser = (state) =>
   state.fireProof.fireProofCurrentUser;
 // ---------------------------------------------------------------
-export const selectfireProofModelCode = (state) => state.fireProof.modelCode;
-export const selectfireProofsort = (state) => state.fireProof.sort;
+export const selectfireProofModelCode = (state) =>
+  state.fireProof.fireProofShapeCode;
+export const selectfireProofsort = (state) => state.fireProof.category;
 
 export const selectfireProofweight = (state) => state.fireProof.weight;
 
 export const selectfireProoftype = (state) => state.fireProof.type;
 
-export const selectfireProofa = (state) => state.fireProof.a;
+export const selectfireProofa = (state) => state.fireProof.a_size;
 
-export const selectfireProofb = (state) => state.fireProof.b;
+export const selectfireProofb = (state) => state.fireProof.b_size;
 
-export const selectfireProofI = (state) => state.fireProof.I;
+export const selectfireProofI = (state) => state.fireProof.l_size;
 export const selectfireProofh = (state) => state.fireProof.h;
 
 // -----------------------------------------------------------------
@@ -157,3 +152,59 @@ export const selectfireProofAddmodal = (state) =>
   state.fireProof.fireProofAddmodal;
 
 export default fireProofSlices.reducer;
+// ---------------------------------------------handle api
+export const fetchfireprooflistList = createAsyncThunk(
+  "userManagement/fetchUserList",
+
+  async (obj, { dispatch }) => {
+    try {
+      const getuser = await getfireprooflist();
+      console.log(getuser);
+
+      if (getuser.status === 200) {
+        dispatch(RsetfireProofList(getuser.data.data));
+      } else {
+        errorMessage("عدم دريافت اطلاعات");
+      }
+    } catch (ex) {
+      console.log(ex);
+    }
+  }
+);
+export const deletefireprooflist = createAsyncThunk(
+  "userManagement/deletefireprooflist",
+
+  async (value, { dispatch }) => {
+    try {
+      const deleteuserlist = await deletefireproof(value);
+      dispatch(fetchfireprooflistList());
+    } catch (ex) {
+      console.log("عدم دريافت اطلاعات");
+    }
+  }
+);
+export const editfireproofs = createAsyncThunk(
+  "userManagement/editfireproofs",
+
+  async (value, { dispatch }) => {
+    try {
+      const editusers = await editfireproof(value);
+      dispatch(fetchfireprooflistList());
+    } catch (ex) {
+      console.log("عدم دريافت اطلاعات");
+    }
+  }
+);
+export const addfireproof = createAsyncThunk(
+  "userManagement/addfireproof",
+
+  async (value, { dispatch }) => {
+    try {
+      console.log(value);
+      const adduserdata = await fireproofadd(value);
+      dispatch(fetchfireprooflistList());
+    } catch (ex) {
+      console.log("عدم دريافت اطلاعات");
+    }
+  }
+);

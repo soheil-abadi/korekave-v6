@@ -2,19 +2,22 @@ import React, { useEffect, useState } from "react";
 import { Modal, Button, ConfigProvider } from "antd";
 import fa_IR from "antd/lib/locale/fa_IR";
 import { useSelector, useDispatch } from "react-redux";
+import CloudUploadOutlinedIcon from "@mui/icons-material/CloudUploadOutlined";
 
 import {
   Box,
   Checkbox,
+  FormControl,
   FormControlLabel,
   FormGroup,
+  Input,
   InputLabel,
   MenuItem,
   Select,
   TextField,
+  Typography,
 } from "@mui/material";
 import {
-  RsetfireProofAddmodal,
   RsetfireProofCurrentUser,
   RsetfireProofEditModal,
   RsetfireProofI,
@@ -25,9 +28,6 @@ import {
   RsetfireProofsort,
   RsetfireProoftype,
   RsetfireProofweight,
-  addfireproof,
-  editfireproofs,
-  selectfireProofAddmodal,
   selectfireProofCurrentUser,
   selectfireProofEditModal,
   selectfireProofI,
@@ -39,47 +39,61 @@ import {
   selectfireProoftype,
   selectfireProofweight,
 } from "../../../slices/fireProofSlices";
-import { fireproofadd } from "../../../services/authServices";
+import {
+  RsetFactoryManagmentCurrentUser,
+  RsetFactoryManagmentEditModal,
+  RsetFactoryManagmentEstablish,
+  RsetFactoryManagmentLocation,
+  RsetFactoryManagmentLogo,
+  RsetFactoryManagmentName,
+  RsetFactoryManagmentType,
+  selectFactoryManagmentCurrentUser,
+  selectFactoryManagmentEditModal,
+} from "../../../slices/FactoryManagment";
+const selectoption = ["سنگ  ", "آجر  ", "  نسوز"];
+const type = ["غير منتظم  ", "منتظم  "];
 
-const AddFireProofModal = () => {
-  const selectoption = ["سنگ  ", "آجر  ", "  نسوز"];
-  const type = ["غير منتظم  ", "منتظم  "];
+const FactoryManagmentEditModal = () => {
   //   -----------------------------handeling modal selectors
   const fireProofmodelCode = useSelector(selectfireProofModelCode);
   const fireProofa = useSelector(selectfireProofa);
+
   const fireProofb = useSelector(selectfireProofb);
+
   const fireProofI = useSelector(selectfireProofI);
+
   const fireProofh = useSelector(selectfireProofh);
   const fireProoftype = useSelector(selectfireProoftype);
   const fireProofweight = useSelector(selectfireProofweight);
   const fireProofsort = useSelector(selectfireProofsort);
-
   // -----------------------------------------------
-
+  console.log(fireProofsort);
   const dispatch = useDispatch();
-  const fireProofAddmodal = useSelector(selectfireProofAddmodal);
+  const FactoryManagmentEditModa = useSelector(selectFactoryManagmentEditModal);
 
-  const fireProofCurrentUser = useSelector(selectfireProofCurrentUser);
-
+  const FactoryManagmentCurrentUser = useSelector(
+    selectFactoryManagmentCurrentUser
+  );
   // Define all possible access options
 
   const handleModalCancel = () => {
-    dispatch(RsetfireProofAddmodal(false));
+    dispatch(RsetFactoryManagmentEditModal(false));
   };
   // ------------------------sending new input to reducers
   const handleModalEdit = () => {
-    const data = {
-      category: fireProofsort,
-      shape_code: fireProofmodelCode,
-      weight: fireProofweight,
-      type_name: fireProoftype,
-      a_size: fireProofa,
-      b_size: fireProofb,
-      l_size: fireProofI,
-      h_size: fireProofh,
-    };
-    dispatch(addfireproof(data));
-    dispatch(RsetfireProofAddmodal(false));
+    dispatch(
+      RsetFactoryManagmentCurrentUser({
+        ...FactoryManagmentCurrentUser,
+        type_name: fireProofsort,
+        shape_code: fireProofmodelCode,
+        weight: fireProofweight,
+        category: fireProoftype,
+        a_size: fireProofa,
+        b_size: fireProofb,
+        l_size: fireProofI,
+        h: fireProofh,
+      })
+    );
   };
 
   const modalStyles = {
@@ -105,25 +119,27 @@ const AddFireProofModal = () => {
   };
   // -----------------seting current data in reducer
   useEffect(() => {
-    dispatch(RsetfireProofmodelCode(fireProofCurrentUser.shape_code));
-    dispatch(RsetfireProofI(fireProofCurrentUser.l_size));
-    dispatch(RsetfireProofweight(fireProofCurrentUser.weight));
-    dispatch(RsetfireProofa(fireProofCurrentUser.a_size));
+    dispatch(
+      RsetFactoryManagmentEstablish(FactoryManagmentCurrentUser.shape_code)
+    );
+    dispatch(RsetFactoryManagmentLocation(FactoryManagmentCurrentUser.l_size));
+    dispatch(RsetFactoryManagmentLogo(FactoryManagmentCurrentUser.weight));
+    dispatch(RsetFactoryManagmentType(FactoryManagmentCurrentUser.a_size));
 
-    dispatch(RsetfireProofb(fireProofCurrentUser.b_size));
+    dispatch(RsetFactoryManagmentName(FactoryManagmentCurrentUser.b_size));
+  }, []);
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0];
+    console.log(event);
+    // Handle the uploaded file
+  };
 
-    dispatch(RsetfireProofh(fireProofCurrentUser.h));
-
-    dispatch(RsetfireProofsort(fireProofCurrentUser.category));
-
-    dispatch(RsetfireProoftype(fireProofCurrentUser.type_name));
-  }, [fireProofCurrentUser]);
-
+  console.log(FactoryManagmentCurrentUser);
   return (
     <ConfigProvider direction="rtl" locale={fa_IR}>
       <Modal
-        title={`اضافه كردن مدل و ابعاد نسوز ها`}
-        open={fireProofAddmodal}
+        title={`ويرايش مدل ${FactoryManagmentCurrentUser.shape_code}`}
+        open={FactoryManagmentEditModa}
         styles={modalStyles}
         closable={false}
         onOk={handleModalCancel}
@@ -146,7 +162,7 @@ const AddFireProofModal = () => {
                 size="large"
                 onClick={() => handleModalEdit()}
               >
-                اضافه كردن
+                ویرایش کاربر
               </Button>
             </div>
           </>
@@ -154,36 +170,45 @@ const AddFireProofModal = () => {
       >
         <form>
           <Box>
-            <InputLabel className="fw-bold fs-5" id="demo-simple-select-label">
-              دسته بندي
+            <InputLabel className="fw-bold fs-5">
+              وزن در واحد (کیلوگرم):{" "}
             </InputLabel>
-            <Select
-              className="w-100  "
-              labelId="demo-simple-select-filled-label"
-              id="demo-simple-select-filled"
-              value={fireProofsort}
-              label=" دسته بندي"
-              onChange={(e) => dispatch(RsetfireProofsort(e.target.value))}
-            >
-              {selectoption &&
-                selectoption.map((item, index) => (
-                  <MenuItem
-                    className="text-center w-100 m-auto"
-                    key={index}
-                    value={item}
-                  >
-                    {item}
-                  </MenuItem>
-                ))}
-            </Select>
-          </Box>
-          <Box>
-            <InputLabel className="fw-bold fs-5">كد مدل </InputLabel>
             <TextField
               variant="outlined"
               fullWidth
               margin="normal"
-              onChange={(e) => dispatch(RsetfireProofmodelCode(e.target.value))}
+              value={fireProofweight}
+              onChange={(e) => dispatch(RsetfireProofweight(e.target.value))}
+            />
+          </Box>
+          <Box>
+            <InputLabel className="fw-bold fs-5">a(یا x): </InputLabel>
+            <TextField
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              value={fireProofa}
+              onChange={(e) => dispatch(RsetfireProofa(e.target.value))}
+            />
+          </Box>
+          <Box>
+            <InputLabel className="fw-bold fs-5">b: </InputLabel>
+            <TextField
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              value={fireProofb}
+              onChange={(e) => dispatch(RsetfireProofb(e.target.value))}
+            />
+          </Box>
+          <Box>
+            <InputLabel className="fw-bold fs-5">l: </InputLabel>
+            <TextField
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              value={fireProofI}
+              onChange={(e) => dispatch(RsetfireProofI(e.target.value))}
             />
           </Box>
           <Box>
@@ -194,6 +219,7 @@ const AddFireProofModal = () => {
               className="w-100  "
               labelId="demo-simple-select-filled-label"
               id="demo-simple-select-filled"
+              value={fireProoftype}
               label="مدل"
               onChange={(e) => dispatch(RsetfireProoftype(e.target.value))}
             >
@@ -208,53 +234,24 @@ const AddFireProofModal = () => {
                   </MenuItem>
                 ))}
             </Select>
-          </Box>
-          <Box>
-            <InputLabel className="fw-bold fs-5">
-              وزن در واحد (کیلوگرم):{" "}
-            </InputLabel>
-            <TextField
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              onChange={(e) => dispatch(RsetfireProofweight(e.target.value))}
-            />
-          </Box>
-          <Box>
-            <InputLabel className="fw-bold fs-5">a(یا x): </InputLabel>
-            <TextField
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              onChange={(e) => dispatch(RsetfireProofa(e.target.value))}
-            />
-          </Box>
-          <Box>
-            <InputLabel className="fw-bold fs-5">b: </InputLabel>
-            <TextField
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              onChange={(e) => dispatch(RsetfireProofb(e.target.value))}
-            />
-          </Box>
-          <Box>
-            <InputLabel className="fw-bold fs-5">l: </InputLabel>
-            <TextField
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              onChange={(e) => dispatch(RsetfireProofI(e.target.value))}
-            />
-          </Box>
-          <Box>
-            <InputLabel className="fw-bold fs-5">h: </InputLabel>
-            <TextField
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              onChange={(e) => dispatch(RsetfireProofh(e.target.value))}
-            />
+            <div className="my-3  p-3">
+              <Input
+                accept="image/*"
+                id="contained-button-file"
+                type="file"
+                onChange={handleFileUpload}
+              />
+              <label htmlFor="contained-button-file">
+                <Button
+                  variant="contained"
+                  color="default"
+                  component="span"
+                  startIcon={<CloudUploadOutlinedIcon />}
+                >
+                  بارگزاري لوگو
+                </Button>
+              </label>
+            </div>
           </Box>
         </form>
       </Modal>
@@ -262,4 +259,4 @@ const AddFireProofModal = () => {
   );
 };
 
-export default AddFireProofModal;
+export default FactoryManagmentEditModal;

@@ -1,12 +1,18 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { loginStaff, postCustomerLogin } from "../services/authServices";
+import {
+  loginStaff,
+  postCustomerLogin,
+  refreshuser,
+} from "../services/authServices";
 import { RsetFormErrors, RsetUser } from "./mainSlices";
-import { errorMessage, successMessage } from "../utils/toast";
+import { SuccessMessage, errorMessage, successMessage } from "../utils/toast";
+import { useNavigate } from "react-router-dom";
 
 const initialState = {
   isLoggedIn: false,
   username: "",
   password: "",
+  user: "",
 };
 
 export const parseJwt = (token) => {
@@ -53,6 +59,23 @@ export const parseJwt = (token) => {
 //   }
 // );
 
+export const handleUsetInfo = createAsyncThunk(
+  "main/handleUsetInfo",
+  async (obj, { dispatch, getState }) => {
+    try {
+      const userInfoRes = await refreshuser(localStorage.getItem("id"));
+      if (userInfoRes.data.code === 200) {
+        dispatch(Rsetuser(userInfoRes.data.user));
+        SuccessMessage("ورود موفق");
+      } else {
+        errorMessage("ورود ناموفق");
+      }
+    } catch (ex) {
+      console.log(ex);
+    }
+  }
+);
+
 const authSlices = createSlice({
   name: "auth",
   initialState,
@@ -66,13 +89,17 @@ const authSlices = createSlice({
     RsetPassword: (state, { payload }) => {
       return { ...state, password: payload };
     },
+    Rsetuser: (state, { payload }) => {
+      return { ...state, user: payload };
+    },
   },
 });
 
-export const { RsetIsLoggedIn, Rsetusername, RsetPassword } =
+export const { RsetIsLoggedIn, Rsetusername, RsetPassword, Rsetuser } =
   authSlices.actions;
 
 export const selectIsLoggedIn = (state) => state.auth.isLoggedIn;
 export const selectUsername = (state) => state.auth.username;
 export const selectPassword = (state) => state.auth.password;
+export const selectuser = (state) => state.auth.user;
 export default authSlices.reducer;

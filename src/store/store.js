@@ -4,6 +4,11 @@ import authSlices from "../slices/authSlices";
 import userManagmentSlices from "../slices/userManagmentSlices";
 import fireProofSlices from "../slices/fireProofSlices";
 import essentialGoodsSlices from "../slices/essentialGoodsSlices";
+import FurnaceDistributeSlices from "../slices/FurnaceDistribute";
+import FactoryManagmenttSlices from "../slices/FactoryManagment";
+import DashboardSlices from "../slices/Dashboard";
+import factorySlices from "../slices/factory";
+import FurnaceObservationSlices from "../slices/FurnaceObservationSlices";
 
 const rootReducer = {
   auth: authSlices,
@@ -11,6 +16,11 @@ const rootReducer = {
   userManagment: userManagmentSlices,
   fireProof: fireProofSlices,
   essentialGoods: essentialGoodsSlices,
+  FurnaceDistribute: FurnaceDistributeSlices,
+  FactoryManagment: FactoryManagmenttSlices,
+  Dashboard: DashboardSlices,
+  Factory: factorySlices,
+  FurnaceObservation: FurnaceObservationSlices,
 };
 
 export const store = configureStore({
