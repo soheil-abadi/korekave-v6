@@ -32,6 +32,7 @@ import {
   RsetFurnaceDistributeEditModal,
   RsetFurnaceDistributeSection,
   RsetFurnaceDistributeType,
+  addfurnaceparts,
   selectFurnaceDistributeAddmodal,
   selectFurnaceDistributeCurrentUser,
   selectFurnaceDistributeEditModal,
@@ -54,14 +55,7 @@ const FurnaceDistributeAddModal = () => {
   );
 
   // -----------------------------------------------
-  useEffect(() => {
-    dispatch(
-      RsetFurnaceDistributeType(FurnaceDistributeCurrentUser.first_name)
-    );
-    dispatch(
-      RsetFurnaceDistributeSection(FurnaceDistributeCurrentUser.last_name)
-    );
-  }, [FurnaceDistributeCurrentUser]);
+
   // -----------------------------------------------------
 
   // Define all possible access options
@@ -71,14 +65,12 @@ const FurnaceDistributeAddModal = () => {
   };
 
   const handleModalEdit = () => {
-    dispatch(
-      RsetFurnaceDistributeCurrentUser({
-        ...FurnaceDistributeCurrentUser,
-        first_name: FurnaceDistributeType,
-        last_name: FurnaceDistributeSection,
-      })
-    );
-    dispatch(RsetFurnaceDistributeEditModal(false));
+    const data = {
+      name: FurnaceDistributeSection,
+      furnace_type: FurnaceDistributeType,
+    };
+    dispatch(addfurnaceparts({ data: data }));
+    dispatch(RsetFurnaceDistributeAddmodal(false));
   };
   const modalStyles = {
     header: {
@@ -107,7 +99,7 @@ const FurnaceDistributeAddModal = () => {
   return (
     <ConfigProvider direction="rtl" locale={fa_IR}>
       <Modal
-        title={`ویرایش کاربر ${FurnaceDistributeCurrentUser.username}`}
+        title={`اضافه كردن بخش گوره `}
         open={FurnaceDistributeAddmodal}
         styles={modalStyles}
         closable={false}
@@ -145,7 +137,7 @@ const FurnaceDistributeAddModal = () => {
               fullWidth
               margin="normal"
               onChange={(e) =>
-                dispatch(RsetFurnaceDistributeType(e.target.value))
+                dispatch(RsetFurnaceDistributeSection(e.target.value))
               }
             />
           </Box>

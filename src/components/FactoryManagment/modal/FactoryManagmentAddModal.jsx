@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Modal, Button, ConfigProvider } from "antd";
+import { Modal, Button, ConfigProvider, Upload } from "antd";
 import fa_IR from "antd/lib/locale/fa_IR";
 import { useSelector, useDispatch } from "react-redux";
 import CloudUploadOutlinedIcon from "@mui/icons-material/CloudUploadOutlined";
@@ -51,51 +51,61 @@ import {
   selectFactoryManagmentAddmodal,
   selectFactoryManagmentCurrentUser,
   selectFactoryManagmentEditModal,
+  selectFactoryManagmentEstablish,
+  selectFactoryManagmentLocation,
+  selectFactoryManagmentLogo,
+  selectFactoryManagmentName,
+  selectFactoryManagmentType,
 } from "../../../slices/FactoryManagment";
+import Swal from "sweetalert2";
 const selectoption = ["سنگ  ", "آجر  ", "  نسوز"];
 const type = ["غير منتظم  ", "منتظم  "];
 
 const FactoryManagmentAddModal = () => {
   //   -----------------------------handeling modal selectors
-  const fireProofmodelCode = useSelector(selectfireProofModelCode);
-  const fireProofa = useSelector(selectfireProofa);
 
-  const fireProofb = useSelector(selectfireProofb);
-
-  const fireProofI = useSelector(selectfireProofI);
-
-  const fireProofh = useSelector(selectfireProofh);
-  const fireProoftype = useSelector(selectfireProoftype);
-  const fireProofweight = useSelector(selectfireProofweight);
-  const fireProofsort = useSelector(selectfireProofsort);
   // -----------------------------------------------
-  console.log(fireProofsort);
+
   const dispatch = useDispatch();
   const FactoryManagmentAddmodal = useSelector(selectFactoryManagmentAddmodal);
 
   const FactoryManagmentCurrentUser = useSelector(
     selectFactoryManagmentCurrentUser
   );
-  // Define all possible access options
+  const FactoryManagmentEstablish = useSelector(
+    selectFactoryManagmentEstablish
+  );
+  const FactoryManagmentLocation = useSelector(selectFactoryManagmentLocation);
+  const FactoryManagmentLogo = useSelector(selectFactoryManagmentLogo);
+  const FactoryManagmentName = useSelector(selectFactoryManagmentName);
+  const FactoryManagmentType = useSelector(selectFactoryManagmentType);
 
   const handleModalCancel = () => {
     dispatch(RsetFactoryManagmentAddmodal(false));
   };
   // ------------------------sending new input to reducers
   const handleModalEdit = () => {
-    dispatch(
-      RsetFactoryManagmentCurrentUser({
-        ...FactoryManagmentCurrentUser,
-        type_name: fireProofsort,
-        shape_code: fireProofmodelCode,
-        weight: fireProofweight,
-        category: fireProoftype,
-        a_size: fireProofa,
-        b_size: fireProofb,
-        l_size: fireProofI,
-        h: fireProofh,
-      })
-    );
+    if (FactoryManagmentLogo) {
+      const data = new FormData();
+      for (var x = 0; x < FactoryManagmentLogo.fileList.length; x++) {
+        const file = FactoryManagmentLogo.fileList[x].originFileObj;
+
+        data.append("image", file);
+        data.append("name", FactoryManagmentName);
+        data.append("address", FactoryManagmentLocation);
+        data.append("foundation_year", FactoryManagmentEstablish);
+        data.append("factory_type", FactoryManagmentType);
+      }
+
+      // dispatch(addphoto({ data: data, id: id }));
+      // dispatch(RsetuploadPhotoModal(false));
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "خالي بودن مقادير",
+        text: "عكس يا شرح عكسي براي اين رويداد انتخاب نشده است",
+      });
+    }
   };
 
   const modalStyles = {
@@ -120,27 +130,11 @@ const FactoryManagmentAddModal = () => {
     },
   };
   // -----------------seting current data in reducer
-  useEffect(() => {
-    dispatch(
-      RsetFactoryManagmentEstablish(FactoryManagmentCurrentUser.shape_code)
-    );
-    dispatch(RsetFactoryManagmentLocation(FactoryManagmentCurrentUser.l_size));
-    dispatch(RsetFactoryManagmentLogo(FactoryManagmentCurrentUser.weight));
-    dispatch(RsetFactoryManagmentType(FactoryManagmentCurrentUser.a_size));
 
-    dispatch(RsetFactoryManagmentName(FactoryManagmentCurrentUser.b_size));
-  }, []);
-  const handleFileUpload = (event) => {
-    const file = event.target.files[0];
-    console.log(event);
-    // Handle the uploaded file
-  };
-
-  console.log(FactoryManagmentCurrentUser);
   return (
     <ConfigProvider direction="rtl" locale={fa_IR}>
       <Modal
-        title={`ويرايش مدل ${FactoryManagmentCurrentUser.shape_code}`}
+        title={` اضافه كردن كارخانه`}
         open={FactoryManagmentAddmodal}
         styles={modalStyles}
         closable={false}
@@ -172,58 +166,55 @@ const FactoryManagmentAddModal = () => {
       >
         <form>
           <Box>
-            <InputLabel className="fw-bold fs-5">
-              وزن در واحد (کیلوگرم):{" "}
-            </InputLabel>
+            <InputLabel className="fw-bold fs-5">نام كارخانه</InputLabel>
             <TextField
               variant="outlined"
               fullWidth
               margin="normal"
-              value={fireProofweight}
-              onChange={(e) => dispatch(RsetfireProofweight(e.target.value))}
+              value={""}
+              onChange={(e) =>
+                dispatch(RsetFactoryManagmentName(e.target.value))
+              }
             />
           </Box>
           <Box>
-            <InputLabel className="fw-bold fs-5">a(یا x): </InputLabel>
+            <InputLabel className="fw-bold fs-5">محل </InputLabel>
             <TextField
               variant="outlined"
               fullWidth
               margin="normal"
-              value={fireProofa}
-              onChange={(e) => dispatch(RsetfireProofa(e.target.value))}
+              value={""}
+              onChange={(e) =>
+                dispatch(RsetFactoryManagmentLocation(e.target.value))
+              }
             />
           </Box>
           <Box>
-            <InputLabel className="fw-bold fs-5">b: </InputLabel>
+            <InputLabel className="fw-bold fs-5">سال تاسيس </InputLabel>
             <TextField
               variant="outlined"
               fullWidth
               margin="normal"
-              value={fireProofb}
-              onChange={(e) => dispatch(RsetfireProofb(e.target.value))}
+              value={""}
+              onChange={(e) =>
+                dispatch(RsetFactoryManagmentEstablish(e.target.value))
+              }
             />
           </Box>
-          <Box>
-            <InputLabel className="fw-bold fs-5">l: </InputLabel>
-            <TextField
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              value={fireProofI}
-              onChange={(e) => dispatch(RsetfireProofI(e.target.value))}
-            />
-          </Box>
+
           <Box>
             <InputLabel className="fw-bold fs-5" id="demo-simple-select-label">
-              نوع
+              نوع كارخانه
             </InputLabel>
             <Select
               className="w-100  "
               labelId="demo-simple-select-filled-label"
               id="demo-simple-select-filled"
-              value={fireProoftype}
+              value={""}
               label="مدل"
-              onChange={(e) => dispatch(RsetfireProoftype(e.target.value))}
+              onChange={(e) =>
+                dispatch(RsetFactoryManagmentType(e.target.value))
+              }
             >
               {type &&
                 type.map((item, index) => (
@@ -236,23 +227,22 @@ const FactoryManagmentAddModal = () => {
                   </MenuItem>
                 ))}
             </Select>
-            <div className="my-3  p-3">
-              <Input
-                accept="image/*"
-                id="contained-button-file"
-                type="file"
-                onChange={handleFileUpload}
-              />
-              <label htmlFor="contained-button-file">
-                <Button
-                  variant="contained"
-                  color="default"
-                  component="span"
-                  startIcon={<CloudUploadOutlinedIcon />}
-                >
-                  بارگزاري لوگو
+            <div>
+              <Upload
+                name="avatar"
+                listType="picture-card"
+                className="avatar-uploader my-3 w-100  d-flex justify-content-center align-items-center "
+                showUploadList={false}
+                action="/upload_url"
+                beforeUpload={(file) => {
+                  return false; // Return false to prevent automatic upload
+                }}
+                onChange={(info) => dispatch(RsetFactoryManagmentLogo(info))}
+              >
+                <Button type="primary" className="w-100 my-3">
+                  آپلود عكس
                 </Button>
-              </label>
+              </Upload>
             </div>
           </Box>
         </form>

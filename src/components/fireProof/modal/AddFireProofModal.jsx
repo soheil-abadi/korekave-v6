@@ -51,12 +51,15 @@ const AddFireProofModal = () => {
   const fireProofI = useSelector(selectfireProofI);
   const fireProofh = useSelector(selectfireProofh);
   const fireProoftype = useSelector(selectfireProoftype);
+
+  console.log(fireProoftype);
   const fireProofweight = useSelector(selectfireProofweight);
   const fireProofsort = useSelector(selectfireProofsort);
 
   // -----------------------------------------------
 
   const dispatch = useDispatch();
+
   const fireProofAddmodal = useSelector(selectfireProofAddmodal);
 
   const fireProofCurrentUser = useSelector(selectfireProofCurrentUser);
@@ -104,20 +107,6 @@ const AddFireProofModal = () => {
     },
   };
   // -----------------seting current data in reducer
-  useEffect(() => {
-    dispatch(RsetfireProofmodelCode(fireProofCurrentUser.shape_code));
-    dispatch(RsetfireProofI(fireProofCurrentUser.l_size));
-    dispatch(RsetfireProofweight(fireProofCurrentUser.weight));
-    dispatch(RsetfireProofa(fireProofCurrentUser.a_size));
-
-    dispatch(RsetfireProofb(fireProofCurrentUser.b_size));
-
-    dispatch(RsetfireProofh(fireProofCurrentUser.h));
-
-    dispatch(RsetfireProofsort(fireProofCurrentUser.category));
-
-    dispatch(RsetfireProoftype(fireProofCurrentUser.type_name));
-  }, [fireProofCurrentUser]);
 
   return (
     <ConfigProvider direction="rtl" locale={fa_IR}>

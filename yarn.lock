@@ -6421,7 +6421,7 @@ jake@^10.8.5:
     filelist "^1.0.4"
     minimatch "^3.1.2"
 
-jalaali-js@^1.1.5:
+jalaali-js@^1.1.0, jalaali-js@^1.1.5:
   version "1.2.6"
   resolved "https://registry.npmjs.org/jalaali-js/-/jalaali-js-1.2.6.tgz"
   integrity sha512-io974va+Qyu+UfuVX3UIAgJlxLhAMx9Y8VMfh+IG00Js7hXQo1qNQuwSiSa0xxco0SVgx5HWNkaiCcV+aZ8WPw==
@@ -7475,14 +7475,24 @@ mkdirp@~0.5.1:
   dependencies:
     minimist "^1.2.6"
 
-moment-timezone@^0.5.33:
+moment-jalaali@^0.10.0:
+  version "0.10.0"
+  resolved "https://registry.npmjs.org/moment-jalaali/-/moment-jalaali-0.10.0.tgz"
+  integrity sha512-XICH1+UHd3zyaE1bXWQBlhoXBqbzEyFfT0TrifNobHxLALRuTSwXn376bX8FmkYg9mZimevwwdd6EB57s5wuFA==
+  dependencies:
+    jalaali-js "^1.1.0"
+    moment "^2.22.2"
+    moment-timezone "^0.5.21"
+    rimraf "^3.0.2"
+
+moment-timezone@^0.5.21, moment-timezone@^0.5.33:
   version "0.5.44"
   resolved "https://registry.npmjs.org/moment-timezone/-/moment-timezone-0.5.44.tgz"
   integrity sha512-nv3YpzI/8lkQn0U6RkLd+f0W/zy/JnoR5/EyPz/dNkPTBjA2jNLCVxaiQ8QpeLymhSZvX0wCL5s27NQWdOPwAw==
   dependencies:
     moment "^2.29.4"
 
-moment@^2.26.0, moment@^2.29.0, moment@^2.29.1, moment@^2.29.4, "moment@>= 2.x":
+moment@^2.22.2, moment@^2.26.0, moment@^2.29.0, moment@^2.29.1, moment@^2.29.4, "moment@>= 2.x":
   version "2.30.1"
   resolved "https://registry.npmjs.org/moment/-/moment-2.30.1.tgz"
   integrity sha512-uEmtNhbDOrWPFS+hdjFCBfy9f2YoyzRpwcl+DqpC6taX21FzsTLQVbMV/W7PzNSX6x/bhC1zA3c2UQ5NzH6how==
@@ -10280,6 +10290,11 @@ svgo@^2.7.0:
     csso "^4.2.0"
     picocolors "^1.0.0"
     stable "^0.1.8"
+
+sweetalert2@^11.10.5:
+  version "11.10.5"
+  resolved "https://registry.npmjs.org/sweetalert2/-/sweetalert2-11.10.5.tgz"
+  integrity sha512-q9eE3EKhMcpIDU/Xcz7z5lk8axCGkgxwK47gXGrrfncnBJWxHPPHnBVAjfsVXcTt8Yi8U6HNEcBRSu+qGeyFdA==
 
 swiper@^11.0.7:
   version "11.0.7"

@@ -136,7 +136,7 @@ export const selectfireProofsort = (state) => state.fireProof.category;
 
 export const selectfireProofweight = (state) => state.fireProof.weight;
 
-export const selectfireProoftype = (state) => state.fireProof.type;
+export const selectfireProoftype = (state) => state.fireProof.type_name;
 
 export const selectfireProofa = (state) => state.fireProof.a_size;
 
@@ -186,9 +186,9 @@ export const deletefireprooflist = createAsyncThunk(
 export const editfireproofs = createAsyncThunk(
   "userManagement/editfireproofs",
 
-  async (value, { dispatch }) => {
+  async ({ data, id }, { dispatch }) => {
     try {
-      const editusers = await editfireproof(value);
+      const editusers = await editfireproof(data, id);
       dispatch(fetchfireprooflistList());
     } catch (ex) {
       console.log("عدم دريافت اطلاعات");

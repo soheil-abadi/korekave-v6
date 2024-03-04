@@ -17,7 +17,7 @@ import {
   parseJwt,
 } from "../../slices/authSlices";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { successMessage } from "../../utils/toast";
+import { SuccessMessage, successMessage } from "../../utils/toast";
 import {
   Button,
   IconButton,
@@ -28,6 +28,7 @@ import {
 import { AccountCircle } from "@mui/icons-material";
 import { postLogin } from "../../services/authServices";
 import { Navigate, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 //add font to material inputs
 const theme = createTheme({
@@ -70,23 +71,29 @@ const Login = () => {
       username,
       password,
     };
-    const postLoginRes = await postLogin(values);
-    console.log(postLoginRes);
-    if (postLoginRes.data.code === 200) {
-      const userInfo = parseJwt(postLoginRes.data.token);
+    if ((username.trim() !== " ", password.trim() !== " ")) {
+      const postLoginRes = await postLogin(values);
 
-      dispatch(Rsetuser(userInfo));
+      if (postLoginRes.data.code === 200) {
+        const userInfo = parseJwt(postLoginRes.data.token);
 
-      console.log(userInfo);
-      navigate("/Dashboard");
-      dispatch(RsetIsLoggedIn(true));
-      localStorage.setItem("id", userInfo.user._id);
-      localStorage.setItem("token", postLoginRes.data.token);
-      dispatch(Rsetusername(""));
-      dispatch(RsetPassword(""));
+        dispatch(Rsetuser(userInfo));
+
+        console.log(userInfo);
+        navigate("/Dashboard");
+        dispatch(RsetIsLoggedIn(true));
+        localStorage.setItem("id", userInfo.user._id);
+        localStorage.setItem("token", postLoginRes.data.token);
+        dispatch(Rsetusername(""));
+        dispatch(RsetPassword(""));
+        SuccessMessage("ورود موفق");
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "   نام كاربري يا رمز عبور اشتباه است    ",
+        });
+      }
     }
-    console.log("National Code:", username);
-    console.log("Password:", password);
   };
   return (
     <>
@@ -94,10 +101,7 @@ const Login = () => {
         {isLoggedIn ? (
           // Render this content when logged in
           <div>
-            {/* {successMessage("ورود موفقيت آميز بود")} */}
-            {Navigate("/Dashboard")}
-
-            {/* Add any other content you want to show when logged in */}
+            <p>در حال بارگزاري صفحه ....</p>
           </div>
         ) : (
           <div
@@ -113,7 +117,9 @@ const Login = () => {
                   className="img-fluid d-block center"
                   style={{ width: "50px", margin: "auto" }}
                 />
-                <h1 className="text-dark fw-bold">درگاه ورود به کاوه</h1>
+                <h1 className="text-dark fw-bold mt-5">
+                  درگاه ورود به كوره کاوه
+                </h1>
               </div>
               <form
                 action="#"
@@ -167,9 +173,6 @@ const Login = () => {
                   }
                 />
 
-                <a style={{ textDecoration: "none" }} className="my-3" href="#">
-                  فراموشی رمز عبور
-                </a>
                 <Button
                   type="submit"
                   variant="contained"
@@ -180,6 +183,7 @@ const Login = () => {
                     border: "none",
                     borderRadius: "5px",
                     cursor: "pointer",
+                    margin: "40px 0px",
                   }}
                   className="w-100 fs-6 "
                 >

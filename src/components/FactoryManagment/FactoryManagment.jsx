@@ -332,39 +332,6 @@ const FactoryManagment = () => {
       width: 50,
     },
 
-    // {
-    //   key: "user_access",
-    //   title: "دسترسی",
-    //   dataIndex: "first_name",
-    //   // render: (_, record) => <span>shayan</span>,
-    //   sorter: (a, b) =>
-    //     a.user_access.join().localeCompare(b.user_access.join()),
-    //   ...getColumnSearchProps("user_access", "جستجو..."),
-    //   width: 200,
-    // },
-    // {
-    //   key: "devices",
-    //   title: "تعداد وسیله نقلیه",
-    //   dataIndex: "devices",
-    //   sorter: (a, b) => {
-    //     if (!a.driverName && !b.driverName) {
-    //       return 0;
-    //     }
-
-    //     if (!a.driverName) {
-    //       return 1;
-    //     }
-
-    //     if (!b.driverName) {
-    //       return -1;
-    //     }
-
-    //     return a.devices?.length.localeCompare(b.devices?.length);
-    //   },
-    //   render: (devices) => devices?.length,
-    //   ...getColumnSearchProps("devices", "جستجو..."),
-    //   width: 200,
-    // },
     {
       key: "operation",
       title: "عملیات",
@@ -390,6 +357,7 @@ const FactoryManagment = () => {
     dispatch(fetchdata());
   }, [dispatch]);
   console.log(factorymanagmentData);
+
   // ---------------------handle delete
 
   //table functions
@@ -444,41 +412,7 @@ const FactoryManagment = () => {
             <div dir="rtl" className="position-relative">
               {!loading ? (
                 <Fragment>
-                  <ConfigProvider
-                    locale={faIR}
-                    // theme={{
-                    //   token: {
-                    //     // Seed Token
-                    //     // colorPrimary: "#00b96b",
-                    //     // Alias Token
-                    //     colorBgContainer: `${!darkMode ? "#303030" : "#fff"}`,
-                    //     colorText: "white",
-                    //     colorTextPlaceholder: `${
-                    //       !darkMode ? "white" : "black"
-                    //     }`,
-                    //     // borderColor: "#000",
-                    //   },
-                    //   components: {
-                    //     Table: {
-                    //       colorBgContainer: ` ${
-                    //         !darkMode ? "#222a38" : "#e3e3e3"
-                    //       }`,
-                    //       borderColor: "#000",
-                    //       rowHoverBg: `${!darkMode ? "black" : "#ccc"}`,
-                    //       colorText: `${!darkMode ? "white" : "black"}`,
-                    //       headerBg: `${!darkMode ? "#1c283d" : "gray"}`,
-                    //       headerSortHoverBg: `${
-                    //         !darkMode ? "#000" : "#888a89"
-                    //       }`,
-                    //       headerSortActiveBg: `${
-                    //         !darkMode ? "#000" : "#888a89"
-                    //       }`,
-                    //       // headerFilterHoverIcon: "#fff",
-                    //       // headerFilterIcon: "#fff",
-                    //     },
-                    //   },
-                    // }}
-                  >
+                  <ConfigProvider locale={faIR}>
                     <Table
                       locale={{
                         emptyText: <Empty description="اطلاعات موجود نیست!" />,

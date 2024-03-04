@@ -8,6 +8,7 @@ import {
   Form,
   Input,
   Upload,
+  Empty,
 } from "antd";
 import { Button } from "react-bootstrap";
 import TabPane from "antd/lib/tabs/TabPane";
@@ -16,6 +17,7 @@ import ObservingfurnacesModalAddRow from "./ObservingfurnacesModal/Observingfurn
 import ObservingfurnacesModalAddDimension from "./ObservingfurnacesModal/ObservingfurnacesModalAddDimension";
 import ListIcon from "@mui/icons-material/List";
 import UploadImageModal from "./ObservingfurnacesModal/UploadImageModal";
+import moment from "moment-jalaali";
 
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -45,6 +47,10 @@ import {
   selectuploadPhotoModal,
   RsetuploadPhotoModal,
   RsetuploadPhotoCurrentRow,
+  deletematerials,
+  RsetFurnaceObservationAddDimentioncurrentmaterial,
+  Rsetcurrenfurnaceid,
+  selectFurnaceObservationcurrenfurnaceid,
 } from "../../../slices/FurnaceObservationSlices";
 import {
   RsetFurnaceDistributeAddmodal,
@@ -57,7 +63,12 @@ import {
 } from "../../../slices/Dashboard";
 import { useLocation } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination, Navigation } from "swiper/modules";
+
 import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+
 import { uploadephoto } from "../../../services/authServices";
 
 const { Panel } = Collapse;
@@ -72,17 +83,13 @@ const ObservingFurnaces = () => {
 
   const dispatch = useDispatch();
   const location = useLocation();
-  const urlParts = location.pathname.split("/");
   const id = getIdFromUrl(location.pathname);
+
   const singlefurances = useSelector(selectsinglefurances);
   const furenceObserEvents = useSelector(selectFurenceObserEvents);
   const listReloader = useSelector(selectListReloader);
   const [material, setmaterial] = useState([]);
-  // material.map((item2) => {
-  //   item2.map((item3) => {
-  //     console.log(item3.h_size);
-  //   });
-  // });
+
   useEffect(() => {
     dispatch(getsinglefurance(id));
   }, [dispatch]);
@@ -93,6 +100,8 @@ const ObservingFurnaces = () => {
 
   const materialdata = singlefurances.furnaceMaterials;
 
+  console.log(materialdata);
+
   useEffect(() => {
     if (singlefurances.furnaceMaterials !== undefined) {
       const materials = singlefurances.furnaceMaterials.map(
@@ -102,46 +111,42 @@ const ObservingFurnaces = () => {
     }
   }, [singlefurances]);
 
-  const datatop = [
-    {
-      key: "1",
-      name: "برازجان",
-      type: "John Brown",
-      capicity: 32,
-      working_capacity: "New York No. 1 Lake Park",
-      surface: 288.0,
-    },
-  ];
   const columnstop = [
     {
       title: "نام كوره",
       dataIndex: "name",
       key: "name",
+      render: (text) => <span className="fw-bold fs-5">{text}</span>, // Apply custom class to render function
     },
     {
       title: "نوع",
       dataIndex: "furnace_type",
       key: "furnace_type",
+      render: (text) => <span className="fw-bold fs-5">{text}</span>, // Apply custom class to render function
     },
     {
       title: "حجم كوره",
       dataIndex: "capacity",
       key: "capacity",
+      render: (text) => <span className="fw-bold fs-5">{text}</span>, // Apply custom class to render function
     },
     {
       title: " ظرفيت كوره ",
       dataIndex: "furnace_volume",
       key: "furnace_volume",
+      render: (text) => <span className="fw-bold fs-5">{text}</span>, // Apply custom class to render function
     },
     {
       title: "حجم working",
       dataIndex: "working_volume",
       key: "working_volume",
+      render: (text) => <span className="fw-bold fs-5">{text}</span>, // Apply custom class to render function
     },
     {
       title: "سطح حمام قلع",
       dataIndex: "solder_bath_surface",
       key: "solder_bath_surface",
+      render: (text) => <span className="fw-bold fs-5">{text}</span>, // Apply custom class to render function
     },
 
     {
@@ -155,58 +160,42 @@ const ObservingFurnaces = () => {
 
   // ----------------------------------------------------------------------------------------------
 
-  const data3 = [
-    {
-      key: "1",
-      name: "John Brown",
-      age: 32,
-      address: "New York No. 1 Lake Park",
-    },
-    {
-      key: "2",
-      name: "Jim Green",
-      age: 42,
-      address: "London No. 1 Lake Park",
-    },
-    {
-      key: "3",
-      name: "Joe Black",
-      age: 32,
-      address: "Sidney No. 1 Lake Park",
-    },
-  ];
-  const ali = [];
-
   const columnsbuttom = [
     {
       title: " شروع استفاده	",
       dataIndex: "first_usage_event_id",
       key: "first_usage_event_id ",
+      render: (text) => <span className="fw-bold ">{text}</span>, // Apply custom class to render function
     },
     {
       title: " بخش",
-      dataIndex: "age",
-      key: "age",
+      dataIndex: "furnace_parts_name",
+      key: "furnace_parts_name",
+      render: (text) => <span className="fw-bold ">{text}</span>, // Apply custom class to render function
     },
     {
       title: "متريال ",
       dataIndex: "materials_category",
       key: "materials_category",
+      render: (text) => <span className="fw-bold ">{text}</span>, // Apply custom class to render function
     },
     {
       title: "كشور سازنده",
       dataIndex: "materials_manufacturing_country",
       key: "materials_manufacturing_country",
+      render: (text) => <span className="fw-bold ">{text}</span>, // Apply custom class to render function
     },
     {
       title: "شركت توليد كننده",
       dataIndex: "materials_manufacturer",
       key: "materials_manufacturer",
+      render: (text) => <span className="fw-bold ">{text}</span>, // Apply custom class to render function
     },
     {
       title: "وزن (تناژ)",
       dataIndex: "weight",
       key: "weight",
+      render: (text) => <span className="fw-bold ">{text}</span>, // Apply custom class to render function
     },
 
     {
@@ -216,9 +205,12 @@ const ObservingFurnaces = () => {
 
       render: (text, record) => (
         <ul>
-          {record.materialPerShape_.map((item, index) => (
+          {record.shape_code_custome.map((item, index) => (
             <>
-              <li key={index}>{item.shape_code}</li>
+              <li className="fw-bold" key={index}>
+                {item.shape}
+              </li>
+              <p className="fw-bold"> تعداد : {item.numbers}</p>
             </>
           ))}
         </ul>
@@ -235,27 +227,26 @@ const ObservingFurnaces = () => {
         <Popconfirm
           className="bg-danger"
           title="حذف"
-          description="آيا از حذف اين سطر مطمعن هستيد"
-          // onConfirm={confirm}
-          // onOpenChange={() => toggleTable(text, record)}
+          description=" آيا از حذف اين سطر مطمئن هستيد ؟"
+          onConfirm={() => {
+            dispatch(deletematerials({ itemId: record._id, furnaceId: id }));
+          }}
         >
-          {/* {console.log(
-            record.materialPerShape_.map((item) => {
-              console.log(item.b_size);
-            })
-          )} */}
-          <Button type="primary">حذف </Button>
+          <Button type="primary">حذف {console.log(record._id)}</Button>
         </Popconfirm>
       ),
     },
     {
       title: "افزودن",
       key: "action",
-      render: () => (
+      render: (record) => (
         <Button
-          onClick={() =>
-            dispatch(RsetFurnaceObservationAddDimentionModal(true))
-          }
+          onClick={() => {
+            dispatch(RsetFurnaceObservationAddDimentionModal(true));
+            dispatch(
+              RsetFurnaceObservationAddDimentioncurrentmaterial(record._id)
+            );
+          }}
         >
           اضافه كردن ابعاد
         </Button>
@@ -264,54 +255,8 @@ const ObservingFurnaces = () => {
   ];
 
   // -----------------handling currend datas for events--------------------------
-  useEffect(() => {
-    // Initialize tabs with data from dataSource
-    if (singlefurances.furnaceEvents !== undefined) {
-      dispatch(
-        RsetFurnaceObservationAddTabs(
-          singlefurances.furnaceEvents.map((person) => ({
-            event: person.name,
-            key: person.id,
-            content: (
-              <Table
-                dataSource={[person]}
-                columns={columnsevent}
-                pagination={false}
-              />
-            ),
-          }))
-        )
-      );
-    }
-  }, [singlefurances]);
 
   // ------------------handle event for adding event-----------------------
-
-  const handleOk = () => {
-    const newTabs = [...AddTabs];
-    const newTabKey = `tab${newTabs.length + 1}`;
-    const { event_type, end_date, description, begin_date, event } = formattabs;
-    const content = (
-      <Table
-        dataSource={[
-          {
-            key: newTabKey,
-            event: event,
-            end_date,
-            description,
-            begin_date,
-            event_type,
-          },
-        ]}
-        columns={columnsevent}
-        pagination={false}
-      />
-    );
-    newTabs.push({ event, content, key: newTabKey });
-    dispatch(RsetFurnaceObservationAddTabs(newTabs));
-
-    dispatch(RsetFurnaceObservationFormatTabs({}));
-  };
 
   // --------------------------------------------
 
@@ -326,11 +271,13 @@ const ObservingFurnaces = () => {
       title: "تاريخ شروع",
       dataIndex: "begin_date",
       key: "begin_date",
+      render: (text) => moment(text).format("jYYYY/jMM/jDD"), // Convert Gregorian to Solar
     },
     {
       title: "تاريخ پايان",
       dataIndex: "end_date",
       key: "end_date",
+      render: (text) => moment(text).format("jYYYY/jMM/jDD"), // Convert Gregorian to Solar
     },
     {
       title: "نوع رويداد",
@@ -371,7 +318,7 @@ const ObservingFurnaces = () => {
         <Popconfirm
           className="bg-danger"
           title="نهايي سازي"
-          description="   آيا از نهايي كردن اين سطر مطمعن هستيد   "
+          description="   آيا از نهايي كردن اين سطر مطمئن هستيد ؟  "
           onConfirm={() => {
             dispatch(finalingevent(record._id));
             dispatch(getsinglefurance(id));
@@ -396,24 +343,28 @@ const ObservingFurnaces = () => {
       dataIndex: "furnace_part_name",
       key: "furnace_part_name",
       width: 100,
+      render: (text) => <span className="fw-bold fs-5">{text}</span>, // Apply custom class to render function
     },
     {
       title: " طول",
       dataIndex: "length",
       key: "length",
       width: 100,
+      render: (text) => <span className="fw-bold fs-5">{text}</span>, // Apply custom class to render function
     },
     {
       title: " عرض",
       dataIndex: "width",
       key: "width",
       width: 100,
+      render: (text) => <span className="fw-bold fs-5">{text}</span>, // Apply custom class to render function
     },
     {
       title: "ارتفاع",
       dataIndex: "height",
       key: "height",
       width: 100,
+      render: (text) => <span className="fw-bold fs-5">{text}</span>, // Apply custom class to render function
     },
   ];
 
@@ -461,6 +412,9 @@ const ObservingFurnaces = () => {
       reader.readAsDataURL(selectedImage);
     }
   };
+
+  // ------------------------------------------------------delete material
+
   // ------------------------------------------------------handling event modal
   const [activeT, setActiveT] = useState("tab2");
 
@@ -504,6 +458,24 @@ const ObservingFurnaces = () => {
     selectFurnaceObservationAddDimentionModal
   );
 
+  // -----------------------handling event
+
+  const [event, setevent] = useState([]);
+  const [eventName, seteventname] = useState([]);
+
+  console.log(eventName, event);
+
+  useEffect(() => {
+    if (singlefurances.furnaceEvents !== undefined) {
+      const allevent = singlefurances.furnaceEvents.map((item) => item).flat();
+      const eventname = singlefurances.furnaceEvents
+        .map((item) => item.name)
+        .flat();
+      setevent(allevent);
+      seteventname(eventname);
+    }
+  }, [singlefurances]);
+
   // --------------------uploade photo function
   const [pic, setPic] = useState([]);
 
@@ -527,7 +499,7 @@ const ObservingFurnaces = () => {
             <span className="me-2">
               <ListIcon />
             </span>
-            {`مديريت كوره`}
+            {`مديريت  كوره`}
           </div>
         </div>
         <div className="topinformation ">
@@ -544,6 +516,9 @@ const ObservingFurnaces = () => {
                 columns={columnsmini}
                 dataSource={singlefurances.furnaceDimension}
                 pagination={false}
+                locale={{
+                  emptyText: <Empty description="اطلاعات موجود نیست!" />,
+                }}
               />
             )}
           </Collapse>
@@ -566,9 +541,15 @@ const ObservingFurnaces = () => {
 
           {/* ---------------------------------------------------------------- */}
           <Tabs>
-            {AddTabs.map((tab) => (
-              <TabPane tab={tab.event} key={tab.key}>
-                {tab.content}
+            {eventName.map((tab, index) => (
+              <TabPane className="fw-bold" tab={tab} key={index}>
+                <Table
+                  locale={{
+                    emptyText: <Empty description="اطلاعات موجود نیست!" />,
+                  }}
+                  columns={columnsevent}
+                  dataSource={[event[index]]}
+                />
               </TabPane>
             ))}
           </Tabs>
@@ -590,6 +571,9 @@ const ObservingFurnaces = () => {
                 columns={columnsbuttom}
                 dataSource={materialdata}
                 pagination={paginationConfig}
+                locale={{
+                  emptyText: <Empty description="اطلاعات موجود نیست!" />,
+                }}
               />
             </TabPane>
             <TabPane tab=" تصاوير" key="tab3">
@@ -600,16 +584,21 @@ const ObservingFurnaces = () => {
                 onSlideChange={() => console.log("slide change")}
                 onSwiper={(swiper) => console.log(swiper)}
                 navigation={true}
-                pagination={{ clickable: true }}
+                modules={[Pagination, Navigation]}
+                pagination={{
+                  type: "fraction",
+                }}
               >
                 {pic.map((item) => (
                   <SwiperSlide
                     className=" d-flex justify-content-center align-items-center my-3 flex-column "
                     key={item.id}
                   >
-                    <h3 className="my-3">{item.description}</h3>
+                    <h3 className="my-3 bg-secondary w-100 text-center py-2 rounded-3 text-white">
+                      {item.description}
+                    </h3>
                     <img
-                      style={{ width: "800px", height: "800px" }}
+                      style={{ width: "800px", height: "700px" }}
                       src={`http://192.168.5.60:8007/uploads/furnaces/${item.picture}`}
                       alt="event image"
                     />
@@ -620,9 +609,7 @@ const ObservingFurnaces = () => {
           </Tabs>
         </div>
       </div>
-      {FurnaceObservationStatusModal && (
-        <ObservingfurnaceAddEventModal handleOk={handleOk} />
-      )}
+      {FurnaceObservationStatusModal && <ObservingfurnaceAddEventModal />}
       {FurnaceObservationaddrowmodal && <ObservingfurnacesModalAddRow />}
       {FurnaceObservationAddDimentionModal && (
         <ObservingfurnacesModalAddDimension />

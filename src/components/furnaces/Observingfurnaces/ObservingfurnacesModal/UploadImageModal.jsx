@@ -18,6 +18,7 @@ import {
   RsetuploadPhotoDes,
   RsetuploadPhotoModal,
   RsetuploadPic,
+  addphoto,
   selectuploadPhotoCurrentRow,
   selectuploadPhotoDes,
   selectuploadPhotoModal,
@@ -30,6 +31,7 @@ import {
 import { uploadephoto } from "../../../../services/authServices";
 import { getIdFromUrl } from "../ObservingFurnaces";
 import { useLocation } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const UploadImageModal = () => {
   const token = localStorage.getItem("token");
@@ -60,12 +62,14 @@ const UploadImageModal = () => {
         data.append("description", uploadPhotoDes);
         data.append("furnace_event_oid", uploadPhotoCurrentRow._id);
       }
-      uploadephoto(data, token);
+      dispatch(addphoto({ data: data, id: id }));
       dispatch(RsetuploadPhotoModal(false));
-      dispatch(getsinglefurance(id));
     } else {
-      document.getElementById("errorMessage").textContent =
-        "عكس يا شرحي براي تصوير داده نشده";
+      Swal.fire({
+        icon: "error",
+        title: "خالي بودن مقادير",
+        text: "عكس يا شرح عكسي براي اين رويداد انتخاب نشده است",
+      });
     }
   };
 
@@ -100,7 +104,11 @@ const UploadImageModal = () => {
   return (
     <ConfigProvider direction="rtl" locale={fa_IR}>
       <Modal
-        title={` آپلود عكس`}
+        title={
+          <>
+            <h3 className="fw-bold"> آپلود عكس</h3>
+          </>
+        }
         open={uploadPhotoModal}
         styles={modalStyles}
         closable={false}

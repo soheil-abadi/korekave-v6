@@ -19,6 +19,7 @@ import {
 import {
   Box,
   Checkbox,
+  FormControl,
   FormControlLabel,
   FormGroup,
   InputLabel,
@@ -31,6 +32,7 @@ import {
   RsetFurnaceDistributeEditModal,
   RsetFurnaceDistributeSection,
   RsetFurnaceDistributeType,
+  editfurnaceparts,
   selectFurnaceDistributeCurrentUser,
   selectFurnaceDistributeEditModal,
   selectFurnaceDistributeSection,
@@ -54,11 +56,9 @@ const FurnaceDistributeEditModal = () => {
   // -----------------------------------------------
   useEffect(() => {
     dispatch(
-      RsetFurnaceDistributeType(FurnaceDistributeCurrentUser.first_name)
+      RsetFurnaceDistributeType(FurnaceDistributeCurrentUser.furnace_type)
     );
-    dispatch(
-      RsetFurnaceDistributeSection(FurnaceDistributeCurrentUser.last_name)
-    );
+    dispatch(RsetFurnaceDistributeSection(FurnaceDistributeCurrentUser.name));
 
     dispatch(RsetUserManagmentUserName(FurnaceDistributeCurrentUser.username));
   }, [FurnaceDistributeCurrentUser]);
@@ -71,12 +71,12 @@ const FurnaceDistributeEditModal = () => {
   };
 
   const handleModalEdit = () => {
+    const data = {
+      name: FurnaceDistributeSection,
+      furnace_type: FurnaceDistributeType,
+    };
     dispatch(
-      RsetFurnaceDistributeCurrentUser({
-        ...FurnaceDistributeCurrentUser,
-        first_name: FurnaceDistributeType,
-        last_name: FurnaceDistributeSection,
-      })
+      editfurnaceparts({ data: data, id: FurnaceDistributeCurrentUser._id })
     );
     dispatch(RsetFurnaceDistributeEditModal(false));
   };
@@ -102,12 +102,12 @@ const FurnaceDistributeEditModal = () => {
     },
   };
 
-  const typeData = ["side sort", "end sort", "side sort , end sort"];
+  const typeData = ["side-port", "end-port", "side-port and end-port"];
 
   return (
     <ConfigProvider direction="rtl" locale={fa_IR}>
       <Modal
-        title={`ویرایش کاربر ${FurnaceDistributeCurrentUser.username}`}
+        title={`ویرایش بخش ${FurnaceDistributeCurrentUser.name}`}
         open={FurnaceDistributeEditModal}
         styles={modalStyles}
         closable={false}
@@ -146,36 +146,41 @@ const FurnaceDistributeEditModal = () => {
               margin="normal"
               value={FurnaceDistributeSection}
               onChange={(e) =>
-                dispatch(RsetFurnaceDistributeType(e.target.value))
+                dispatch(RsetFurnaceDistributeSection(e.target.value))
               }
             />
           </Box>
 
           <Box>
-            <InputLabel className="fw-bold fs-5" id="demo-simple-select-label">
-              نام بخش
-            </InputLabel>
-            <Select
-              className="w-100  "
-              labelId="demo-simple-select-filled-label"
-              id="demo-simple-select-filled"
-              value={FurnaceDistributeType}
-              label="مدل"
-              onChange={(e) =>
-                dispatch(RsetFurnaceDistributeType(e.target.value))
-              }
-            >
-              {typeData &&
-                typeData.map((item, index) => (
-                  <MenuItem
-                    className="text-center w-100 m-auto"
-                    key={index}
-                    value={item}
-                  >
-                    {item}
-                  </MenuItem>
-                ))}
-            </Select>
+            <FormControl fullWidth className=" my-3 ">
+              <InputLabel
+                className="fw-bold fs-5"
+                id="demo-simple-select-label"
+              >
+                نوع كوره
+              </InputLabel>
+              <Select
+                className="w-100  "
+                labelId="demo-simple-select-filled-label"
+                id="demo-simple-select-filled"
+                value={FurnaceDistributeType}
+                label=" نوع كوره"
+                onChange={(e) =>
+                  dispatch(RsetFurnaceDistributeType(e.target.value))
+                }
+              >
+                {typeData &&
+                  typeData.map((item, index) => (
+                    <MenuItem
+                      className="text-center w-100 m-auto"
+                      key={index}
+                      value={item}
+                    >
+                      {item}
+                    </MenuItem>
+                  ))}
+              </Select>
+            </FormControl>
           </Box>
         </form>
       </Modal>

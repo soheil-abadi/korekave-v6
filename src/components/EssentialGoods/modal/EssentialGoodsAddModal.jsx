@@ -87,7 +87,7 @@ const EssentialGoodsADDModal = () => {
       category: essentialGoodssort,
       manufacturing_country: essentialGoodscountryoforigin,
       manufacturer: essentialGoodsfirmorigin,
-      type: essentialGoodstype,
+      type_name: essentialGoodstype,
     };
     dispatch(addessentialgood(adduserdata));
     dispatch(RsetessentialGoodsAddmodal(false));

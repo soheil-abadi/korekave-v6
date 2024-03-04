@@ -53,6 +53,7 @@ const EditFireProofModal = () => {
   const fireProofI = useSelector(selectfireProofI);
 
   const fireProofh = useSelector(selectfireProofh);
+  console.log(fireProofh);
   const fireProoftype = useSelector(selectfireProoftype);
   const fireProofweight = useSelector(selectfireProofweight);
   const fireProofsort = useSelector(selectfireProofsort);
@@ -62,6 +63,7 @@ const EditFireProofModal = () => {
   const fireProofEditModal = useSelector(selectfireProofEditModal);
 
   const fireProofCurrentUser = useSelector(selectfireProofCurrentUser);
+  console.log(fireProofCurrentUser._id);
 
   // Define all possible access options
 
@@ -80,7 +82,7 @@ const EditFireProofModal = () => {
       l_size: fireProofI,
       h_size: fireProofh,
     };
-    dispatch(editfireproofs(data));
+    dispatch(editfireproofs({ data: data, id: fireProofCurrentUser._id }));
     dispatch(RsetfireProofEditModal(false));
   };
 

@@ -1,10 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { errorMessage, successMessage } from "../utils/toast";
 import {
+  deleteessentialgoods,
   editessentialgoods,
   essentialgoodsadd,
   getessentialgoods,
 } from "../services/authServices";
+import Swal from "sweetalert2";
 
 const initialState = {
   essentialGoodsList: [],
@@ -125,7 +127,7 @@ export const selectessentialGoodsAddmodal = (state) =>
 export default essentialGoodsSlices.reducer;
 // ------------------------------------------------------handle api
 export const fetchessentialgoodlist = createAsyncThunk(
-  "userManagement/fetchessentialgoodlist",
+  "essentialGoodsSlices/fetchessentialgoodlist",
 
   async (obj, { dispatch }) => {
     try {
@@ -155,25 +157,66 @@ export const fetchessentialgoodlist = createAsyncThunk(
 //   }
 // );
 export const editessentialgood = createAsyncThunk(
-  "userManagement/editessentialgood",
+  "essentialGoodsSlices/editessentialgood",
 
-  async (value, { dispatch }) => {
+  async ({ data, id }, { dispatch }) => {
     try {
-      const editusers = await editessentialgoods(value);
-      dispatch(fetchessentialgoodlist());
+      const editgoods = await editessentialgoods(data, id);
+      if (editgoods.status === 200) {
+        dispatch(fetchessentialgoodlist());
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "   عدم دريافت اطلاعات  ",
+        });
+      }
     } catch (ex) {
-      console.log("عدم دريافت اطلاعات");
+      Swal.fire({
+        icon: "error",
+        title: "   عدم دريافت اطلاعات  ",
+      });
     }
   }
 );
 export const addessentialgood = createAsyncThunk(
-  "userManagement/addessentialgood",
+  "essentialGoodsSlices/addessentialgood",
 
   async (value, { dispatch }) => {
     try {
       console.log(value);
       const adduserdata = await essentialgoodsadd(value);
+      if (adduserdata.status === 200) {
+        dispatch(fetchessentialgoodlist());
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "   عدم دريافت اطلاعات  ",
+        });
+      }
       dispatch(fetchessentialgoodlist());
+    } catch {
+      Swal.fire({
+        icon: "error",
+        title: "   عدم دريافت اطلاعات  ",
+      });
+    }
+  }
+);
+
+export const deleteessentialgood = createAsyncThunk(
+  "essentialGoodsSlicess/deleteessentialgood",
+
+  async (id, { dispatch }) => {
+    try {
+      const deletegoods = await deleteessentialgoods(id);
+      if (deletegoods.status === 200) {
+        dispatch(fetchessentialgoodlist());
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "  خطا حذف انجام نشد",
+        });
+      }
     } catch (ex) {
       console.log("عدم دريافت اطلاعات");
     }

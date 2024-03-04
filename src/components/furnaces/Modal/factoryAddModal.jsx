@@ -17,17 +17,18 @@ import {
 import {
   Rsetcanals,
   RsetenteryType,
-  RsetfactoryEditModal,
+  RsetfactoryAddModal,
   RsetfactoryVolume,
   RsetfactoryWorkingVolume,
   Rsetfactorycapicity,
   Rsetfactorysname,
   Rsetfactorytype,
   Rsetsurfaceofmaterial,
-  editfurnaces,
+  addfurnaces,
   selectFactoryEditModal,
   selectcanals,
   selectenteryType,
+  selectfactoryAddModal,
   selectfactoryVolume,
   selectfactoryWorkingVolume,
   selectfactorycapicity,
@@ -35,74 +36,19 @@ import {
   selectfactorytype,
   selectsurfaceofmaterial,
 } from "../../../slices/factory";
-import {
-  dashboardgetfurances,
-  selectfurances,
-} from "../../../slices/Dashboard";
 import { getIdFromUrl } from "../Observingfurnaces/ObservingFurnaces";
 import { useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
 
-const FactoryModal = ({ card }) => {
+const FactoryAddModal = () => {
   const location = useLocation();
   const id = getIdFromUrl(location.pathname);
   const dispatch = useDispatch();
   const typedata = ["sideport", "endport"];
-  const enetrydata = ["deep chanel", "working"];
-
-  const furances = useSelector(selectfurances);
-  console.log(card);
-  useEffect(() => {
-    dispatch(RsetfactoryVolume(card.furnace_volume));
-    dispatch(RsetfactoryWorkingVolume(card.working_volume));
-    dispatch(Rsetfactorysname(card.name));
-    dispatch(Rsetfactorycapicity(card.capacity));
-    dispatch(RsetenteryType(card.channel_entrance_type));
-    dispatch(Rsetfactorytype(card.furnace_type));
-    dispatch(Rsetcanals(card.channel_line_count));
-    dispatch(Rsetsurfaceofmaterial(card.solder_bath_surface));
-  }, [card]);
-
-  const editfurnace = () => {
-    const data = {
-      name: factorysname,
-      furnace_type: factorytype,
-      capacity: factorycapicity,
-      furnace_volume: factoryVolume,
-      working_volume: factoryWorkingVolume,
-      solder_bath_surface: surfaceofmaterial,
-      channel_line_count: canals,
-      channel_entrance_type: enteryType,
-    };
-
-    if (
-      factorysname &&
-      factorytype &&
-      factorycapicity &&
-      factoryVolume &&
-      factoryWorkingVolume &&
-      surfaceofmaterial &&
-      canals &&
-      enteryType
-    ) {
-      dispatch(editfurnaces({ data: data, id: id }));
-      dispatch(RsetfactoryVolume(""));
-      dispatch(RsetfactoryWorkingVolume(""));
-      dispatch(Rsetfactorysname(""));
-      dispatch(Rsetfactorycapicity(""));
-      dispatch(RsetenteryType(""));
-      dispatch(Rsetfactorytype(""));
-      dispatch(Rsetcanals(""));
-      dispatch(Rsetsurfaceofmaterial(""));
-      dispatch(RsetfactoryEditModal(false));
-    } else {
-      Swal.fire({
-        icon: "error",
-        title: "  مقادير خالي",
-        text: " تمامي مقادير بايد پر شود        ",
-      });
-    }
-  };
+  const enetrydata = ["deepchanel", "working"];
+  const factoryAddModal = useSelector(selectfactoryAddModal);
+  const factorysname = useSelector(selectfactorysname);
+  const factoryVolume = useSelector(selectfactoryVolume);
 
   const factoryWorkingVolume = useSelector(selectfactoryWorkingVolume);
 
@@ -115,12 +61,50 @@ const FactoryModal = ({ card }) => {
   const surfaceofmaterial = useSelector(selectsurfaceofmaterial);
 
   const enteryType = useSelector(selectenteryType);
-  const factorysname = useSelector(selectfactorysname);
-  const FactoryEditModal = useSelector(selectFactoryEditModal);
-  const factoryVolume = useSelector(selectfactoryVolume);
 
   const handleModalCancel = () => {
-    dispatch(RsetfactoryEditModal(false));
+    dispatch(RsetfactoryAddModal(false));
+  };
+
+  const addfurnace = () => {
+    const data = {
+      name: factorysname,
+      furnace_type: factorytype,
+      capacity: factorycapicity,
+      furnace_volume: factoryVolume,
+      working_volume: factoryWorkingVolume,
+      solder_bath_surface: surfaceofmaterial,
+      channel_line_count: canals,
+      channel_entrance_type: enteryType,
+      factory_oid: id,
+    };
+    if (
+      factorysname &&
+      factorytype &&
+      factorycapicity &&
+      factoryVolume &&
+      factoryWorkingVolume &&
+      surfaceofmaterial &&
+      canals &&
+      enteryType
+    ) {
+      dispatch(addfurnaces({ data: data, id: id }));
+      dispatch(RsetfactoryVolume(""));
+      dispatch(RsetfactoryWorkingVolume(""));
+      dispatch(Rsetfactorysname(""));
+      dispatch(Rsetfactorycapicity(""));
+      dispatch(RsetenteryType(""));
+      dispatch(Rsetfactorytype(""));
+      dispatch(Rsetcanals(""));
+      dispatch(Rsetsurfaceofmaterial(""));
+      dispatch(RsetfactoryAddModal(false));
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "  مقادير خالي",
+        text: " تمامي مقادير بايد پر شود        ",
+      });
+    }
   };
 
   const modalStyles = {
@@ -150,10 +134,10 @@ const FactoryModal = ({ card }) => {
       <Modal
         title={
           <>
-            <h3 className="fw-bold fs-3  "> ويرايش كوره {factorysname}</h3>
+            <h3 className="fw-bold fs-3  "> اضافه كردن كوره </h3>
           </>
         }
-        open={FactoryEditModal}
+        open={factoryAddModal}
         styles={modalStyles}
         closable={false}
         onOk={handleModalCancel}
@@ -174,9 +158,9 @@ const FactoryModal = ({ card }) => {
                 type="primary"
                 color="primary"
                 size="large"
-                onClick={() => editfurnace()}
+                onClick={() => addfurnace()}
               >
-                ويرايش كوره
+                اضافه كردن كوره
               </Button>
             </div>
           </>
@@ -184,19 +168,18 @@ const FactoryModal = ({ card }) => {
       >
         <form>
           <Box>
-            <InputLabel className="fw-bold fs-5 ">نام كوره </InputLabel>
+            <InputLabel className="fw-bold fs-5">نام كوره</InputLabel>
             <TextField
               variant="outlined"
               fullWidth
               margin="normal"
-              value={factorysname}
               onChange={(e) => dispatch(Rsetfactorysname(e.target.value))}
             />
           </Box>
           <Box>
             <FormControl fullWidth className=" my-3 ">
               <InputLabel
-                className="fw-bold  fs-5"
+                className="fw-bold fs-5"
                 id="demo-simple-select-standard-label"
               >
                 نوع
@@ -205,7 +188,6 @@ const FactoryModal = ({ card }) => {
                 className="w-100  "
                 labelId="demo-simple-select-filled-label"
                 id="demo-simple-select-filled"
-                value={factorytype}
                 label={" نوع "}
                 onChange={(e) => dispatch(Rsetfactorytype(e.target.value))}
               >
@@ -223,12 +205,11 @@ const FactoryModal = ({ card }) => {
             </FormControl>
           </Box>
           <Box>
-            <InputLabel className="fw-bold fs-5 my-2"> ظرفيت(تن)</InputLabel>
+            <InputLabel className="fw-bold fs-5"> ظرفيت(تن)</InputLabel>
             <TextField
               variant="outlined"
               fullWidth
               margin="normal"
-              value={factorycapicity}
               onChange={(e) => dispatch(Rsetfactorycapicity(e.target.value))}
             />
           </Box>
@@ -238,7 +219,6 @@ const FactoryModal = ({ card }) => {
               variant="outlined"
               fullWidth
               margin="normal"
-              value={factoryVolume}
               onChange={(e) => dispatch(RsetfactoryVolume(e.target.value))}
             />
           </Box>
@@ -250,7 +230,6 @@ const FactoryModal = ({ card }) => {
               variant="outlined"
               fullWidth
               margin="normal"
-              value={factoryWorkingVolume}
               onChange={(e) =>
                 dispatch(RsetfactoryWorkingVolume(e.target.value))
               }
@@ -262,7 +241,6 @@ const FactoryModal = ({ card }) => {
               variant="outlined"
               fullWidth
               margin="normal"
-              value={surfaceofmaterial}
               onChange={(e) => dispatch(Rsetsurfaceofmaterial(e.target.value))}
             />
           </Box>
@@ -275,7 +253,6 @@ const FactoryModal = ({ card }) => {
               variant="outlined"
               fullWidth
               margin="normal"
-              value={canals}
               onChange={(e) => dispatch(Rsetcanals(e.target.value))}
             />
           </Box>
@@ -291,7 +268,6 @@ const FactoryModal = ({ card }) => {
                 className="w-100  "
                 labelId="demo-simple-select-filled-label"
                 id="demo-simple-select-filled"
-                value={enteryType}
                 label={"نوع ورودي"}
                 onChange={(e) => dispatch(RsetenteryType(e.target.value))}
               >
@@ -314,4 +290,4 @@ const FactoryModal = ({ card }) => {
   );
 };
 
-export default FactoryModal;
+export default FactoryAddModal;

@@ -7,6 +7,7 @@ import {
 import { RsetFormErrors, RsetUser } from "./mainSlices";
 import { SuccessMessage, errorMessage, successMessage } from "../utils/toast";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const initialState = {
   isLoggedIn: false,
@@ -60,18 +61,25 @@ export const parseJwt = (token) => {
 // );
 
 export const handleUsetInfo = createAsyncThunk(
-  "main/handleUsetInfo",
-  async (obj, { dispatch, getState }) => {
+  "authSlices/handleUsetInfo",
+  async ({ dispatch }) => {
     try {
       const userInfoRes = await refreshuser(localStorage.getItem("id"));
+      console.log(userInfoRes);
       if (userInfoRes.data.code === 200) {
         dispatch(Rsetuser(userInfoRes.data.user));
         SuccessMessage("ورود موفق");
       } else {
-        errorMessage("ورود ناموفق");
+        Swal.fire({
+          icon: "error",
+          title: "   عدم دريافت اطلاعات  ",
+        });
       }
     } catch (ex) {
-      console.log(ex);
+      Swal.fire({
+        icon: "error",
+        title: "     عدم دريافت اطلاعات از سرور  ",
+      });
     }
   }
 );

@@ -4,123 +4,70 @@ import fa_IR from "antd/lib/locale/fa_IR";
 import { useSelector, useDispatch } from "react-redux";
 import moment from "jalali-moment";
 import faIR from "antd/lib/locale/fa_IR";
+import { DtPicker } from "react-calendar-datetime-picker";
 
-import {
-  Box,
-  Checkbox,
-  FormControlLabel,
-  FormGroup,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-} from "@mui/material";
+import { Box, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 
 import { FormControl } from "react-bootstrap";
 import {
   RsetFurnaceObservationDateOfEnd,
   RsetFurnaceObservationDateOfStart,
   RsetFurnaceObservationDescriptionP,
-  RsetFurnaceObservationEnteryType,
   RsetFurnaceObservationEventName,
-  RsetFurnaceObservationFormatTabs,
   RsetFurnaceObservationStatusModal,
   RsetFurnaceObservationTypeOfEvent,
-  addevent,
+  RsetFurnaceObservationpersianCalender,
+  RsetFurnaceObservationpersianCalenderEnd,
   addevents,
-  selectFurnaceObservationAddTabs,
   selectFurnaceObservationDateOfEnd,
   selectFurnaceObservationDateOfStart,
   selectFurnaceObservationDescriptionP,
-  selectFurnaceObservationEnteryType,
   selectFurnaceObservationEventName,
-  selectFurnaceObservationFormatTabs,
   selectFurnaceObservationStatusModal,
   selectFurnaceObservationTypeOfEvent,
-  selectFurnaceObservationoveralAddEvent,
+  selectFurnaceObservationpersianCalender,
+  selectFurnaceObservationpersianCalenderEnd,
 } from "../../../../slices/FurnaceObservationSlices";
 import { addfurnaceevent } from "../../../../services/authServices";
+import {
+  getsinglefurance,
+  selectsinglefurances,
+} from "../../../../slices/Dashboard";
+import { getIdFromUrl } from "../ObservingFurnaces";
+import { useLocation } from "react-router-dom";
+import Swal from "sweetalert2";
 
-const ObservingfurnaceAddEventModal = ({ handleOk }) => {
+const solarToGregorian = (solarDate) => {
+  // Parse the Solar Hijri date using jalali-moment
+  const gregorianDate = moment(solarDate, "jYYYY-jMM-jDD");
+
+  // Convert to Gregorian format
+  const gregorianDateString = gregorianDate.format("YYYY-MM-DD");
+
+  return gregorianDateString;
+};
+
+const ObservingfurnaceAddEventModal = () => {
+  const [start, setStart] = useState({});
+  const [end, setEnd] = useState({});
+  // const [formatstart, setformatStart] = useState("");
+  // const [formatend, setformatEnd] = useState("");
+  // if ((start, end)) {
+  //   const starts = start.year - start.month - start.day;
+  //   setformatStart(starts);
+  //   const ends = end.year - end.month - end.day;
+  //   setformatEnd(ends);
+  // }
+
+  // console.log(formatstart, formatend);
+
+  // const convertDate = `${startDate.year}/${startDate.mounth}/${startDate.day}`;
+
   const enetrydata = ["ساخت ", "تعمير سرد"];
   const dispatch = useDispatch();
-  // // -----------------------------------selects
-  // const FactoryEditModal = useSelector(selectFactoryEditModal);
-  // const factoryVolume = useSelector(selectfactoryVolume);
-
-  // const factorycapicity = useSelector(selectfactorycapicity);
-
-  // const factorytype = useSelector(selectfactorytype);
-
-  // const factoryWorkingVolume = useSelector(selectfactoryWorkingVolume);
-
-  // const tfactorysname = useSelector(selectfactorysname);
-
-  // const enteryType = useSelector(selectenteryType);
-  // const surfaceofmaterial = useSelector(selectsurfaceofmaterial);
-
-  // const handlecancelmodal = () => {
-  //   dispatch(RsetfactoryEditModal(false));
-  // };
-
-  //   -----------------------------handeling modal selectors
-  //   const UserManagmentFirstName = useSelector(selectUserManagmentFirstName);
-  //   const UserManagmentLastName = useSelector(selectUserManagmentLastName);
-  //   const userManagmentAccess = useSelector(selectuserManagmentAccess);
-  //   const userManagmentEditModal = useSelector(selectUserManagmentEditModal);
-  //   const userManagmentCurrentUser = useSelector(selectUserManagmentCurrentUser);
-  //   const UserManagmentPassword = useSelector(selectUserManagmentPassword);
-  //   const UserManagmentUserName = useSelector(selectUserManagmentUserName);
-
-  // -----------------------------------------------
-  //   useEffect(() => {
-  //     dispatch(RsetUserManagmentFirstName(userManagmentCurrentUser.first_name));
-  //     dispatch(RsetUserManagmentLastName(userManagmentCurrentUser.last_name));
-  //     dispatch(RsetUserManagmentAccess(userManagmentCurrentUser.user_access));
-  //     dispatch(RsetUserManagmentUserName(userManagmentCurrentUser.username));
-  //     dispatch(RsetUserManagmentPassword(userManagmentCurrentUser.password));
-  //   }, [userManagmentCurrentUser]);
-  // -----------------------------------------------------
-
-  // Define all possible access options
-
-  //   const handleAccessChange = (accessItemId) => {
-  //     if (userManagmentAccess.some((item) => item._id === accessItemId)) {
-  //       console.log(accessItemId);
-  //       dispatch(
-  //         RsetUserManagmentAccess(
-  //           userManagmentAccess.filter((item) => item._id !== accessItemId)
-  //         )
-  //       );
-  //     } else {
-  //       const updatedAccess = [
-  //         ...userManagmentAccess,
-  //         allAccessOptions.find((item) => item._id === accessItemId),
-  //       ];
-  //       dispatch(RsetUserManagmentAccess(updatedAccess));
-  //     }
-  //   };
-
-  //   const handleModalCancel = () => {
-  //     dispatch(RsetUserManagmentEditModal(false));
-  //   };
-  //   console.log(userManagmentAccess);
-  //   const handleModalEdit = async () => {
-  //     // Dispatch an action to set loading state or any indication that the request is in progress
-  //     // For example: dispatch(setLoading(true));
-
-  //     // Make the API call to add the user
-  //     const userValues = {
-  //       first_name: UserManagmentFirstName,
-  //       last_name: UserManagmentLastName,
-  //       username: UserManagmentUserName,
-  //       user_access: userManagmentAccess,
-  //     };
-  //     dispatch(editusers(userValues));
-  //     console.log(userValues);
-  //     const editUserRes = await edituser(userValues);
-  //     dispatch(RsetUserManagmentEditModal(false));
-  //   };
+  const location = useLocation();
+  const id = getIdFromUrl(location.pathname);
+  console.log(id);
 
   const handlecancelmodal = () => {
     dispatch(RsetFurnaceObservationStatusModal(false));
@@ -133,11 +80,30 @@ const ObservingfurnaceAddEventModal = ({ handleOk }) => {
       end_date: FurnaceObservationStatusDateOfEnd,
       event_type: FurnaceObservationStatusTypeOfEvent,
       description: FurnaceObservationDescriptionP,
+      furnace_oid: id,
     };
-    console.log(eventdata);
-    dispatch(addevents(eventdata));
+    if (
+      FurnaceObservationStatusEventName &&
+      FurnaceObservationStatusEventName &&
+      FurnaceObservationStatusDateOfEnd &&
+      FurnaceObservationStatusTypeOfEvent &&
+      FurnaceObservationDescriptionP
+    ) {
+      dispatch(addevents({ data: eventdata, id: id }));
+      dispatch(RsetFurnaceObservationEventName(""));
+      dispatch(RsetFurnaceObservationDateOfStart(""));
+      dispatch(RsetFurnaceObservationDateOfEnd(""));
+      dispatch(RsetFurnaceObservationTypeOfEvent(""));
+      dispatch(RsetFurnaceObservationDescriptionP(""));
 
-    dispatch(RsetFurnaceObservationStatusModal(false));
+      dispatch(RsetFurnaceObservationStatusModal(false));
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "  مقادير خالي",
+        text: " تمامي مقادير بايد پر شود        ",
+      });
+    }
   };
 
   const modalStyles = {
@@ -161,12 +127,14 @@ const ObservingfurnaceAddEventModal = ({ handleOk }) => {
       boxShadow: "0 0 30px #999",
     },
   };
+
   const FurnaceObservationStatusModal = useSelector(
     selectFurnaceObservationStatusModal
   );
   const FurnaceObservationStatusDateOfEnd = useSelector(
     selectFurnaceObservationDateOfEnd
   );
+  console.log(FurnaceObservationStatusDateOfEnd);
 
   const FurnaceObservationStatusEventName = useSelector(
     selectFurnaceObservationEventName
@@ -175,125 +143,149 @@ const ObservingfurnaceAddEventModal = ({ handleOk }) => {
   const FurnaceObservationStatusDateOfStart = useSelector(
     selectFurnaceObservationDateOfStart
   );
+
   const FurnaceObservationDescriptionP = useSelector(
     selectFurnaceObservationDescriptionP
   );
-  const FurnaceObservationEnteryType = useSelector(
-    selectFurnaceObservationEnteryType
-  );
+  const singlefurances = useSelector(selectsinglefurances);
 
   const FurnaceObservationStatusTypeOfEvent = useSelector(
     selectFurnaceObservationTypeOfEvent
   );
-  const FurnaceObservationStatusAddTabs = useSelector(
-    selectFurnaceObservationAddTabs
-  );
 
-  const formattabs = useSelector(selectFurnaceObservationFormatTabs);
+  console.log(FurnaceObservationStatusDateOfEnd);
 
   return (
-    <ConfigProvider direction="rtl" locale={fa_IR}>
-      <Modal
-        title={`ویرایش كوره `}
-        open={FurnaceObservationStatusModal}
-        styles={modalStyles}
-        closable={false}
-        onOk={handlecancelmodal}
-        onCancel={handlecancelmodal}
-        footer={(_, { OkBtn, CancelBtn }) => (
-          <>
-            <div className="bottom-modal d-flex justify-content-between align-items-center gap-3 w-100">
-              <Button
-                style={{ background: "red", color: "white" }}
-                size="large"
-                onClick={() => handlecancelmodal()}
-              >
-                لغو
-              </Button>
-              <Button
-                className="w-100"
+    <>
+      <ConfigProvider direction="rtl" locale={fa_IR}>
+        <Modal
+          title={
+            <>
+              <h3 className="fw-bold ">ویرایش کوره</h3>
+            </>
+          }
+          open={FurnaceObservationStatusModal}
+          styles={modalStyles}
+          closable={false}
+          onOk={handlecancelmodal}
+          onCancel={handlecancelmodal}
+          footer={(_, { OkBtn, CancelBtn }) => (
+            <>
+              <div className="bottom-modal d-flex justify-content-between align-items-center gap-3 w-100 flex-row-reverse">
+                <Button
+                  style={{ background: "red", color: "white" }}
+                  size="large"
+                  onClick={() => handlecancelmodal()}
+                >
+                  لغو
+                </Button>
+                <Button
+                  className="w-100"
+                  variant="outlined"
+                  type="primary"
+                  color="primary"
+                  size="large"
+                  onClick={() => handleَAddEvent()}
+                >
+                  اضافه كردن رويداد
+                </Button>
+              </div>
+            </>
+          )}
+        >
+          <form>
+            <Box>
+              <InputLabel className="fw-bold fs-5 ">نام رویداد </InputLabel>
+              <TextField
                 variant="outlined"
-                type="primary"
-                color="primary"
-                size="large"
-                onClick={() => handleَAddEvent()}
+                fullWidth
+                margin="normal"
+                onChange={(e) => {
+                  dispatch(RsetFurnaceObservationEventName(e.target.value));
+                }}
+              />
+            </Box>
+
+            <DtPicker
+              inputClass="p-3 text-start mt-2 border"
+              placeholder="تاريخ شروع ..."
+              onChange={(e) => {
+                if (e) {
+                  // Convert Solar Hijri date to Gregorian
+                  const gregorianDate = solarToGregorian(
+                    `${e.year}-${e.month}-${e.day}`
+                  );
+
+                  // Dispatch the Gregorian date
+                  dispatch(RsetFurnaceObservationDateOfStart(gregorianDate));
+                }
+              }}
+              local="fa"
+              showWeekend
+            />
+            <DtPicker
+              inputClass="p-3 text-start mt-2 border"
+              placeholder="تاريخ پايان ..."
+              onChange={(e) => {
+                if (e) {
+                  // Convert Solar Hijri date to Gregorian
+                  const gregorianDate = solarToGregorian(
+                    `${e.year}-${e.month}-${e.day}`
+                  );
+
+                  // Dispatch the Gregorian date
+                  dispatch(RsetFurnaceObservationDateOfEnd(gregorianDate));
+                }
+              }}
+              local="fa"
+              showWeekend
+            />
+
+            <Box>
+              <InputLabel
+                className="fw-bold  fs-5 my-4"
+                id="demo-simple-select-standard-label"
               >
-                اضافه كردن رويداد
-              </Button>
-            </div>
-          </>
-        )}
-      >
-        <form>
-          <Box>
-            <InputLabel className="fw-bold fs-5">نام رویداد </InputLabel>
-            <TextField
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              onChange={(e) => {
-                dispatch(RsetFurnaceObservationEventName(e.target.value));
-              }}
-            />
-          </Box>
-
-          <DatePicker
-            className="my-3 p-3"
-            placeholder="تاريخ شروع"
-            style={{ width: "100%" }} // You can adjust the width according to your UI
-            onChange={(e) => {
-              dispatch(RsetFurnaceObservationDateOfStart(e.$d));
-            }}
-          />
-
-          <Box>
-            <DatePicker
-              className="my-3 p-3"
-              placeholder="تاريخ پايان"
-              style={{ width: "100%" }} // You can adjust the width according to your UI
-              onChange={(e) => {
-                dispatch(RsetFurnaceObservationDateOfEnd(e.$d));
-              }}
-            />
-          </Box>
-          <Box>
-            <InputLabel
-              className="fw-bold fs-5"
-              id="demo-simple-select-standard-label"
-            >
-              نوع رویداد
-            </InputLabel>
-            <Select
-              className="w-100  "
-              labelId="demo-simple-select-filled-label"
-              id="demo-simple-select-filled"
-              label={"نوع رويداد"}
-              onChange={(e) => {
-                dispatch(RsetFurnaceObservationTypeOfEvent(e.target.value));
-              }}
-            >
-              {enetrydata &&
-                enetrydata.map((item, index) => (
-                  <MenuItem className="text-center w-100 m-auto" key={index}>
-                    {item}
-                  </MenuItem>
-                ))}
-            </Select>
-            <TextField
-              className="w-100 my-3 text-center h-50 p-2 "
-              id="outlined-multiline-static"
-              label="توضيحات"
-              multiline
-              rows={4}
-              variant="outlined"
-              onChange={(e) => {
-                dispatch(RsetFurnaceObservationDescriptionP(e.target.value));
-              }}
-            />
-          </Box>
-        </form>
-      </Modal>
-    </ConfigProvider>
+                نوع رویداد
+              </InputLabel>
+              <Select
+                className="w-100  "
+                labelId="demo-simple-select-filled-label"
+                id="demo-simple-select-filled"
+                label={"نوع رويداد"}
+                onChange={(e) => {
+                  dispatch(RsetFurnaceObservationTypeOfEvent(e.target.value));
+                }}
+              >
+                {enetrydata &&
+                  enetrydata.map((item, index) => (
+                    <MenuItem
+                      className="text-center w-100 m-auto"
+                      key={index}
+                      value={item}
+                    >
+                      {item}
+                    </MenuItem>
+                  ))}
+              </Select>
+            </Box>
+            <Box>
+              <TextField
+                className="w-100 my-3 text-center h-50 p-2  "
+                id="outlined-multiline-static"
+                label="توضيحات"
+                multiline
+                rows={4}
+                variant="outlined"
+                onChange={(e) => {
+                  dispatch(RsetFurnaceObservationDescriptionP(e.target.value));
+                }}
+              />
+            </Box>
+          </form>
+        </Modal>
+      </ConfigProvider>
+    </>
   );
 };
 

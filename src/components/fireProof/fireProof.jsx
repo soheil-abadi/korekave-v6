@@ -82,21 +82,6 @@ const data = [
 ];
 
 const FireProof = () => {
-  const showDeleteConfirm = () => {
-    confirm({
-      title: "آيا از پاك كردن اين قسمت مطمعن هستيد؟",
-      icon: <WarningOutlined className="fs-4" />,
-      okText: "بله",
-      okType: "danger",
-      cancelText: "خير",
-      onOk() {
-        console.log("OK");
-      },
-      onCancel() {
-        console.log("Cancel");
-      },
-    });
-  };
   // ----------------------------------
   const dispatch = useDispatch();
   //table state
@@ -360,10 +345,10 @@ const FireProof = () => {
       width: 100,
     },
     {
-      key: "h",
+      key: "h_size",
       title: " h",
-      dataIndex: "h",
-      sorter: (a, b) => a.h - b.h, // Sorts numbers from lower to higher
+      dataIndex: "h_size",
+      sorter: (a, b) => a.h_size - b.h_size, // Sorts numbers from lower to higher
       ...getColumnSearchProps("b", "جستجو..."),
       render: (text) => (text == "NULL" ? " " : text),
 

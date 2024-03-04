@@ -27,6 +27,7 @@ import {
   selectessentialGoodssort,
   selectessentialGoodstype,
   selectessentialGoodsfirmorigin,
+  editessentialgood,
 } from "../../../slices/essentialGoodsSlices";
 import { editessentialgoods } from "../../../services/authServices";
 
@@ -98,33 +99,17 @@ const EssentialGoodsEdditModal = () => {
 
     dispatch(RsetessentialGoodstype(essentialGoodsCurrentUser.type_name));
   }, [essentialGoodsCurrentUser]);
-  const handleModalEdit = async () => {
-    try {
-      // Dispatch an action to set loading state or any indication that the request is in progress
-      // For example: dispatch(setLoading(true));
-
-      // Make the API call to add the user
-      await editessentialgoods({
-        category: essentialGoodssort,
-        manufacturing_country: essentialGoodscountryoforigin,
-        manufacturer: essentialGoodsfirmorigin,
-        type: essentialGoodstype,
-      });
-      window.location.reload();
-
-      // Dispatch any actions necessary to handle the success scenario
-      // For example: dispatch(addUserSuccess(newUser));
-
-      // Dispatch an action to reset any form state or close the modal
-      // For example: dispatch(resetForm());
-
-      // Close the modal
-      dispatch(RsetessentialGoodsEditModal(false));
-    } catch (error) {
-      // Handle errors, you can dispatch actions to handle error state or show error messages
-      console.error("Error adding user:", error);
-      // For example: dispatch(addUserFailure(error));
-    }
+  const handleModalEdit = () => {
+    const data = {
+      category: essentialGoodssort,
+      manufacturing_country: essentialGoodscountryoforigin,
+      manufacturer: essentialGoodsfirmorigin,
+      type_name: essentialGoodstype,
+    };
+    dispatch(
+      editessentialgood({ data: data, id: essentialGoodsCurrentUser._id })
+    );
+    dispatch(RsetessentialGoodsEditModal(false));
   };
 
   return (

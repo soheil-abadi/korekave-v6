@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { errorMessage, successMessage } from "../utils/toast";
 import { getFactoryManagmentData } from "../services/authServices";
+import Swal from "sweetalert2";
 
 const initialState = {
   FactoryManagmentList: [],
@@ -127,10 +128,16 @@ export const fetchdata = createAsyncThunk(
       if (FactoryManagmentData.status === 200) {
         dispatch(RsetFactoryManagmentList(FactoryManagmentData.data.data));
       } else {
-        errorMessage("عدم دريافت اطلاعات");
+        Swal.fire({
+          icon: "error",
+          title: "   عدم دريافت اطلاعات  ",
+        });
       }
-    } catch (ex) {
-      console.log(ex);
+    } catch {
+      Swal.fire({
+        icon: "error",
+        title: "   عدم دريافت اطلاعات  ",
+      });
     }
   }
 );

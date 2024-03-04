@@ -116,8 +116,6 @@ const FurnaceDistribute = () => {
   );
   const UserManagmentList = useSelector(selectUserManagmentList);
 
-  console.log(FurnaceDistributeAddmodal);
-
   // ---------------------------------------------------------------
 
   // ---------------------------delete handle
@@ -125,27 +123,6 @@ const FurnaceDistribute = () => {
   const handleAddUserModalOpen = () => {
     dispatch(RsetFurnaceDistributeAddmodal(true));
   };
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const userlistdata = await getUserList();
-  //       dispatch(RsetUserManagmentList(userlistdata.data));
-  //     } catch (error) {
-  //       console.error("Error fetching user list:", error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []);
-
-  //table search
-  // useEffect(async() => {
-  //   const mdata=await  getUserList();
-  //   console.log(mdata,"this is data ")
-  //   // dispatch(getAllOrdersOfAdmin());
-
-  // }, []);
 
   const getColumnSearchProps = (dataIndex, placeholder) => ({
     filterDropdown: ({
@@ -358,41 +335,7 @@ const FurnaceDistribute = () => {
             <div dir="rtl" className="position-relative">
               {!loading ? (
                 <Fragment>
-                  <ConfigProvider
-                    locale={faIR}
-                    // theme={{
-                    //   token: {
-                    //     // Seed Token
-                    //     // colorPrimary: "#00b96b",
-                    //     // Alias Token
-                    //     colorBgContainer: `${!darkMode ? "#303030" : "#fff"}`,
-                    //     colorText: "white",
-                    //     colorTextPlaceholder: `${
-                    //       !darkMode ? "white" : "black"
-                    //     }`,
-                    //     // borderColor: "#000",
-                    //   },
-                    //   components: {
-                    //     Table: {
-                    //       colorBgContainer: ` ${
-                    //         !darkMode ? "#222a38" : "#e3e3e3"
-                    //       }`,
-                    //       borderColor: "#000",
-                    //       rowHoverBg: `${!darkMode ? "black" : "#ccc"}`,
-                    //       colorText: `${!darkMode ? "white" : "black"}`,
-                    //       headerBg: `${!darkMode ? "#1c283d" : "gray"}`,
-                    //       headerSortHoverBg: `${
-                    //         !darkMode ? "#000" : "#888a89"
-                    //       }`,
-                    //       headerSortActiveBg: `${
-                    //         !darkMode ? "#000" : "#888a89"
-                    //       }`,
-                    //       // headerFilterHoverIcon: "#fff",
-                    //       // headerFilterIcon: "#fff",
-                    //     },
-                    //   },
-                    // }}
-                  >
+                  <ConfigProvider locale={faIR}>
                     <Table
                       locale={{
                         emptyText: <Empty description="اطلاعات موجود نیست!" />,

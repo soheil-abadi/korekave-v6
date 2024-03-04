@@ -16,160 +16,87 @@ import {
 } from "@mui/material";
 import {
   RsetFurnaceObservationaddrowmodal,
+  RsetFurnaceObservationmaterial,
   RsetFurnaceObservationsection,
+  RsetFurnaceObservationtotaltonnage,
+  addrows,
+  fetchMaterialFurnaceSection,
+  fetchMaterialFurnacematerial,
   selectFurnaceObservationAddDimentionModal,
   selectFurnaceObservationaddrowmodal,
+  selectFurnaceObservationmaterial,
+  selectFurnaceObservationsection,
+  selectFurnaceObservationtotaltonnage,
 } from "../../../../slices/FurnaceObservationSlices";
+import {
+  fetchfurancepart,
+  selectFurnaceDistributeList,
+} from "../../../../slices/FurnaceDistribute";
+import {
+  fetchessentialgoodlist,
+  selectessentialGoodsList,
+} from "../../../../slices/essentialGoodsSlices";
+import { useLocation } from "react-router-dom";
+import { getIdFromUrl } from "../ObservingFurnaces";
+import { addrow } from "../../../../services/authServices";
+import Swal from "sweetalert2";
 
 const ObservingfurnacesModalAddRow = () => {
-  const materialdata = [
-    "ديوار ريژ نراتور ",
-    " رايدر آرچ",
-    "  سقف ريژنراتور",
-    "  پورت ها",
-    "  ديواره پرت ها",
-    "  سقف پورت ها",
-    "  كف پورت ها",
-    "  داك هوس",
-    "  تارگت وال",
-    "  فرانت وال",
-    "  سياد وال",
-    "  سقف كوره",
-    "  وركينگ اند",
-    "  ديواره وركينگ",
-    "  سقف وركينگ ",
-    "  ديواره شات آف",
-    "  وركينگ بلور",
-    "  لايه اول كف",
-    "  لايه دوم كف",
-    "  لايه سوم كف",
-    "  لايه چهارم كف ",
-    "  كانال فورهارث",
-    "  فيدر ",
-    "  گلوگاه",
-    "  دودكش",
-    "  آجر هاي زنبوري لايه اول",
-    "  آجر هاي زنبوري لايه دوم",
-    "  آجر هاي زنبوري لايه سوم",
-    "  فلوداكت",
-  ];
-
-  const totaltonagedata = [
-    " نسوز-آجر: مگنسايت  ",
-    " نسوز-آجر: مگنسايت - نسوز پارس  ",
-    "   نسوز-ملات: شاموت",
-    "   نسوز-ملات: سيليمانيت",
-    "   نسوز-ملات: مگنسايت",
-    "   نسوز-ملات: سيليس",
-    "   نسوز - جرم : آلوميا 60",
-    "   نسوز - جرم : آلوميا 70",
-    "   نسوز - جرم : آلوميا 80",
-    "   نسوز - جرم : آلوميا 95",
-    "   نسوز - جرم : آلوميا 97",
-    "   نسوز - جرم : شاموت ",
-    " نسوز-آجر: مگنسايت - دير گداز ايران ",
-    " نسوز-آجر: مگنسايت - RHI  ",
-    "   نسوز - جرم : سيليس ",
-    "   نسوز - جرم : سيليس - PD.REFRACTORY ",
-    "   نسوز - جرم : زيركون -ايران آيمدي",
-    "   نسوز - جرم : زيركون - PD.REFRACTORY ",
-    "   نسوز - جرم : زيركون - ايران آيمدي",
-    "   نسوز - جرم: ERSOL 50",
-    "    نسوز - جرم: ERSOL 06 - VIDARNA ",
-    "   نسوز - جرم: Fondit K 0-3 - REFEL",
-    "  نسوز - جرم: ERGAL ",
-    "  نسوز - جرم: ERSOL 50 - VIDARNA",
-    "  نسوز - جرم: ERSOL 06 - VIDARNA",
-    "  آجر هاي زنبوري لايه اول",
-    "  آجر هاي زنبوري لايه دوم",
-    "  آجر هاي زنبوري لايه سوم",
-    "  نسوز - آجر: شاموت",
-    "  نسوز - آجر: سیلیسی",
-    "  نسوز - آجر: زاک",
-    "  نسوز - آجر: مولایت",
-    "  نسوز - آجر: ژارگال",
-    "  نسوز - آجر: سیلیمانیت",
-    "  نسوز - آجر: ایزوله سیلیسی",
-    "  نسوز - آجر: Alumina Silica - Ruitai",
-    "  نسوز - آجر: زاک - رفل",
-    "  نسوز - آجر: ایزوله - آمل کربوراندوم",
-    "  نسوز - آجر: زیرکن",
-
-    "  نسوز - آجر: زاک",
-    "  نسوز - آجر: شاموت",
-    "  نسوز - جرم: ایرفکست",
-    "  نسوز - آجر: ایزوله شاموت",
-    "  نسوز - آجر: Fused Silica",
-    "  نسوز - آجر: High Alumina",
-
-    "  نسوز - آجر: SILICA INS",
-    "  نسوز - ملات: سیلیسی",
-    "  نسوز - آجر: زیرکن مولایت",
-    "  نسوز - آجر: RUBINAL EZ  TG",
-    "  نسوز - آجر: ANKER  DG1  TG",
-    "  نسوز - آجر: DURITAL  K99EX TG",
-    "  نسوز - آجر: ANKER  DG3  TG",
-    "  نسوز - آجر: ANKER  DG1  TL",
-    "  نسوز - آجر: SIPOREX",
-    "  نسوز - فیبر: ایزوله",
-    "  نسوز - آجر: Alpha-Beta  Alumina",
-    "  نسوز - آجر: Alumina-Zirconia-Silica",
-  ];
-
+  const location = useLocation();
+  const id = getIdFromUrl(location.pathname);
   const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchfurancepart());
+    dispatch(fetchessentialgoodlist());
+  }, [dispatch]);
 
   // -----------------------------handeling modal selectors
   const FurnaceObservationaddrowmodal = useSelector(
     selectFurnaceObservationaddrowmodal
   );
+  const essentialGoodsList = useSelector(selectessentialGoodsList);
+  const FurnaceDistributeList = useSelector(selectFurnaceDistributeList);
+  const FurnaceObservationsection = useSelector(
+    selectFurnaceObservationsection
+  );
+  const FurnaceObservationtotaltonnage = useSelector(
+    selectFurnaceObservationtotaltonnage
+  );
 
-  //   const UserManagmentLastName = useSelector(selectUserManagmentLastName);
-  //   const userManagmentAccess = useSelector(selectuserManagmentAccess);
-  //   const userManagmentAddmodal = useSelector(selectuserManagmentAddmodal);
-  //   const userManagmentCurrentUser = useSelector(selectUserManagmentCurrentUser);
-  //   const UserManagmentPassword = useSelector(selectUserManagmentPassword);
-  //   const UserManagmentUserName = useSelector(selectUserManagmentUserName);
+  const FurnaceObservationmaterial = useSelector(
+    selectFurnaceObservationmaterial
+  );
 
-  // -----------------------------------------------
+  const handleaddrow = () => {
+    const data = {
+      furnace_oid: id,
+      furnace_part_oid: FurnaceObservationsection,
+      weight: FurnaceObservationtotaltonnage,
+      material_oid: FurnaceObservationmaterial,
+    };
+    if (
+      FurnaceObservationsection &&
+      FurnaceObservationtotaltonnage &&
+      FurnaceObservationmaterial
+    ) {
+      dispatch(addrows({ item: data, furnaceId: id }));
+      dispatch(RsetFurnaceObservationtotaltonnage(""));
+      dispatch(RsetFurnaceObservationmaterial(""));
+      dispatch(RsetFurnaceObservationsection(""));
 
-  // -----------------------------------------------------
-
-  // Define all possible access options
-
-  //   console.log(userManagmentAccess);
-
-  //   const handleAccessChange = (accessItemId) => {
-  //     if (userManagmentAccess.some((item) => item._id === accessItemId)) {
-  //       console.log(accessItemId);
-  //       dispatch(
-  //         RsetUserManagmentAccess(
-  //           userManagmentAccess.filter((item) => item._id !== accessItemId)
-  //         )
-  //       );
-  //     } else {
-  //       const updatedAccess = [
-  //         ...userManagmentAccess,
-  //         allAccessOptions.find((item) => item._id === accessItemId),
-  //       ];
-  //       dispatch(RsetUserManagmentAccess(updatedAccess));
-  //     }
-  //   };
+      dispatch(RsetFurnaceObservationaddrowmodal(false));
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "خالي بودن مقادير",
+        text: "عكس يا شرح عكسي براي اين رويداد انتخاب نشده است",
+      });
+    }
+  };
 
   const handleModalCancel = () => {
     dispatch(RsetFurnaceObservationaddrowmodal(false));
   };
-
-  //   const handleModalEdit = () => {
-  //     const adduserdata = {
-  //       first_name: UserManagmentFirstName,
-  //       last_name: UserManagmentLastName,
-  //       user_access: userManagmentAccess,
-  //       password: UserManagmentPassword,
-  //       username: UserManagmentUserName,
-  //     };
-  //     dispatch(addusers(adduserdata));
-  //     dispatch(RsetuserManagmentAddmodal(false));
-  //   };
 
   const modalStyles = {
     header: {
@@ -196,7 +123,7 @@ const ObservingfurnacesModalAddRow = () => {
   return (
     <ConfigProvider direction="rtl" locale={fa_IR}>
       <Modal
-        title={` اضافه كردن كاربر `}
+        title={` اضافه كردن رديف   `}
         open={FurnaceObservationaddrowmodal}
         styles={modalStyles}
         closable={false}
@@ -218,7 +145,7 @@ const ObservingfurnacesModalAddRow = () => {
                 type="primary"
                 color="primary"
                 size="large"
-                // onClick={() => handleَAddEvent()}
+                onClick={() => handleaddrow()}
               >
                 اضافه كردن رديف
               </Button>
@@ -228,14 +155,14 @@ const ObservingfurnacesModalAddRow = () => {
       >
         <form>
           <Box>
-            <InputLabel className="fw-bold fs-5">نام</InputLabel>
+            <InputLabel className="fw-bold fs-5">مجموع تناژ</InputLabel>
             <TextField
               variant="outlined"
               fullWidth
               margin="normal"
-              //   onChange={(e) =>
-              //     dispatch(RsetUserManagmentFirstName(e.target.value))
-              //   }
+              onChange={(e) =>
+                dispatch(RsetFurnaceObservationtotaltonnage(e.target.value))
+              }
             />
           </Box>
           <FormControl fullWidth className=" my-3 ">
@@ -250,20 +177,19 @@ const ObservingfurnacesModalAddRow = () => {
               labelId="demo-simple-select-filled-label"
               id="demo-simple-select-filled"
               label={" متريال"}
-              value={"پرت ها"}
               onChange={(e) =>
-                dispatch(RsetFurnaceObservationsection(e.target.value))
+                dispatch(RsetFurnaceObservationmaterial(e.target.value))
               }
             >
-              {materialdata &&
-                materialdata.map((item, index) => (
+              {essentialGoodsList &&
+                essentialGoodsList.map((item, index) => (
                   <MenuItem
                     dir="rtl"
                     className="text-center w-100 m-auto  "
-                    key={index}
-                    value={item}
+                    key={item.id}
+                    value={item._id}
                   >
-                    {item}
+                    {item.type_name}
                   </MenuItem>
                 ))}
             </Select>
@@ -273,27 +199,26 @@ const ObservingfurnacesModalAddRow = () => {
               className="fw-bold fs-5  text-center"
               id="demo-simple-select-standard-label"
             >
-              مجموع تناژ
+              بخش
             </InputLabel>
             <Select
               className="w-100  "
               labelId="demo-simple-select-filled-label"
               id="demo-simple-select-filled"
-              label={" مجموع تناژ"}
-              value={"پرت ها"}
+              label={"بخش"}
               onChange={(e) =>
                 dispatch(RsetFurnaceObservationsection(e.target.value))
               }
             >
-              {totaltonagedata &&
-                totaltonagedata.map((item, index) => (
+              {FurnaceDistributeList &&
+                FurnaceDistributeList.map((item, index) => (
                   <MenuItem
                     dir="rtl"
                     className="text-center w-100 m-auto  "
-                    key={index}
-                    value={item}
+                    key={item.id}
+                    value={item._id}
                   >
-                    {item}
+                    {item.name}
                   </MenuItem>
                 ))}
             </Select>

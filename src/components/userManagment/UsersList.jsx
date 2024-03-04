@@ -92,10 +92,10 @@ const UsersList = () => {
   //select
   const loading = useSelector(selectLoading);
   const userManagmentEditModal = useSelector(selectUserManagmentEditModal);
-  const userManagmentDeleteModal = useSelector(selectuserManagmentDeleteModal);
-  const userManagmentCurrentUser = useSelector(selectUserManagmentCurrentUser);
+
   const userManagmentAddmodal = useSelector(selectuserManagmentAddmodal);
   const UserManagmentList = useSelector(selectUserManagmentList);
+  console.log(UserManagmentList);
 
   // console.log(userManagmentDeleteModal, userManagmentEditModal);
 
@@ -111,7 +111,6 @@ const UsersList = () => {
         ))}
       </div>
     );
-    console.log(record);
   };
 
   const handleAddUserModalOpen = () => {
@@ -121,14 +120,6 @@ const UsersList = () => {
   useEffect(() => {
     dispatch(fetchUserList());
   }, [dispatch]);
-
-  //table search
-  // useEffect(async() => {
-  //   const mdata=await  getUserList();
-  //   console.log(mdata,"this is data ")
-  //   // dispatch(getAllOrdersOfAdmin());
-
-  // }, []);
 
   const getColumnSearchProps = (dataIndex, placeholder) => ({
     filterDropdown: ({
@@ -290,39 +281,7 @@ const UsersList = () => {
       render: (_, record) => <span>{handleaccess(record)}</span>,
       width: 50,
     },
-    // {
-    //   key: "user_access",
-    //   title: "دسترسی",
-    //   dataIndex: "first_name",
-    //   // render: (_, record) => <span>shayan</span>,
-    //   sorter: (a, b) =>
-    //     a.user_access.join().localeCompare(b.user_access.join()),
-    //   ...getColumnSearchProps("user_access", "جستجو..."),
-    //   width: 200,
-    // },
-    // {
-    //   key: "devices",
-    //   title: "تعداد وسیله نقلیه",
-    //   dataIndex: "devices",
-    //   sorter: (a, b) => {
-    //     if (!a.driverName && !b.driverName) {
-    //       return 0;
-    //     }
 
-    //     if (!a.driverName) {
-    //       return 1;
-    //     }
-
-    //     if (!b.driverName) {
-    //       return -1;
-    //     }
-
-    //     return a.devices?.length.localeCompare(b.devices?.length);
-    //   },
-    //   render: (devices) => devices?.length,
-    //   ...getColumnSearchProps("devices", "جستجو..."),
-    //   width: 200,
-    // },
     {
       key: "operation",
       title: "عملیات",
@@ -371,12 +330,11 @@ const UsersList = () => {
           title="آيا از حذف اين سطر مطمعن هستيد"
           className="btn btn-danger d-flex align-items-center  mb-2 mb-md-2"
           size="sm"
-          okText={<span>تایید</span>} // Change the color of "تایید"
+          okText={<span>تایید</span>}
           cancelText={<span>انصراف</span>}
           active
           onConfirm={() => handleDelete(request._id)}
         >
-          {console.log(userManagmentCurrentUser)}
           <span>حذف</span>
           <DeleteForeverIcon />
         </Popconfirm>
@@ -414,41 +372,7 @@ const UsersList = () => {
             <div dir="rtl" className="position-relative">
               {!loading ? (
                 <Fragment>
-                  <ConfigProvider
-                    locale={faIR}
-                    // theme={{
-                    //   token: {
-                    //     // Seed Token
-                    //     // colorPrimary: "#00b96b",
-                    //     // Alias Token
-                    //     colorBgContainer: `${!darkMode ? "#303030" : "#fff"}`,
-                    //     colorText: "white",
-                    //     colorTextPlaceholder: `${
-                    //       !darkMode ? "white" : "black"
-                    //     }`,
-                    //     // borderColor: "#000",
-                    //   },
-                    //   components: {
-                    //     Table: {
-                    //       colorBgContainer: ` ${
-                    //         !darkMode ? "#222a38" : "#e3e3e3"
-                    //       }`,
-                    //       borderColor: "#000",
-                    //       rowHoverBg: `${!darkMode ? "black" : "#ccc"}`,
-                    //       colorText: `${!darkMode ? "white" : "black"}`,
-                    //       headerBg: `${!darkMode ? "#1c283d" : "gray"}`,
-                    //       headerSortHoverBg: `${
-                    //         !darkMode ? "#000" : "#888a89"
-                    //       }`,
-                    //       headerSortActiveBg: `${
-                    //         !darkMode ? "#000" : "#888a89"
-                    //       }`,
-                    //       // headerFilterHoverIcon: "#fff",
-                    //       // headerFilterIcon: "#fff",
-                    //     },
-                    //   },
-                    // }}
-                  >
+                  <ConfigProvider locale={faIR}>
                     <Table
                       locale={{
                         emptyText: <Empty description="اطلاعات موجود نیست!" />,

@@ -1,6 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { errorMessage, successMessage } from "../utils/toast";
-import { getFurancePart } from "../services/authServices";
+import {
+  addfurnacepart,
+  editfurnacepart,
+  getFurancePart,
+} from "../services/authServices";
+import Swal from "sweetalert2";
 
 const initialState = {
   FurnaceDistributeList: [],
@@ -102,19 +107,71 @@ export default FurnaceDistributeSlices.reducer;
 
 // -----------------------------------------------firancepart
 export const fetchfurancepart = createAsyncThunk(
-  "userManagement/fetchdata",
+  "FurnaceDistribute/fetchdata",
 
   async (obj, { dispatch }) => {
     try {
-      const FactoryManagmentData = await getFurancePart();
-      console.log(FactoryManagmentData);
-      if (FactoryManagmentData.status === 200) {
-        dispatch(RsetFurnaceDistributeList(FactoryManagmentData.data.data));
+      const furnacePartGetData = await getFurancePart();
+      console.log(furnacePartGetData);
+      if (furnacePartGetData.status === 200) {
+        dispatch(RsetFurnaceDistributeList(furnacePartGetData.data.data));
       } else {
-        errorMessage("عدم دريافت اطلاعات");
+        Swal.fire({
+          icon: "error",
+          title: "   عدم دريافت اطلاعات  ",
+        });
       }
-    } catch (ex) {
-      console.log(ex);
+    } catch {
+      Swal.fire({
+        icon: "error",
+        title: "   عدم دريافت اطلاعات  ",
+      });
+    }
+  }
+);
+
+export const editfurnaceparts = createAsyncThunk(
+  "FurnaceDistribute/editfurnaceparts",
+
+  async ({ data, id }, { dispatch }) => {
+    try {
+      const furancesaddevent = await editfurnacepart(data, id);
+      if (furancesaddevent.status === 200) {
+        dispatch(fetchfurancepart());
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "  اطلاعاتي يافت نشد ",
+        });
+      }
+    } catch {
+      Swal.fire({
+        icon: "error",
+        title: "   عدم دريافت اطلاعات  ",
+      });
+    }
+  }
+);
+
+export const addfurnaceparts = createAsyncThunk(
+  "FurnaceDistribute/addfurnaceparts",
+
+  async ({ data }, { dispatch }) => {
+    try {
+      const furancesaddevent = await addfurnacepart(data);
+      if (furancesaddevent.status === 200) {
+        dispatch(fetchfurancepart());
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "  اطلاعاتي يافت نشد ",
+        });
+      }
+    } catch {
+      Swal.fire({
+        icon: "error",
+        title: "   عدم دريافت اطلاعات  ",
+      });
     }
   }
 );

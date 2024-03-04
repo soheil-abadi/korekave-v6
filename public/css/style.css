@@ -10,7 +10,7 @@
 }
 
 body * {
-  font-family: iranSans;
+  font-family: iranSans !important;
   font-size: 14px;
   -webkit-print-color-adjust: exact !important;
   /* Chrome, Safari 6 – 15.3, Edge */
@@ -35,6 +35,11 @@ body * {
 .cards {
   transition: 0.5s;
   cursor: pointer;
+  background-image: linear-gradient(
+    to left,
+    rgba(238, 238, 238, 0.582),
+    rgb(199, 196, 191)
+  );
 }
 
 .cards:hover {
@@ -59,3 +64,27 @@ body * {
 .ant-tabs-tab {
   margin-left: 20px;
 } /* Adjust the margin value as needed */
+
+.input-picker {
+  margin: 20px 0px !important;
+}
+
+.input-picker > input {
+  padding: 30px 10px !important;
+  color: lightgray;
+}
+
+.td {
+  font-size: 100px !important;
+  font-weight: 700 !important;
+}
+
+.ant-tabs-tab {
+  font-weight: bold;
+}
+.ant-tabs-tab-btn {
+  font-size: 15px !important;
+  background-color: lightgray;
+  border-radius: 20px;
+  padding: 10px;
+}

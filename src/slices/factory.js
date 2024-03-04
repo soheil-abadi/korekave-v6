@@ -1,10 +1,17 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { errorMessage, successMessage } from "../utils/toast";
-import { dashboardget, editfurnace } from "../services/authServices";
+import {
+  addfurnace,
+  dashboardget,
+  editfurnace,
+} from "../services/authServices";
+import { dashboardgetfurances } from "./Dashboard";
+import Swal from "sweetalert2";
 
 const initialState = {
   factorysList: [],
   factoryEditModal: false,
+  factoryAddModal: false,
   factorysname: "",
   factorytype: "",
   factorycapicity: "",
@@ -54,6 +61,9 @@ const factorySlices = createSlice({
     RsetfactoryEditModal: (state, { payload }) => {
       return { ...state, factoryEditModal: payload };
     },
+    RsetfactoryAddModal: (state, { payload }) => {
+      return { ...state, factoryAddModal: payload };
+    },
     Rsetfactorysname: (state, { payload }) => {
       return { ...state, factorysname: payload };
     },
@@ -92,10 +102,13 @@ export const {
   Rsetcanals,
   RsetenteryType,
   Rsetsurfaceofmaterial,
+  RsetfactoryAddModal,
 } = factorySlices.actions;
 
 export const selectFactory = (state) => state.Factory.factorysList;
 export const selectFactoryEditModal = (state) => state.Factory.factoryEditModal;
+export const selectfactoryAddModal = (state) => state.Factory.factoryAddModal;
+
 export const selectfactorysname = (state) => state.Factory.factorysname;
 
 export const selectfactorytype = (state) => state.Factory.factorytype;
@@ -111,13 +124,47 @@ export const selectenteryType = (state) => state.Factory.enteryType;
 export default factorySlices.reducer;
 
 export const editfurnaces = createAsyncThunk(
-  "userManagement/editusers",
+  "factory/editfurnaces",
 
-  async (token, value, { dispatch }) => {
+  async ({ data, id }, { dispatch }) => {
     try {
-      const editusers = await editfurnace(token, value);
+      const editfurnaces = await editfurnace(id, data);
+      if (editfurnaces.status !== undefined) {
+        dispatch(dashboardgetfurances(id));
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "   عدم دريافت اطلاعات  ",
+        });
+      }
     } catch (ex) {
-      console.log("عدم دريافت اطلاعات");
+      Swal.fire({
+        icon: "error",
+        title: "   عدم دريافت اطلاعات  ",
+      });
+    }
+  }
+);
+
+export const addfurnaces = createAsyncThunk(
+  "factory/addfurnaces",
+
+  async ({ data, id }, { dispatch }) => {
+    try {
+      const postfurance = await addfurnace(data);
+      if (postfurance.status === 200) {
+        dispatch(dashboardgetfurances(id));
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "   عدم دريافت اطلاعات  ",
+        });
+      }
+    } catch (ex) {
+      Swal.fire({
+        icon: "error",
+        title: "   عدم دريافت اطلاعات  ",
+      });
     }
   }
 );

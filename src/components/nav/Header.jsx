@@ -60,12 +60,16 @@ const Header = () => {
   const user = useSelector(selectuser);
   const userInfo = user.user;
 
+  console.log(user);
+
   useEffect(() => {
-    console.log(userInfo);
     if (userInfo === undefined) {
       dispatch(handleUsetInfo());
+      console.log(user);
     }
   }, [userInfo]);
+
+  console.log(userInfo);
 
   const handleStatesFalse = () => {
     setDeviceDrop(false);

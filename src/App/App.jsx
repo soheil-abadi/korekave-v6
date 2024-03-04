@@ -5,7 +5,7 @@ import { StyledEngineProvider } from "@mui/material";
 import AppRoutes from "./AppRoute";
 import { Provider } from "react-redux";
 import { store } from "../store/store";
-
+import "react-calendar-datetime-picker/dist/style.css";
 const App = () => {
   return (
     <div dir="rtl">

@@ -16,165 +16,82 @@ import {
 } from "@mui/material";
 import {
   RsetFurnaceObservationAddDimentionModal,
+  RsetFurnaceObservationFireProofModel,
   RsetFurnaceObservationaddrowmodal,
   RsetFurnaceObservationsection,
+  RsetFurnaceObservationtotalNumber,
+  adddimentions,
+  selectFurnaceObservatioFireProofModel,
   selectFurnaceObservationAddDimentionModal,
+  selectFurnaceObservationNumber,
   selectFurnaceObservationaddrowmodal,
+  selectFurnaceObservationcurrentmaterial,
 } from "../../../../slices/FurnaceObservationSlices";
+import {
+  fetchfireprooflistList,
+  selectfireProofList,
+} from "../../../../slices/fireProofSlices";
+import { useLocation } from "react-router-dom";
+import { adddimention } from "../../../../services/authServices";
+import { getIdFromUrl } from "../ObservingFurnaces";
+import { getsinglefurance } from "../../../../slices/Dashboard";
+import Swal from "sweetalert2";
 
 const ObservingfurnacesModalAddDimension = () => {
+  const location = useLocation();
+  const id = getIdFromUrl(location.pathname);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchfireprooflistList());
+  }, [dispatch]);
+
   const FurnaceObservationAddDimentionModal = useSelector(
     selectFurnaceObservationAddDimentionModal
   );
-  console.log(FurnaceObservationAddDimentionModal);
-  const materialdata = [
-    "ديوار ريژ نراتور ",
-    " رايدر آرچ",
-    "  سقف ريژنراتور",
-    "  پورت ها",
-    "  ديواره پرت ها",
-    "  سقف پورت ها",
-    "  كف پورت ها",
-    "  داك هوس",
-    "  تارگت وال",
-    "  فرانت وال",
-    "  سياد وال",
-    "  سقف كوره",
-    "  وركينگ اند",
-    "  ديواره وركينگ",
-    "  سقف وركينگ ",
-    "  ديواره شات آف",
-    "  وركينگ بلور",
-    "  لايه اول كف",
-    "  لايه دوم كف",
-    "  لايه سوم كف",
-    "  لايه چهارم كف ",
-    "  كانال فورهارث",
-    "  فيدر ",
-    "  گلوگاه",
-    "  دودكش",
-    "  آجر هاي زنبوري لايه اول",
-    "  آجر هاي زنبوري لايه دوم",
-    "  آجر هاي زنبوري لايه سوم",
-    "  فلوداكت",
-  ];
 
-  const totaltonagedata = [
-    " نسوز-آجر: مگنسايت  ",
-    " نسوز-آجر: مگنسايت - نسوز پارس  ",
-    "   نسوز-ملات: شاموت",
-    "   نسوز-ملات: سيليمانيت",
-    "   نسوز-ملات: مگنسايت",
-    "   نسوز-ملات: سيليس",
-    "   نسوز - جرم : آلوميا 60",
-    "   نسوز - جرم : آلوميا 70",
-    "   نسوز - جرم : آلوميا 80",
-    "   نسوز - جرم : آلوميا 95",
-    "   نسوز - جرم : آلوميا 97",
-    "   نسوز - جرم : شاموت ",
-    " نسوز-آجر: مگنسايت - دير گداز ايران ",
-    " نسوز-آجر: مگنسايت - RHI  ",
-    "   نسوز - جرم : سيليس ",
-    "   نسوز - جرم : سيليس - PD.REFRACTORY ",
-    "   نسوز - جرم : زيركون -ايران آيمدي",
-    "   نسوز - جرم : زيركون - PD.REFRACTORY ",
-    "   نسوز - جرم : زيركون - ايران آيمدي",
-    "   نسوز - جرم: ERSOL 50",
-    "    نسوز - جرم: ERSOL 06 - VIDARNA ",
-    "   نسوز - جرم: Fondit K 0-3 - REFEL",
-    "  نسوز - جرم: ERGAL ",
-    "  نسوز - جرم: ERSOL 50 - VIDARNA",
-    "  نسوز - جرم: ERSOL 06 - VIDARNA",
-    "  آجر هاي زنبوري لايه اول",
-    "  آجر هاي زنبوري لايه دوم",
-    "  آجر هاي زنبوري لايه سوم",
-    "  نسوز - آجر: شاموت",
-    "  نسوز - آجر: سیلیسی",
-    "  نسوز - آجر: زاک",
-    "  نسوز - آجر: مولایت",
-    "  نسوز - آجر: ژارگال",
-    "  نسوز - آجر: سیلیمانیت",
-    "  نسوز - آجر: ایزوله سیلیسی",
-    "  نسوز - آجر: Alumina Silica - Ruitai",
-    "  نسوز - آجر: زاک - رفل",
-    "  نسوز - آجر: ایزوله - آمل کربوراندوم",
-    "  نسوز - آجر: زیرکن",
+  const fireprooflistuser = useSelector(selectfireProofList);
+  const FurnaceObservatioFireProofModel = useSelector(
+    selectFurnaceObservatioFireProofModel
+  );
+  const FurnaceObservationcurrentmaterial = useSelector(
+    selectFurnaceObservationcurrentmaterial
+  );
+  const FurnaceObservationNumber = useSelector(selectFurnaceObservationNumber);
 
-    "  نسوز - آجر: زاک",
-    "  نسوز - آجر: شاموت",
-    "  نسوز - جرم: ایرفکست",
-    "  نسوز - آجر: ایزوله شاموت",
-    "  نسوز - آجر: Fused Silica",
-    "  نسوز - آجر: High Alumina",
+  console.log(fireprooflistuser);
 
-    "  نسوز - آجر: SILICA INS",
-    "  نسوز - ملات: سیلیسی",
-    "  نسوز - آجر: زیرکن مولایت",
-    "  نسوز - آجر: RUBINAL EZ  TG",
-    "  نسوز - آجر: ANKER  DG1  TG",
-    "  نسوز - آجر: DURITAL  K99EX TG",
-    "  نسوز - آجر: ANKER  DG3  TG",
-    "  نسوز - آجر: ANKER  DG1  TL",
-    "  نسوز - آجر: SIPOREX",
-    "  نسوز - فیبر: ایزوله",
-    "  نسوز - آجر: Alpha-Beta  Alumina",
-    "  نسوز - آجر: Alumina-Zirconia-Silica",
-  ];
+  const handleَAddDimention = () => {
+    const data = {
+      furnace_material_oid: FurnaceObservationcurrentmaterial,
+      material_shape_oid: FurnaceObservatioFireProofModel,
+      number: FurnaceObservationNumber,
+    };
+    if (
+      FurnaceObservationcurrentmaterial &&
+      FurnaceObservatioFireProofModel &&
+      FurnaceObservationNumber
+    ) {
+      dispatch(adddimentions({ data: data, furnaceId: id }));
+      dispatch(RsetFurnaceObservationtotalNumber(""));
+      dispatch(RsetFurnaceObservationFireProofModel(""));
 
-  const dispatch = useDispatch();
-
-  // -----------------------------handeling modal selectors
-  //   const FurnaceObservationaddrowmodal = useSelector(
-  //     selectFurnaceObservationaddrowmodal
-  //   );
-
-  //   const UserManagmentLastName = useSelector(selectUserManagmentLastName);
-  //   const userManagmentAccess = useSelector(selectuserManagmentAccess);
-  //   const userManagmentAddmodal = useSelector(selectuserManagmentAddmodal);
-  //   const userManagmentCurrentUser = useSelector(selectUserManagmentCurrentUser);
-  //   const UserManagmentPassword = useSelector(selectUserManagmentPassword);
-  //   const UserManagmentUserName = useSelector(selectUserManagmentUserName);
+      dispatch(RsetFurnaceObservationAddDimentionModal(false));
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "  مقادير خالي",
+        text: " تمامي مقادير بايد پر شود        ",
+      });
+    }
+  };
 
   // -----------------------------------------------
 
   // -----------------------------------------------------
 
-  // Define all possible access options
-
-  //   console.log(userManagmentAccess);
-
-  //   const handleAccessChange = (accessItemId) => {
-  //     if (userManagmentAccess.some((item) => item._id === accessItemId)) {
-  //       console.log(accessItemId);
-  //       dispatch(
-  //         RsetUserManagmentAccess(
-  //           userManagmentAccess.filter((item) => item._id !== accessItemId)
-  //         )
-  //       );
-  //     } else {
-  //       const updatedAccess = [
-  //         ...userManagmentAccess,
-  //         allAccessOptions.find((item) => item._id === accessItemId),
-  //       ];
-  //       dispatch(RsetUserManagmentAccess(updatedAccess));
-  //     }
-  //   };
-
   const handleModalCancel = () => {
     dispatch(RsetFurnaceObservationAddDimentionModal(false));
   };
-
-  //   const handleModalEdit = () => {
-  //     const adduserdata = {
-  //       first_name: UserManagmentFirstName,
-  //       last_name: UserManagmentLastName,
-  //       user_access: userManagmentAccess,
-  //       password: UserManagmentPassword,
-  //       username: UserManagmentUserName,
-  //     };
-  //     dispatch(addusers(adduserdata));
-  //     dispatch(RsetuserManagmentAddmodal(false));
-  //   };
 
   const modalStyles = {
     header: {
@@ -201,7 +118,7 @@ const ObservingfurnacesModalAddDimension = () => {
   return (
     <ConfigProvider direction="rtl" locale={fa_IR}>
       <Modal
-        title={` اضافه كردن كاربر `}
+        title={` اضافه كردن ابعاد    `}
         open={FurnaceObservationAddDimentionModal}
         styles={modalStyles}
         closable={false}
@@ -223,7 +140,7 @@ const ObservingfurnacesModalAddDimension = () => {
                 type="primary"
                 color="primary"
                 size="large"
-                // onClick={() => handleَAddEvent()}
+                onClick={() => handleَAddDimention()}
               >
                 اضافه كردن رديف
               </Button>
@@ -238,9 +155,9 @@ const ObservingfurnacesModalAddDimension = () => {
               variant="outlined"
               fullWidth
               margin="normal"
-              //   onChange={(e) =>
-              //     dispatch(RsetUserManagmentFirstName(e.target.value))
-              //   }
+              onChange={(e) =>
+                dispatch(RsetFurnaceObservationtotalNumber(e.target.value))
+              }
             />
           </Box>
           <FormControl fullWidth className=" my-3 ">
@@ -255,20 +172,19 @@ const ObservingfurnacesModalAddDimension = () => {
               labelId="demo-simple-select-filled-label"
               id="demo-simple-select-filled"
               label={" مدل نسوز"}
-              value={"پرت ها"}
-              //   onChange={(e) =>
-              //     dispatch(RsetFurnaceObservationsection(e.target.value))
-              //   }
+              onChange={(e) =>
+                dispatch(RsetFurnaceObservationFireProofModel(e.target.value))
+              }
             >
-              {materialdata &&
-                materialdata.map((item, index) => (
+              {fireprooflistuser &&
+                fireprooflistuser.map((item) => (
                   <MenuItem
                     dir="rtl"
                     className="text-center w-100 m-auto  "
-                    key={index}
-                    value={item}
+                    key={item.id}
+                    value={item._id}
                   >
-                    {item}
+                    {item.shape_code}
                   </MenuItem>
                 ))}
             </Select>

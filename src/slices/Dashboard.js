@@ -11,6 +11,7 @@ import {
   redirect,
   unstable_HistoryRouter,
 } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const initialState = {
   DashboardList: [],
@@ -95,18 +96,20 @@ export const dashboardgetfurances = createAsyncThunk(
 
   async (value, { dispatch }) => {
     try {
-      console.log(value);
       const getfurances = await dashboardfurances(value);
-
-      console.log(getfurances);
-
       if (getfurances.status === 200) {
         dispatch(Rsetfurances(getfurances.data.data));
       } else {
-        errorMessage("عدم دريافت اطلاعات");
+        Swal.fire({
+          icon: "error",
+          title: "   عدم دريافت اطلاعات  ",
+        });
       }
-    } catch (ex) {
-      console.log(ex);
+    } catch {
+      Swal.fire({
+        icon: "error",
+        title: "   عدم دريافت اطلاعات  ",
+      });
     }
   }
 );
@@ -121,10 +124,16 @@ export const getsinglefurance = createAsyncThunk(
       if (getfurances.status === 200) {
         dispatch(Rsetsinglefurances(getfurances.data.list));
       } else {
-        errorMessage("عدم دريافت اطلاعات");
+        Swal.fire({
+          icon: "error",
+          title: "   عدم دريافت اطلاعات  ",
+        });
       }
     } catch (ex) {
-      console.log(ex);
+      Swal.fire({
+        icon: "error",
+        title: "   عدم دريافت اطلاعات  ",
+      });
     }
   }
 );

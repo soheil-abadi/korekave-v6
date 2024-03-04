@@ -18,6 +18,7 @@ import {
   RsetessentialGoodsCurrentUser,
   RsetessentialGoodsEditModal,
   RsetessentialGoodsList,
+  deleteessentialgood,
   fetchessentialgoodlist,
   selectessentialGoodsAddmodal,
   selectessentialGoodsCurrentUser,
@@ -308,7 +309,7 @@ const EssentialGoods = () => {
           okText={<span>تایید</span>} // Change the color of "تایید"
           cancelText={<span>انصراف</span>}
           active
-          // onConfirm={() => handleDelete(request._id)}
+          onConfirm={() => dispatch(deleteessentialgood(request._id))}
         >
           <span>حذف</span>
           <DeleteForeverIcon />
