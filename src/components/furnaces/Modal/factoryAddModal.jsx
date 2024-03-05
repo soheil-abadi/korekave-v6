@@ -44,7 +44,7 @@ const FactoryAddModal = () => {
   const location = useLocation();
   const id = getIdFromUrl(location.pathname);
   const dispatch = useDispatch();
-  const typedata = ["sideport", "endport"];
+  const typedata = ["side-port", "end-port"];
   const enetrydata = ["deepchanel", "working"];
   const factoryAddModal = useSelector(selectfactoryAddModal);
   const factorysname = useSelector(selectfactorysname);

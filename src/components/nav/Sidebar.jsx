@@ -126,7 +126,7 @@ const Sidebar = () => {
                       {" "}
                       <LocalFireDepartmentIcon />
                     </span>
-                    <span className="ms-3">لیست پخش کوره ها</span>
+                    <span className="ms-3">لیست بخش کوره ها</span>
                   </h3>
 
                   <h3

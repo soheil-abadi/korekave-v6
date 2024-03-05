@@ -216,3 +216,15 @@ export const adddimention = async (values) => {
     }
   );
 };
+// ---------------------------------------furnace dimention
+export const getnewdimention = async (data) => {
+  return await http.get(`${config.local}/api/v1/furnace-dimension/${data}`, {
+    timeout: 30000,
+  });
+};
+
+export const newadddimentions = async (data) => {
+  return await http.post(`${config.local}/api/v1/furnace-dimension/`, data, {
+    timeout: 30000,
+  });
+};

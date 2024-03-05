@@ -9,6 +9,7 @@ import {
   finalevent,
   getfiuranceaddrowmaterial,
   getfiuranceaddrowpart,
+  newadddimentions,
   uploadephoto,
 } from "../services/authServices";
 import { getsinglefurance } from "./Dashboard";
@@ -49,6 +50,17 @@ const initialState = {
   uploadPhotoModal: false,
   uploadPhotoDes: "",
   uploadPic: "",
+
+  // ----------------add new dimention
+  addDimentionModal: false,
+
+  DimentionData: { length: "", width: "", height: "" },
+
+  dimentionHight: "",
+  dimentionwidth: "",
+  dimentionLenght: "",
+
+  addEventModal: false,
 };
 
 // export const handleStaffLogin = createAsyncThunk(
@@ -174,6 +186,26 @@ const FurnaceObservationSlices = createSlice({
     RsetuploadPhotoCurrentRow: (state, { payload }) => {
       return { ...state, uploadPhotoCurrentRow: payload };
     },
+    // ---------------------------------------------add dimention
+
+    RsetaddDimentionModal: (state, { payload }) => {
+      return { ...state, addDimentionModal: payload };
+    },
+    RsetaddEventModal: (state, { payload }) => {
+      return { ...state, addEventModal: payload };
+    },
+    RsetdimentionHight: (state, { payload }) => {
+      return { ...state, dimentionHight: payload };
+    },
+    Rsetdimentionwidth: (state, { payload }) => {
+      return { ...state, dimentionwidth: payload };
+    },
+    RsetdimentionLenght: (state, { payload }) => {
+      return { ...state, dimentionLenght: payload };
+    },
+    RsetDimentionData: (state, { payload }) => {
+      return { ...state, DimentionData: payload };
+    },
   },
 });
 
@@ -205,6 +237,12 @@ export const {
   Rsetcurrenfurnaceid,
   RsetFurnaceObservationpersianCalender,
   RsetFurnaceObservationpersianCalenderEnd,
+  RsetaddEventModal,
+  RsetaddDimentionModal,
+  RsetdimentionHight,
+  Rsetdimentionwidth,
+  RsetdimentionLenght,
+  RsetDimentionData,
 } = FurnaceObservationSlices.actions;
 
 export const selectFurnaceObservation = (state) =>
@@ -266,6 +304,22 @@ export const selectuploadPhotoModal = (state) =>
   state.FurnaceObservation.uploadPhotoModal;
 export const selectuploadPhotoCurrentRow = (state) =>
   state.FurnaceObservation.uploadPhotoCurrentRow;
+
+// -----------------------------------------add dimention
+
+export const selectaddDimentionModal = (state) =>
+  state.FurnaceObservation.addDimentionModal;
+export const selectaddEventModal = (state) =>
+  state.FurnaceObservation.addEventModal;
+export const selectdimentionHight = (state) =>
+  state.FurnaceObservation.dimentionHight;
+export const selectdimentionwidth = (state) =>
+  state.FurnaceObservation.dimentionwidth;
+export const selectdimentionLenght = (state) =>
+  state.FurnaceObservation.dimentionLenght;
+
+export const selectDimentionData = (state) =>
+  state.FurnaceObservation.DimentionData;
 
 export default FurnaceObservationSlices.reducer;
 
@@ -410,7 +464,7 @@ export const fetchMaterialFurnacematerial = createAsyncThunk(
 );
 
 export const adddimentions = createAsyncThunk(
-  "Dashboard/adddimentions",
+  "FurnaceObservationSlices/adddimentions",
 
   async ({ data, furnaceId }, { dispatch }) => {
     try {
@@ -434,7 +488,7 @@ export const adddimentions = createAsyncThunk(
 );
 
 export const addrows = createAsyncThunk(
-  "Dashboard/addrows",
+  "FurnaceObservationSlices/addrows",
 
   async ({ item, furnaceId }, { dispatch }) => {
     try {
@@ -442,6 +496,30 @@ export const addrows = createAsyncThunk(
 
       if (furancesaddrow.status === 200) {
         dispatch(getsinglefurance(furnaceId));
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "   عدم دريافت اطلاعات  ",
+        });
+      }
+    } catch {
+      Swal.fire({
+        icon: "error",
+        title: "   عدم دريافت اطلاعات  ",
+      });
+    }
+  }
+);
+
+export const addnewdimentionss = createAsyncThunk(
+  "FurnaceObservationSlices/addnewdimentionss",
+
+  async ({ data, id }, { dispatch }) => {
+    try {
+      const furancesaddrow = await newadddimentions(data);
+
+      if (furancesaddrow.status === 200) {
+        dispatch(getsinglefurance(id));
       } else {
         Swal.fire({
           icon: "error",

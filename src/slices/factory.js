@@ -4,6 +4,7 @@ import {
   addfurnace,
   dashboardget,
   editfurnace,
+  getnewdimention,
 } from "../services/authServices";
 import { dashboardgetfurances } from "./Dashboard";
 import Swal from "sweetalert2";
@@ -20,6 +21,11 @@ const initialState = {
   surfaceofmaterial: "",
   canals: "",
   enteryType: "",
+  // --------------adding new factory
+  getNewDimention: [],
+
+  addDimentionModal: false,
+  addEventModal: false,
 };
 
 // export const handleStaffLogin = createAsyncThunk(
@@ -88,6 +94,15 @@ const factorySlices = createSlice({
     Rsetsurfaceofmaterial: (state, { payload }) => {
       return { ...state, surfaceofmaterial: payload };
     },
+    RsetgetNewDimention: (state, { payload }) => {
+      return { ...state, getNewDimention: payload };
+    },
+    RsetaddDimentionModal: (state, { payload }) => {
+      return { ...state, addDimentionModal: payload };
+    },
+    RsetgeaddEventModal: (state, { payload }) => {
+      return { ...state, addEventModal: payload };
+    },
   },
 });
 
@@ -103,6 +118,9 @@ export const {
   RsetenteryType,
   Rsetsurfaceofmaterial,
   RsetfactoryAddModal,
+  RsetgetNewDimention,
+  RsetaddDimentionModal,
+  RsetgeaddEventModal,
 } = factorySlices.actions;
 
 export const selectFactory = (state) => state.Factory.factorysList;
@@ -120,6 +138,11 @@ export const selectsurfaceofmaterial = (state) =>
   state.Factory.surfaceofmaterial;
 export const selectcanals = (state) => state.Factory.canals;
 export const selectenteryType = (state) => state.Factory.enteryType;
+export const selectgetNewDimention = (state) => state.Factory.getNewDimention;
+export const selectaddDimentionModal = (state) =>
+  state.Factory.addDimentionModal;
+
+export const selectaddEventModal = (state) => state.Factory.addEventModal;
 
 export default factorySlices.reducer;
 
@@ -161,6 +184,30 @@ export const addfurnaces = createAsyncThunk(
         });
       }
     } catch (ex) {
+      Swal.fire({
+        icon: "error",
+        title: "   عدم دريافت اطلاعات  ",
+      });
+    }
+  }
+);
+
+export const getnewdimentions = createAsyncThunk(
+  "factory/getnewdimentions",
+
+  async (id, { dispatch }) => {
+    console.log(id);
+    try {
+      const getDimention = await getnewdimention(id);
+      if (getDimention.status === 200) {
+        dispatch(RsetgetNewDimention(getDimention.data.data));
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "   عدم دريافت اطلاعات  ",
+        });
+      }
+    } catch {
       Swal.fire({
         icon: "error",
         title: "   عدم دريافت اطلاعات  ",

@@ -20,6 +20,9 @@ import UploadImageModal from "./ObservingfurnacesModal/UploadImageModal";
 import moment from "moment-jalaali";
 import UndoIcon from "@mui/icons-material/Undo";
 
+import NewFactoryNewFurnaceModal from "./ObservingfurnacesModal/NewFurnaceModal/newFactoryNewFurnaceModal";
+import NewFactoryFurnaceAddEvent from "./ObservingfurnacesModal/NewFurnaceModal/newFactoryFurnaceAddEvent";
+
 import { useDispatch, useSelector } from "react-redux";
 import {
   RsetFurnaceObservationAddDimentionModal,
@@ -52,6 +55,9 @@ import {
   RsetFurnaceObservationAddDimentioncurrentmaterial,
   Rsetcurrenfurnaceid,
   selectFurnaceObservationcurrenfurnaceid,
+  selectaddDimentionModal,
+  RsetaddDimentionModal,
+  selectaddEventModal,
 } from "../../../slices/FurnaceObservationSlices";
 import {
   RsetFurnaceDistributeAddmodal,
@@ -88,6 +94,9 @@ const ObservingFurnaces = () => {
 
   const singlefurances = useSelector(selectsinglefurances);
   const furenceObserEvents = useSelector(selectFurenceObserEvents);
+  const addDimentionModal = useSelector(selectaddDimentionModal);
+  const addEventModal = useSelector(selectaddEventModal);
+
   const listReloader = useSelector(selectListReloader);
   const [material, setmaterial] = useState([]);
 
@@ -100,8 +109,13 @@ const ObservingFurnaces = () => {
   }, [singlefurances]);
 
   const materialdata = singlefurances.furnaceMaterials;
-
-  console.log(materialdata);
+  useEffect(() => {
+    if (singlefurances.furnaceDimension !== undefined) {
+      if (singlefurances.furnaceDimension.length === 0) {
+        dispatch(RsetaddDimentionModal(true));
+      }
+    }
+  }, [singlefurances]);
 
   useEffect(() => {
     if (singlefurances.furnaceMaterials !== undefined) {
@@ -493,7 +507,7 @@ const ObservingFurnaces = () => {
     <>
       <div className="py-4 mx-4">
         <div
-          className="d-flex justify-content-between text-white py-3  borderRadius-top"
+          className="d-flex justify-content-between text-white py-3  borderRadius-top "
           style={{ background: "#485550" }}
         >
           <div className="ms-4 mt-1">
@@ -616,6 +630,9 @@ const ObservingFurnaces = () => {
         <ObservingfurnacesModalAddDimension />
       )}
       {uploadPhotoModal && <UploadImageModal />}
+
+      {addDimentionModal && <NewFactoryNewFurnaceModal />}
+      {addEventModal && <NewFactoryFurnaceAddEvent />}
     </>
   );
 };

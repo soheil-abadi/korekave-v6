@@ -26,6 +26,10 @@ import {
   selectsurfaceofmaterial,
   selectfactoryAddModal,
   RsetfactoryAddModal,
+  selectaddDimentionModal,
+  selectaddEventModal,
+  getnewdimentions,
+  selectgetNewDimention,
 } from "../../slices/factory";
 import {
   dashboardgetfurances,
@@ -60,6 +64,11 @@ const Furnaces = () => {
   const FactoryEditModal = useSelector(selectFactoryEditModal);
   const furances = useSelector(selectfurances);
   const factoryAddModal = useSelector(selectfactoryAddModal);
+  const addDimentionModal = useSelector(selectaddDimentionModal);
+  const addEventModal = useSelector(selectaddEventModal);
+  const getNewDimention = useSelector(selectgetNewDimention);
+
+  console.log(getNewDimention);
 
   console.log(furances);
 
@@ -70,6 +79,11 @@ const Furnaces = () => {
   useEffect(() => {
     dispatch(dashboardgetfurances(id));
   }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(getnewdimentions());
+  }, [dispatch]);
+
   // ------------------------------------selectors
 
   const [clickedCard, setClickedCard] = useState(null);
@@ -174,6 +188,7 @@ const Furnaces = () => {
 
       {FactoryEditModal && <FactoryModal card={clickedCard} />}
       {factoryAddModal && <FactoryAddModal />}
+      {/* {<NewFactoryNewFurnaceModal />} */}
     </>
   );
 };

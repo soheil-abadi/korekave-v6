@@ -317,7 +317,7 @@ const FurnaceDistribute = () => {
               <span className="me-2">
                 <ListIcon />
               </span>
-              لیست پخش کوره ها
+              لیست بخش کوره ها
             </div>
             <Button
               title="افزودن کاربر جدید"

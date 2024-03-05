@@ -8,16 +8,16 @@ import { DtPicker } from "react-calendar-datetime-picker";
 
 import { Box, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 
-import { FormControl } from "react-bootstrap";
+import { useLocation } from "react-router-dom";
+import Swal from "sweetalert2";
+import { getIdFromUrl } from "../../ObservingFurnaces";
 import {
   RsetFurnaceObservationDateOfEnd,
   RsetFurnaceObservationDateOfStart,
   RsetFurnaceObservationDescriptionP,
   RsetFurnaceObservationEventName,
-  RsetFurnaceObservationStatusModal,
   RsetFurnaceObservationTypeOfEvent,
-  RsetFurnaceObservationpersianCalender,
-  RsetFurnaceObservationpersianCalenderEnd,
+  RsetaddEventModal,
   addevents,
   selectFurnaceObservationDateOfEnd,
   selectFurnaceObservationDateOfStart,
@@ -25,17 +25,9 @@ import {
   selectFurnaceObservationEventName,
   selectFurnaceObservationStatusModal,
   selectFurnaceObservationTypeOfEvent,
-  selectFurnaceObservationpersianCalender,
-  selectFurnaceObservationpersianCalenderEnd,
-} from "../../../../slices/FurnaceObservationSlices";
-import { addfurnaceevent } from "../../../../services/authServices";
-import {
-  getsinglefurance,
-  selectsinglefurances,
-} from "../../../../slices/Dashboard";
-import { getIdFromUrl } from "../ObservingFurnaces";
-import { useLocation } from "react-router-dom";
-import Swal from "sweetalert2";
+  selectaddEventModal,
+} from "../../../../../slices/FurnaceObservationSlices";
+import { selectsinglefurances } from "../../../../../slices/Dashboard";
 
 const solarToGregorian = (solarDate) => {
   // Parse the Solar Hijri date using jalali-moment
@@ -47,30 +39,16 @@ const solarToGregorian = (solarDate) => {
   return gregorianDateString;
 };
 
-const ObservingfurnaceAddEventModal = () => {
-  const [start, setStart] = useState({});
-  const [end, setEnd] = useState({});
-  // const [formatstart, setformatStart] = useState("");
-  // const [formatend, setformatEnd] = useState("");
-  // if ((start, end)) {
-  //   const starts = start.year - start.month - start.day;
-  //   setformatStart(starts);
-  //   const ends = end.year - end.month - end.day;
-  //   setformatEnd(ends);
-  // }
-
-  // console.log(formatstart, formatend);
-
-  // const convertDate = `${startDate.year}/${startDate.mounth}/${startDate.day}`;
-
+const NewFactoryFurnaceAddEvent = () => {
   const enetrydata = ["ساخت ", "تعمير سرد"];
   const dispatch = useDispatch();
   const location = useLocation();
   const id = getIdFromUrl(location.pathname);
-  console.log(id);
+
+  const addEventModal = useSelector(selectaddEventModal);
 
   const handlecancelmodal = () => {
-    dispatch(RsetFurnaceObservationStatusModal(false));
+    dispatch(RsetaddEventModal(false));
   };
 
   const handleَAddEvent = () => {
@@ -84,19 +62,17 @@ const ObservingfurnaceAddEventModal = () => {
     };
     if (
       FurnaceObservationStatusEventName &&
-      FurnaceObservationStatusEventName &&
       FurnaceObservationStatusDateOfEnd &&
       FurnaceObservationStatusTypeOfEvent &&
       FurnaceObservationDescriptionP
     ) {
       dispatch(addevents({ data: eventdata, id: id }));
+      dispatch(RsetaddEventModal(false));
       dispatch(RsetFurnaceObservationEventName(""));
       dispatch(RsetFurnaceObservationDateOfStart(""));
       dispatch(RsetFurnaceObservationDateOfEnd(""));
       dispatch(RsetFurnaceObservationTypeOfEvent(""));
       dispatch(RsetFurnaceObservationDescriptionP(""));
-
-      dispatch(RsetFurnaceObservationStatusModal(false));
     } else {
       Swal.fire({
         icon: "error",
@@ -105,6 +81,29 @@ const ObservingfurnaceAddEventModal = () => {
       });
     }
   };
+
+  const FurnaceObservationStatusDateOfEnd = useSelector(
+    selectFurnaceObservationDateOfEnd
+  );
+  console.log(FurnaceObservationStatusDateOfEnd);
+
+  const FurnaceObservationStatusEventName = useSelector(
+    selectFurnaceObservationEventName
+  );
+
+  const FurnaceObservationStatusDateOfStart = useSelector(
+    selectFurnaceObservationDateOfStart
+  );
+  console.log(FurnaceObservationStatusDateOfStart);
+
+  const FurnaceObservationDescriptionP = useSelector(
+    selectFurnaceObservationDescriptionP
+  );
+  const singlefurances = useSelector(selectsinglefurances);
+
+  const FurnaceObservationStatusTypeOfEvent = useSelector(
+    selectFurnaceObservationTypeOfEvent
+  );
 
   const modalStyles = {
     header: {
@@ -128,55 +127,22 @@ const ObservingfurnaceAddEventModal = () => {
     },
   };
 
-  const FurnaceObservationStatusModal = useSelector(
-    selectFurnaceObservationStatusModal
-  );
-  const FurnaceObservationStatusDateOfEnd = useSelector(
-    selectFurnaceObservationDateOfEnd
-  );
-  console.log(FurnaceObservationStatusDateOfEnd);
-
-  const FurnaceObservationStatusEventName = useSelector(
-    selectFurnaceObservationEventName
-  );
-
-  const FurnaceObservationStatusDateOfStart = useSelector(
-    selectFurnaceObservationDateOfStart
-  );
-
-  const FurnaceObservationDescriptionP = useSelector(
-    selectFurnaceObservationDescriptionP
-  );
-  const singlefurances = useSelector(selectsinglefurances);
-
-  const FurnaceObservationStatusTypeOfEvent = useSelector(
-    selectFurnaceObservationTypeOfEvent
-  );
-
   return (
     <>
       <ConfigProvider direction="rtl" locale={fa_IR}>
         <Modal
           title={
             <>
-              <h3 className="fw-bold ">ویرایش کوره</h3>
+              <h3 className="fw-bold "> اضافه كردن رويداد</h3>
             </>
           }
-          open={FurnaceObservationStatusModal}
+          open={addEventModal}
           styles={modalStyles}
-          closable={false}
+          closable={true}
           onOk={handlecancelmodal}
-          onCancel={handlecancelmodal}
           footer={(_, { OkBtn, CancelBtn }) => (
             <>
               <div className="bottom-modal d-flex justify-content-between align-items-center gap-3 w-100 flex-row-reverse">
-                <Button
-                  style={{ background: "red", color: "white" }}
-                  size="large"
-                  onClick={() => handlecancelmodal()}
-                >
-                  لغو
-                </Button>
                 <Button
                   className="w-100"
                   variant="outlined"
@@ -287,4 +253,4 @@ const ObservingfurnaceAddEventModal = () => {
   );
 };
 
-export default ObservingfurnaceAddEventModal;
+export default NewFactoryFurnaceAddEvent;

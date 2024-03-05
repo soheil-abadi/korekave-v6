@@ -47,7 +47,7 @@ const FactoryModal = ({ card }) => {
   const location = useLocation();
   const id = getIdFromUrl(location.pathname);
   const dispatch = useDispatch();
-  const typedata = ["sideport", "endport"];
+  const typedata = ["side-port", "end-port"];
   const enetrydata = ["deep chanel", "working"];
 
   const furances = useSelector(selectfurances);
