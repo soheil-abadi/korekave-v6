@@ -1,6 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { errorMessage, successMessage } from "../utils/toast";
-import { getFactoryManagmentData } from "../services/authServices";
+import {
+  addfactorymanagment,
+  editfactorymanagment,
+  getFactoryManagmentData,
+} from "../services/authServices";
 import Swal from "sweetalert2";
 
 const initialState = {
@@ -130,7 +134,55 @@ export const fetchdata = createAsyncThunk(
       } else {
         Swal.fire({
           icon: "error",
-          title: "   عدم دريافت اطلاعات  ",
+          title: "  عدم دريافت اطلاعات  ",
+        });
+      }
+    } catch {
+      Swal.fire({
+        icon: "error",
+        title: "   عدم دريافت اطلاعات  ",
+      });
+    }
+  }
+);
+
+export const addfactory = createAsyncThunk(
+  "userManagement/fetchdata",
+
+  async ({ data }, { dispatch }) => {
+    try {
+      const FactoryManagmentData = await addfactorymanagment(data);
+
+      if (FactoryManagmentData.status === 200) {
+        dispatch(fetchdata());
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "  عدم دريافت اطلاعات  ",
+        });
+      }
+    } catch {
+      Swal.fire({
+        icon: "error",
+        title: "   عدم دريافت اطلاعات  ",
+      });
+    }
+  }
+);
+
+export const editfactory = createAsyncThunk(
+  "userManagement/fetchdata",
+
+  async ({ data, id }, { dispatch }) => {
+    try {
+      const FactoryManagmentData = await editfactorymanagment(data, id);
+
+      if (FactoryManagmentData.status === 200) {
+        dispatch(fetchdata());
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "  عدم دريافت اطلاعات  ",
         });
       }
     } catch {

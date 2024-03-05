@@ -76,6 +76,22 @@ export const addfurnacepart = async (values) => {
 
 // ------------------------------factorymanagment
 
+export const editfactorymanagment = async (values, id) => {
+  return await http.put(`${config.local}/api/v1/factory/${id}`, values, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};
+
+export const addfactorymanagment = async (values) => {
+  return await http.post(`${config.local}/api/v1/factory`, values, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};
+
 // ----------------------------for essential goods
 
 export const getessentialgoods = async () => {

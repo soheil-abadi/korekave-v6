@@ -116,7 +116,7 @@ const UploadImageModal = () => {
         onCancel={handleModalCancel}
         footer={(_, { OkBtn, CancelBtn }) => (
           <>
-            <div className="bottom-modal d-flex justify-content-between align-items-center gap-3 w-100">
+            <div className="bottom-modal d-flex justify-content-between align-items-center gap-3 w-100 flex-row-reverse">
               <Button
                 style={{ background: "red", color: "white" }}
                 size="large"

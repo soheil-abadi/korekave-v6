@@ -40,6 +40,7 @@ body * {
     rgba(238, 238, 238, 0.582),
     rgb(199, 196, 191)
   );
+  border-radius: 20px;
 }
 
 .cards:hover {
@@ -74,17 +75,9 @@ body * {
   color: lightgray;
 }
 
-.td {
-  font-size: 100px !important;
-  font-weight: 700 !important;
-}
-
 .ant-tabs-tab {
   font-weight: bold;
 }
 .ant-tabs-tab-btn {
   font-size: 15px !important;
-  background-color: lightgray;
-  border-radius: 20px;
-  padding: 10px;
 }

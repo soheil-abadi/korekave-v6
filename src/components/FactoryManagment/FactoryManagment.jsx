@@ -142,14 +142,6 @@ const FactoryManagment = () => {
     fetchData();
   }, []);
 
-  //table search
-  // useEffect(async() => {
-  //   const mdata=await  getUserList();
-  //   console.log(mdata,"this is data ")
-  //   // dispatch(getAllOrdersOfAdmin());
-
-  // }, []);
-
   const getColumnSearchProps = (dataIndex, placeholder) => ({
     filterDropdown: ({
       setSelectedKeys,

@@ -56,10 +56,10 @@ const Dashboard = () => {
               >
                 <div>
                   <img
-                    src={`http://192.168.5.60:8007/uploads/${item.logo}`}
+                    src={`http://192.168.5.60:8007/uploads/images/${item.logo}`}
                     alt="logo"
                     className=" d-block img-fluid m-auto  "
-                    style={{ width: "200px" }}
+                    style={{ width: "200px", minHeight: "200px" }}
                   />
                   <h4 className="my-3"> {item.name}</h4>
                   <p style={{ height: "30px" }}>

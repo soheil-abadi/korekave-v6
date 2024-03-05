@@ -17,28 +17,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import {
-  RsetfireProofCurrentUser,
-  RsetfireProofEditModal,
-  RsetfireProofI,
-  RsetfireProofa,
-  RsetfireProofb,
-  RsetfireProofh,
-  RsetfireProofmodelCode,
-  RsetfireProofsort,
-  RsetfireProoftype,
-  RsetfireProofweight,
-  selectfireProofCurrentUser,
-  selectfireProofEditModal,
-  selectfireProofI,
-  selectfireProofModelCode,
-  selectfireProofa,
-  selectfireProofb,
-  selectfireProofh,
-  selectfireProofsort,
-  selectfireProoftype,
-  selectfireProofweight,
-} from "../../../slices/fireProofSlices";
+
 import {
   RsetFactoryManagmentAddmodal,
   RsetFactoryManagmentCurrentUser,
@@ -48,6 +27,7 @@ import {
   RsetFactoryManagmentLogo,
   RsetFactoryManagmentName,
   RsetFactoryManagmentType,
+  addfactory,
   selectFactoryManagmentAddmodal,
   selectFactoryManagmentCurrentUser,
   selectFactoryManagmentEditModal,
@@ -97,8 +77,8 @@ const FactoryManagmentAddModal = () => {
         data.append("factory_type", FactoryManagmentType);
       }
 
-      // dispatch(addphoto({ data: data, id: id }));
-      // dispatch(RsetuploadPhotoModal(false));
+      dispatch(addfactory({ data: data }));
+      dispatch(RsetFactoryManagmentAddmodal(false));
     } else {
       Swal.fire({
         icon: "error",
@@ -158,7 +138,7 @@ const FactoryManagmentAddModal = () => {
                 size="large"
                 onClick={() => handleModalEdit()}
               >
-                ویرایش کاربر
+                اضافه كردن كارخانه
               </Button>
             </div>
           </>
@@ -171,7 +151,6 @@ const FactoryManagmentAddModal = () => {
               variant="outlined"
               fullWidth
               margin="normal"
-              value={""}
               onChange={(e) =>
                 dispatch(RsetFactoryManagmentName(e.target.value))
               }
@@ -183,7 +162,6 @@ const FactoryManagmentAddModal = () => {
               variant="outlined"
               fullWidth
               margin="normal"
-              value={""}
               onChange={(e) =>
                 dispatch(RsetFactoryManagmentLocation(e.target.value))
               }
@@ -195,7 +173,6 @@ const FactoryManagmentAddModal = () => {
               variant="outlined"
               fullWidth
               margin="normal"
-              value={""}
               onChange={(e) =>
                 dispatch(RsetFactoryManagmentEstablish(e.target.value))
               }
@@ -210,7 +187,6 @@ const FactoryManagmentAddModal = () => {
               className="w-100  "
               labelId="demo-simple-select-filled-label"
               id="demo-simple-select-filled"
-              value={""}
               label="مدل"
               onChange={(e) =>
                 dispatch(RsetFactoryManagmentType(e.target.value))
