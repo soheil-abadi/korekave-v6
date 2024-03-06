@@ -94,6 +94,9 @@ const NewFactoryNewFurnaceModal = () => {
       };
 
       dispatch(addnewdimentionss({ data: data, id: id }));
+      dispatch(RsetdimentionLenght(""));
+      dispatch(Rsetdimentionwidth(""));
+      dispatch(RsetdimentionHight(""));
 
       if (index === labal.length - 1) {
         // Last index reached, do something here
@@ -106,7 +109,7 @@ const NewFactoryNewFurnaceModal = () => {
       Swal.fire({
         icon: "error",
         title: "خالي بودن مقادير",
-        text: "عكس يا شرح عكسي براي اين رويداد انتخاب نشده است",
+        text: "  تمامي مقادير ميبايست پر شود",
       });
     }
   };
@@ -149,18 +152,7 @@ const NewFactoryNewFurnaceModal = () => {
         onOk={handleModalCancel}
         footer={(_, { OkBtn, CancelBtn }) => (
           <>
-            <div className="bottom-modal d-flex justify-content-between align-items-center gap-3 w-100 flex-row-reverse ">
-              <Button
-                className="w-100"
-                variant="outlined"
-                type="primary"
-                color="primary"
-                size="large"
-                onClick={() => adddimention()}
-              >
-                اضافه كردن ابعاد
-              </Button>
-            </div>
+            <div className="bottom-modal d-flex justify-content-between align-items-center gap-3 w-100 flex-row-reverse "></div>
           </>
         )}
       >

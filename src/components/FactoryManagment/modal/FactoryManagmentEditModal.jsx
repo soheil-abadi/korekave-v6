@@ -75,6 +75,8 @@ const FactoryManagmentEditModal = () => {
   const FactoryManagmentType = useSelector(selectFactoryManagmentType);
   const FactoryManagmentEditModa = useSelector(selectFactoryManagmentEditModal);
 
+  console.log(FactoryManagmentLogo);
+
   const FactoryManagmentCurrentUser = useSelector(
     selectFactoryManagmentCurrentUser
   );
@@ -88,7 +90,7 @@ const FactoryManagmentEditModal = () => {
   };
   // ------------------------sending new input to reducers
   const handleModalEdit = () => {
-    if (FactoryManagmentLogo) {
+    if (FactoryManagmentLogo.fileList && FactoryManagmentLogo) {
       const data = new FormData();
       for (var x = 0; x < FactoryManagmentLogo.fileList.length; x++) {
         const file = FactoryManagmentLogo.fileList[x].originFileObj;
@@ -109,7 +111,7 @@ const FactoryManagmentEditModal = () => {
       Swal.fire({
         icon: "error",
         title: "خالي بودن مقادير",
-        text: "عكس يا شرح عكسي براي اين رويداد انتخاب نشده است",
+        text: "  (عكس جديد نيز آپلود شود)    تمامي مقادير ميبايست پر شود",
       });
     }
   };
@@ -154,7 +156,7 @@ const FactoryManagmentEditModal = () => {
   return (
     <ConfigProvider direction="rtl" locale={fa_IR}>
       <Modal
-        title={` اضافه كردن كارخانه`}
+        title={`  ويرايش  كارخانه ${FactoryManagmentCurrentUser.name} `}
         open={FactoryManagmentEditModa}
         styles={modalStyles}
         closable={false}
@@ -260,6 +262,7 @@ const FactoryManagmentEditModal = () => {
               className="avatar-uploader my-3 w-100  d-flex justify-content-center align-items-center "
               showUploadList={false}
               action="/upload_url"
+              fileList={[FactoryManagmentLogo]}
               beforeUpload={(file) => {
                 return false;
               }}

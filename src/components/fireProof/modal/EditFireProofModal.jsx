@@ -40,6 +40,7 @@ import {
   selectfireProofweight,
 } from "../../../slices/fireProofSlices";
 import { fireproofadd } from "../../../services/authServices";
+import Swal from "sweetalert2";
 const selectoption = ["سنگ  ", "آجر  ", "  نسوز"];
 const type = ["غير منتظم  ", "منتظم  "];
 
@@ -82,8 +83,24 @@ const EditFireProofModal = () => {
       l_size: fireProofI,
       h_size: fireProofh,
     };
-    dispatch(editfireproofs({ data: data, id: fireProofCurrentUser._id }));
-    dispatch(RsetfireProofEditModal(false));
+    if (data) {
+      dispatch(editfireproofs({ data: data, id: fireProofCurrentUser._id }));
+      RsetfireProofmodelCode("");
+      RsetfireProofI("");
+      RsetfireProofweight("");
+      RsetfireProofa("");
+      RsetfireProofb("");
+      RsetfireProofh("");
+      RsetfireProofsort("");
+      RsetfireProoftype("");
+
+      dispatch(RsetfireProofEditModal(false));
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: " تمامي مقادير بايد پر شود    ",
+      });
+    }
   };
 
   const modalStyles = {

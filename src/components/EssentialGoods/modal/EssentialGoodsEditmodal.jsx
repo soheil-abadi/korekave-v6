@@ -30,6 +30,7 @@ import {
   editessentialgood,
 } from "../../../slices/essentialGoodsSlices";
 import { editessentialgoods } from "../../../services/authServices";
+import Swal from "sweetalert2";
 
 const EssentialGoodsEdditModal = () => {
   const selectoption = [
@@ -106,16 +107,27 @@ const EssentialGoodsEdditModal = () => {
       manufacturer: essentialGoodsfirmorigin,
       type_name: essentialGoodstype,
     };
-    dispatch(
-      editessentialgood({ data: data, id: essentialGoodsCurrentUser._id })
-    );
-    dispatch(RsetessentialGoodsEditModal(false));
+    if (data) {
+      dispatch(
+        editessentialgood({ data: data, id: essentialGoodsCurrentUser._id })
+      );
+      dispatch(RsetessentialGoodscountryoforigin(""));
+      dispatch(RsetessentialGoodstype(""));
+      dispatch(RsetessentialGoodsfirmorigin(""));
+      dispatch(RsetessentialGoodsEditModal(false));
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "خالي بودن مقادير",
+        text: " تمامي مقادير بايد پر شود   ",
+      });
+    }
   };
 
   return (
     <ConfigProvider direction="rtl" locale={fa_IR}>
       <Modal
-        title={`ويرايش مدل ${essentialGoodsCurrentUser.type}`}
+        title={`ويرايش مدل ${essentialGoodsCurrentUser.type_name}`}
         open={essentialGoodsEditModal}
         styles={modalStyles}
         closable={false}

@@ -6,6 +6,7 @@ import {
   fireproofadd,
   getfireprooflist,
 } from "../services/authServices";
+import Swal from "sweetalert2";
 
 const initialState = {
   fireProofList: [],
@@ -164,10 +165,16 @@ export const fetchfireprooflistList = createAsyncThunk(
       if (getuser.status === 200) {
         dispatch(RsetfireProofList(getuser.data.data));
       } else {
-        errorMessage("عدم دريافت اطلاعات");
+        Swal.fire({
+          icon: "error",
+          title: "  عدم دريافت اضلاعات   ",
+        });
       }
-    } catch (ex) {
-      console.log(ex);
+    } catch {
+      Swal.fire({
+        icon: "error",
+        title: "  عدم دريافت اضلاعات   ",
+      });
     }
   }
 );
@@ -177,9 +184,14 @@ export const deletefireprooflist = createAsyncThunk(
   async (value, { dispatch }) => {
     try {
       const deleteuserlist = await deletefireproof(value);
-      dispatch(fetchfireprooflistList());
-    } catch (ex) {
-      console.log("عدم دريافت اطلاعات");
+      if (deleteuserlist.status === 200) {
+        dispatch(fetchfireprooflistList());
+      }
+    } catch {
+      Swal.fire({
+        icon: "error",
+        title: "  عدم دريافت اضلاعات   ",
+      });
     }
   }
 );
@@ -189,9 +201,14 @@ export const editfireproofs = createAsyncThunk(
   async ({ data, id }, { dispatch }) => {
     try {
       const editusers = await editfireproof(data, id);
-      dispatch(fetchfireprooflistList());
-    } catch (ex) {
-      console.log("عدم دريافت اطلاعات");
+      if (editusers.status === 200) {
+        dispatch(fetchfireprooflistList());
+      }
+    } catch {
+      Swal.fire({
+        icon: "error",
+        title: "  عدم دريافت اضلاعات   ",
+      });
     }
   }
 );
@@ -202,9 +219,14 @@ export const addfireproof = createAsyncThunk(
     try {
       console.log(value);
       const adduserdata = await fireproofadd(value);
-      dispatch(fetchfireprooflistList());
-    } catch (ex) {
-      console.log("عدم دريافت اطلاعات");
+      if (adduserdata.status === 200) {
+        dispatch(fetchfireprooflistList());
+      }
+    } catch {
+      Swal.fire({
+        icon: "error",
+        title: "  عدم دريافت اضلاعات   ",
+      });
     }
   }
 );

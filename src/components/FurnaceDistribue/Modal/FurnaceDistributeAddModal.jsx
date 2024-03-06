@@ -39,6 +39,7 @@ import {
   selectFurnaceDistributeSection,
   selectFurnaceDistributeType,
 } from "../../../slices/FurnaceDistribute";
+import Swal from "sweetalert2";
 
 const FurnaceDistributeAddModal = () => {
   const dispatch = useDispatch();
@@ -50,6 +51,8 @@ const FurnaceDistributeAddModal = () => {
   const FurnaceDistributeAddmodal = useSelector(
     selectFurnaceDistributeAddmodal
   );
+
+  console.log(FurnaceDistributeSection, FurnaceDistributeType);
   const FurnaceDistributeCurrentUser = useSelector(
     selectFurnaceDistributeCurrentUser
   );
@@ -69,8 +72,18 @@ const FurnaceDistributeAddModal = () => {
       name: FurnaceDistributeSection,
       furnace_type: FurnaceDistributeType,
     };
-    dispatch(addfurnaceparts({ data: data }));
-    dispatch(RsetFurnaceDistributeAddmodal(false));
+    if (FurnaceDistributeSection && FurnaceDistributeType) {
+      dispatch(addfurnaceparts({ data: data }));
+      dispatch(RsetFurnaceDistributeSection(""));
+      dispatch(RsetFurnaceDistributeType(""));
+      dispatch(RsetFurnaceDistributeAddmodal(false));
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "خالي بودن مقادير",
+        text: " تمامي مقادير ميبايست پر شود",
+      });
+    }
   };
   const modalStyles = {
     header: {

@@ -7,16 +7,19 @@ import { useSelector, useDispatch } from "react-redux";
 import { RsetIsLoggedIn, selectIsLoggedIn } from "../slices/authSlices";
 import Login from "../components/auth/Login";
 import background from "../components/img/kave.jpg";
+import { useNavigate } from "react-router-dom";
 
 const MainLayout = ({ children }) => {
   const dispatch = useDispatch();
   const smallNav = useSelector(selectSmallNav);
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const token = localStorage.getItem("token");
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (token) {
       dispatch(RsetIsLoggedIn(true));
+      navigate("/Dashboard");
     } else {
       dispatch(RsetIsLoggedIn(false));
     }

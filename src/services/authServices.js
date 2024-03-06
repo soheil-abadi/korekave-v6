@@ -29,14 +29,10 @@ export const adduser = async (values) => {
     timeout: 30000,
   });
 };
-export const edituser = async (value) => {
-  return await http.put(
-    `${config.local}/api/v1/user/update/${localStorage.getItem("id")}`,
-    value,
-    {
-      timeout: 30000,
-    }
-  );
+export const edituser = async (value, id) => {
+  return await http.put(`${config.local}/api/v1/user/update/${id}`, value, {
+    timeout: 30000,
+  });
 };
 
 // ------------------------------------for fireproof

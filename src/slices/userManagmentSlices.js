@@ -152,7 +152,9 @@ export const deleteuserlist = createAsyncThunk(
   async (value, { dispatch }) => {
     try {
       const deleteuserlist = await deleteUser(value);
-      dispatch(fetchUserList());
+      if (deleteuserlist.status === 200) {
+        dispatch(fetchUserList());
+      }
     } catch (ex) {
       console.log("عدم دريافت اطلاعات");
     }
@@ -161,10 +163,12 @@ export const deleteuserlist = createAsyncThunk(
 export const editusers = createAsyncThunk(
   "userManagement/editusers",
 
-  async (value, { dispatch }) => {
+  async ({ data, id }, { dispatch }) => {
     try {
-      const editusers = await edituser(value);
-      dispatch(fetchUserList());
+      const editusers = await edituser(data, id);
+      if (editusers.status === 200) {
+        dispatch(fetchUserList());
+      }
     } catch (ex) {
       console.log("عدم دريافت اطلاعات");
     }
@@ -176,7 +180,9 @@ export const addusers = createAsyncThunk(
   async (value, { dispatch }) => {
     try {
       const adduserdata = await adduser(value);
-      dispatch(fetchUserList());
+      if (adduserdata.status === 200) {
+        dispatch(fetchUserList());
+      }
     } catch (ex) {
       console.log("عدم دريافت اطلاعات");
     }

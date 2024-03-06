@@ -65,7 +65,12 @@ const FactoryManagmentAddModal = () => {
   };
   // ------------------------sending new input to reducers
   const handleModalEdit = () => {
-    if (FactoryManagmentLogo) {
+    if (
+      FactoryManagmentLogo.fileList &&
+      FactoryManagmentLocation &&
+      FactoryManagmentEstablish &&
+      FactoryManagmentType
+    ) {
       const data = new FormData();
       for (var x = 0; x < FactoryManagmentLogo.fileList.length; x++) {
         const file = FactoryManagmentLogo.fileList[x].originFileObj;
@@ -83,7 +88,7 @@ const FactoryManagmentAddModal = () => {
       Swal.fire({
         icon: "error",
         title: "خالي بودن مقادير",
-        text: "عكس يا شرح عكسي براي اين رويداد انتخاب نشده است",
+        text: " تمامي مقادير بايد پر شود   ",
       });
     }
   };

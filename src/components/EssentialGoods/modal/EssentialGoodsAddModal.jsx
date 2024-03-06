@@ -31,6 +31,7 @@ import {
 } from "../../../slices/essentialGoodsSlices";
 import { essentialgoodsadd } from "../../../services/authServices";
 import { RsetfireProofAddmodal } from "../../../slices/fireProofSlices";
+import Swal from "sweetalert2";
 
 const EssentialGoodsADDModal = () => {
   const selectoption = ["نسوز - ملات", "نسوز - آجر", "نسوز - فیبر"];
@@ -89,8 +90,24 @@ const EssentialGoodsADDModal = () => {
       manufacturer: essentialGoodsfirmorigin,
       type_name: essentialGoodstype,
     };
-    dispatch(addessentialgood(adduserdata));
-    dispatch(RsetessentialGoodsAddmodal(false));
+    if (
+      essentialGoodssort &&
+      essentialGoodscountryoforigin &&
+      essentialGoodsfirmorigin &&
+      essentialGoodstype
+    ) {
+      dispatch(addessentialgood(adduserdata));
+      dispatch(RsetessentialGoodscountryoforigin(""));
+      dispatch(RsetessentialGoodstype(""));
+      dispatch(RsetessentialGoodsfirmorigin(""));
+      dispatch(RsetessentialGoodsAddmodal(false));
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "خالي بودن مقادير",
+        text: " تمامي مقادير بايد پر شود   ",
+      });
+    }
   };
 
   // -----------------seting current data in reducer
@@ -113,7 +130,7 @@ const EssentialGoodsADDModal = () => {
   return (
     <ConfigProvider direction="rtl" locale={fa_IR}>
       <Modal
-        title={`ويرايش مدل ${essentialGoodsCurrentUser.countryoforigin}`}
+        title={` اضافه كردن ليست ملزومات `}
         open={essentialGoodADDModal}
         styles={modalStyles}
         closable={false}

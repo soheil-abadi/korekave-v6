@@ -42,45 +42,6 @@ import {
 // delete conformation
 const { confirm } = Modal;
 
-const data = [
-  {
-    category: "آجر",
-    shape_code: "golestani",
-    type_name: "منتظم",
-    weight: "0kg",
-    wightperkg: "وزن در واحد كيوگرم",
-    a_size: "aيا  (x)",
-    b_size: 230.0,
-    l_size: 230.0,
-    h: 76.0,
-    userName: "wolfi",
-  },
-  {
-    category: "سنگ",
-    shape_code: "golestani",
-    type: "منتظم",
-    weight: "0kg",
-    wightperkg: "وزن در واحد كيوگرم",
-    a_size: "aيا  (x)",
-    b_size: 231.0,
-    l_size: 230.0,
-    h: 76.0,
-    userName: "wolfi",
-  },
-  {
-    category: "آجر",
-    shape_code: "golestani",
-    type_name: "منتظم",
-    weight: "0kg",
-    wightperkg: "وزن در واحد كيوگرم",
-    a_size: "a يا  (x)",
-    b_size: 230.0,
-    l_size: 230.0,
-    h: 25.0,
-    userName: "wolfi",
-  },
-];
-
 const FireProof = () => {
   // ----------------------------------
   const dispatch = useDispatch();

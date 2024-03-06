@@ -32,6 +32,7 @@ import {
   InputLabel,
   TextField,
 } from "@mui/material";
+import Swal from "sweetalert2";
 
 const UserManagementEditModal = () => {
   const dispatch = useDispatch();
@@ -99,8 +100,25 @@ const UserManagementEditModal = () => {
       password: UserManagmentPassword,
       username: UserManagmentUserName,
     };
-    dispatch(addusers(adduserdata));
-    dispatch(RsetuserManagmentAddmodal(false));
+    if (
+      UserManagmentFirstName &&
+      UserManagmentLastName &&
+      UserManagmentUserName &&
+      userManagmentAccess
+    ) {
+      dispatch(addusers(adduserdata));
+      dispatch(RsetuserManagmentAddmodal(false));
+      dispatch(RsetUserManagmentFirstName(""));
+      dispatch(RsetUserManagmentLastName(""));
+      dispatch(RsetUserManagmentUserName(""));
+      dispatch(RsetUserManagmentPassword(""));
+      dispatch(RsetUserManagmentAccess([]));
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "   تمامي مقادير بايد پر شود  ",
+      });
+    }
   };
 
   const modalStyles = {

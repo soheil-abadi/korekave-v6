@@ -28,6 +28,7 @@ import {
   TextField,
 } from "@mui/material";
 import { edituser } from "../../../services/authServices";
+import Swal from "sweetalert2";
 
 const UserManagementEditModal = () => {
   const dispatch = useDispatch();
@@ -40,6 +41,7 @@ const UserManagementEditModal = () => {
   const userManagmentCurrentUser = useSelector(selectUserManagmentCurrentUser);
   const UserManagmentPassword = useSelector(selectUserManagmentPassword);
   const UserManagmentUserName = useSelector(selectUserManagmentUserName);
+  const userId = userManagmentCurrentUser._id;
 
   // -----------------------------------------------
   useEffect(() => {
@@ -91,20 +93,33 @@ const UserManagementEditModal = () => {
   };
   console.log(userManagmentAccess);
   const handleModalEdit = async () => {
-    // Dispatch an action to set loading state or any indication that the request is in progress
-    // For example: dispatch(setLoading(true));
-
-    // Make the API call to add the user
     const userValues = {
       first_name: UserManagmentFirstName,
       last_name: UserManagmentLastName,
       username: UserManagmentUserName,
       user_access: userManagmentAccess,
     };
-    dispatch(editusers(userValues));
-    console.log(userValues);
-    const editUserRes = await edituser(userValues);
-    dispatch(RsetUserManagmentEditModal(false));
+
+    if (
+      UserManagmentFirstName &&
+      UserManagmentLastName &&
+      UserManagmentUserName &&
+      userManagmentAccess
+    ) {
+      dispatch(editusers({ data: userValues, id: userId }));
+      dispatch(RsetUserManagmentFirstName(""));
+      dispatch(RsetUserManagmentLastName(""));
+      dispatch(RsetUserManagmentUserName(""));
+      dispatch(RsetUserManagmentPassword(""));
+      dispatch(RsetUserManagmentAccess([]));
+
+      dispatch(RsetUserManagmentEditModal(false));
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "   تمامي مقادير بايد پر شود  ",
+      });
+    }
   };
 
   const modalStyles = {

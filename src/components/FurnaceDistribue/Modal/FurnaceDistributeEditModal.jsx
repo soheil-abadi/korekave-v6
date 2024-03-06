@@ -38,6 +38,7 @@ import {
   selectFurnaceDistributeSection,
   selectFurnaceDistributeType,
 } from "../../../slices/FurnaceDistribute";
+import Swal from "sweetalert2";
 
 const FurnaceDistributeEditModal = () => {
   const dispatch = useDispatch();
@@ -75,9 +76,21 @@ const FurnaceDistributeEditModal = () => {
       name: FurnaceDistributeSection,
       furnace_type: FurnaceDistributeType,
     };
-    dispatch(
-      editfurnaceparts({ data: data, id: FurnaceDistributeCurrentUser._id })
-    );
+
+    if (data) {
+      dispatch(
+        editfurnaceparts({ data: data, id: FurnaceDistributeCurrentUser._id })
+      );
+      dispatch(RsetFurnaceDistributeSection(""));
+      dispatch(RsetFurnaceDistributeType(""));
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "خالي بودن مقادير",
+        text: " تمامي مقادير ميبايست پر شود",
+      });
+    }
+
     dispatch(RsetFurnaceDistributeEditModal(false));
   };
   const modalStyles = {
