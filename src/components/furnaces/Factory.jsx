@@ -116,12 +116,14 @@ const Furnaces = () => {
             furances.map((item, index) => (
               <div
                 key={index}
-                className="cards col-sm-4 col-md-3  p-3 baxshadow  p-5 .borderRadius-15      "
+                className="cards col-sm-4 col-md-3  p-3 baxshadow  p-5 .borderRadius-15   position-relative overflow-hidden   "
               >
                 <div style={{ height: "350px" }}>
-                  <h4 className="my-3 fw-bold bg-secondary w-100 py-3 text-white text-center rounded-3">
-                    {item.name}
-                  </h4>
+                  <div className="furnace-header ">
+                    <h4 className=" my-3 fw-bold bg-secondary w-100 py-3 text-white text-center rounded-3 ">
+                      {item.name}
+                    </h4>
+                  </div>
                   <p className="fw-bold ">
                     نوع :
                     <span className="fw-bold fs-6   ">{item.furnace_type}</span>

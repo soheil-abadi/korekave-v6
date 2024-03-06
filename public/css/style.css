@@ -35,26 +35,22 @@ body * {
 .cards {
   transition: 0.5s;
   cursor: pointer;
-  background-image: linear-gradient(
-    to left,
-    rgba(238, 238, 238, 0.582),
-    rgb(199, 196, 191)
-  );
-  border-radius: 20px;
-}
-.cards img {
-  transition: 0.5s;
-}
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  width: 500px !important;
 
-.cards:hover {
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  background-color: rgb(236, 236, 236);
   border-radius: 15px;
 }
-.cards:hover img {
+/* .cards img {
+  transition: 0.5s;
+} */
+
+.cards:hover {
+  transform: translateY(-10px);
+}
+/* .cards:hover img {
   border-radius: 50% !important;
   transform: translateY(-20px);
-}
+} */
 /* login form style for transparency */
 .login-form {
   background-color: rgba(255, 255, 255, 0.664);
@@ -87,4 +83,43 @@ body * {
 }
 .ant-tabs-tab-btn {
   font-size: 15px !important;
+}
+/* ------------------------------ */
+.card-img {
+  top: 0px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 15px !important;
+
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.mainparentcard {
+  background-image: linear-gradient(
+    25deg,
+    rgb(255, 255, 255),
+    rgb(255, 255, 255)
+  );
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+
+  transition: 0.5s;
+  border-radius: 15px !important;
+
+  width: 400px !important;
+}
+
+.mainparentcard:hover {
+  transform: translateY(-5px);
+}
+
+.descard p {
+  font-weight: 700;
+}
+
+.furnace-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: rotate(-45deg);
+  width: 100px;
 }
