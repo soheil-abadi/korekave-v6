@@ -95,9 +95,6 @@ const UsersList = () => {
 
   const userManagmentAddmodal = useSelector(selectuserManagmentAddmodal);
   const UserManagmentList = useSelector(selectUserManagmentList);
-  console.log(UserManagmentList);
-
-  // console.log(userManagmentDeleteModal, userManagmentEditModal);
 
   // ---------------------------------------------------------------
 

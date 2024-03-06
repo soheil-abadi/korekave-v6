@@ -92,7 +92,6 @@ const data = [
 
 const FurnaceDistribute = () => {
   const dataoffurance = useSelector(selectFurnaceDistributeList);
-  console.log(dataoffurance);
 
   const dispatch = useDispatch();
 

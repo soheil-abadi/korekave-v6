@@ -362,7 +362,6 @@ export const addevents = createAsyncThunk(
           title: "  اطلاعاتي يافت نشد ",
         });
       }
-      console.log(furancesaddevent);
     } catch {
       Swal.fire({
         icon: "error",
@@ -424,7 +423,7 @@ export const fetchMaterialFurnaceSection = createAsyncThunk(
   async ({ dispatch }) => {
     try {
       const getpart = await getfiuranceaddrowpart();
-      console.log(getpart());
+
       if (getpart.status === 200) {
         dispatch(RsetFurnaceObservationsection(getpart.data.data));
       } else {
@@ -445,7 +444,7 @@ export const fetchMaterialFurnacematerial = createAsyncThunk(
   async ({ dispatch }) => {
     try {
       const getmaterial = await getfiuranceaddrowmaterial();
-      console.log(getmaterial);
+
       if (getmaterial.status === 200) {
         dispatch(RsetFurnaceObservationmaterial(getmaterial.data.data));
       } else {

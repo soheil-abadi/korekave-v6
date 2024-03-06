@@ -54,17 +54,16 @@ const EditFireProofModal = () => {
   const fireProofI = useSelector(selectfireProofI);
 
   const fireProofh = useSelector(selectfireProofh);
-  console.log(fireProofh);
+
   const fireProoftype = useSelector(selectfireProoftype);
   const fireProofweight = useSelector(selectfireProofweight);
   const fireProofsort = useSelector(selectfireProofsort);
   // -----------------------------------------------
-  console.log(fireProofsort);
+
   const dispatch = useDispatch();
   const fireProofEditModal = useSelector(selectfireProofEditModal);
 
   const fireProofCurrentUser = useSelector(selectfireProofCurrentUser);
-  console.log(fireProofCurrentUser._id);
 
   // Define all possible access options
 
@@ -140,7 +139,6 @@ const EditFireProofModal = () => {
     dispatch(RsetfireProoftype(fireProofCurrentUser.type_name));
   }, []);
 
-  console.log(fireProofCurrentUser);
   return (
     <ConfigProvider direction="rtl" locale={fa_IR}>
       <Modal

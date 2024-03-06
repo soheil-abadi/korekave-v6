@@ -120,7 +120,7 @@ export const getsinglefurance = createAsyncThunk(
   async (value, { dispatch }) => {
     try {
       const getfurances = await getsinglefurances(value);
-      console.log(getfurances);
+
       if (getfurances.status === 200) {
         dispatch(Rsetsinglefurances(getfurances.data.list));
       } else {

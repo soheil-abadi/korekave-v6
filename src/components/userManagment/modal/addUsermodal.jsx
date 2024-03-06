@@ -69,11 +69,8 @@ const UserManagementEditModal = () => {
     { _id: "65c09a964e92ee075289d4f6", name: "مدیریت ساخت کوره" },
   ];
 
-  console.log(userManagmentAccess);
-
   const handleAccessChange = (accessItemId) => {
     if (userManagmentAccess.some((item) => item._id === accessItemId)) {
-      console.log(accessItemId);
       dispatch(
         RsetUserManagmentAccess(
           userManagmentAccess.filter((item) => item._id !== accessItemId)

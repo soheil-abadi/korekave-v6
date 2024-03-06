@@ -55,8 +55,6 @@ const FireProof = () => {
   const fireProofAddmodal = useSelector(selectfireProofAddmodal);
   const fireprooflistuser = useSelector(selectfireProofList);
 
-  console.log(fireprooflistuser);
-
   const handleAddUserModalOpen = () => {
     dispatch(RsetfireProofAddmodal(true));
   };
@@ -427,41 +425,7 @@ const FireProof = () => {
             <div dir="rtl" className="position-relative">
               {!loading ? (
                 <Fragment>
-                  <ConfigProvider
-                    locale={faIR}
-                    // theme={{
-                    //   token: {
-                    //     // Seed Token
-                    //     // colorPrimary: "#00b96b",
-                    //     // Alias Token
-                    //     colorBgContainer: `${!darkMode ? "#303030" : "#fff"}`,
-                    //     colorText: "white",
-                    //     colorTextPlaceholder: `${
-                    //       !darkMode ? "white" : "black"
-                    //     }`,
-                    //     // borderColor: "#000",
-                    //   },
-                    //   components: {
-                    //     Table: {
-                    //       colorBgContainer: ` ${
-                    //         !darkMode ? "#222a38" : "#e3e3e3"
-                    //       }`,
-                    //       borderColor: "#000",
-                    //       rowHoverBg: `${!darkMode ? "black" : "#ccc"}`,
-                    //       colorText: `${!darkMode ? "white" : "black"}`,
-                    //       headerBg: `${!darkMode ? "#1c283d" : "gray"}`,
-                    //       headerSortHoverBg: `${
-                    //         !darkMode ? "#000" : "#888a89"
-                    //       }`,
-                    //       headerSortActiveBg: `${
-                    //         !darkMode ? "#000" : "#888a89"
-                    //       }`,
-                    //       // headerFilterHoverIcon: "#fff",
-                    //       // headerFilterIcon: "#fff",
-                    //     },
-                    //   },
-                    // }}
-                  >
+                  <ConfigProvider locale={faIR}>
                     <Table
                       locale={{
                         emptyText: <Empty description="اطلاعات موجود نیست!" />,

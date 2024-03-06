@@ -53,7 +53,6 @@ const AddFireProofModal = () => {
   const fireProofh = useSelector(selectfireProofh);
   const fireProoftype = useSelector(selectfireProoftype);
 
-  console.log(fireProoftype);
   const fireProofweight = useSelector(selectfireProofweight);
   const fireProofsort = useSelector(selectfireProofsort);
 

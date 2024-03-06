@@ -79,7 +79,6 @@ const Login = () => {
 
         dispatch(Rsetuser(userInfo));
 
-        console.log(userInfo);
         navigate("/Dashboard");
         dispatch(RsetIsLoggedIn(true));
         localStorage.setItem("id", userInfo.user._id);

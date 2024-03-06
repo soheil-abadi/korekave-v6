@@ -57,7 +57,7 @@ const UploadImageModal = () => {
       const data = new FormData();
       for (var x = 0; x < uploadPic.fileList.length; x++) {
         const file = uploadPic.fileList[x].originFileObj;
-        console.log(file);
+
         data.append("image", file);
         data.append("description", uploadPhotoDes);
         data.append("furnace_event_oid", uploadPhotoCurrentRow._id);

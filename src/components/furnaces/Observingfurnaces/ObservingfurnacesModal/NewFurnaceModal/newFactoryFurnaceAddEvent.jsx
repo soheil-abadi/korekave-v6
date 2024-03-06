@@ -85,7 +85,6 @@ const NewFactoryFurnaceAddEvent = () => {
   const FurnaceObservationStatusDateOfEnd = useSelector(
     selectFurnaceObservationDateOfEnd
   );
-  console.log(FurnaceObservationStatusDateOfEnd);
 
   const FurnaceObservationStatusEventName = useSelector(
     selectFurnaceObservationEventName
@@ -94,7 +93,6 @@ const NewFactoryFurnaceAddEvent = () => {
   const FurnaceObservationStatusDateOfStart = useSelector(
     selectFurnaceObservationDateOfStart
   );
-  console.log(FurnaceObservationStatusDateOfStart);
 
   const FurnaceObservationDescriptionP = useSelector(
     selectFurnaceObservationDescriptionP

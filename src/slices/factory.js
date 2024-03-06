@@ -196,7 +196,6 @@ export const getnewdimentions = createAsyncThunk(
   "factory/getnewdimentions",
 
   async (id, { dispatch }) => {
-    console.log(id);
     try {
       const getDimention = await getnewdimention(id);
       if (getDimention.status === 200) {

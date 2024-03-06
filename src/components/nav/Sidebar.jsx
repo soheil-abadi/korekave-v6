@@ -84,8 +84,6 @@ const Sidebar = () => {
                       style={{ cursor: "pointer" }}
                       sx={{ fontSize: 25 }}
                       onClick={() => {
-                        console.log("hi");
-
                         dispatch(RsetSmallNav(!smallNav));
                       }}
                     />
@@ -118,7 +116,7 @@ const Sidebar = () => {
 
                   <h3
                     class
-                    onClick={() => navigate("/FurnaceDistribute")}
+                    onClick={() => navigate("/FurnacePart")}
                     className="sidebar-link text-white mt-3h3 my-3 "
                     style={{ cursor: "pointer" }}
                   >

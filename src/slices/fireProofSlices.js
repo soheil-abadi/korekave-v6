@@ -160,7 +160,6 @@ export const fetchfireprooflistList = createAsyncThunk(
   async (obj, { dispatch }) => {
     try {
       const getuser = await getfireprooflist();
-      console.log(getuser);
 
       if (getuser.status === 200) {
         dispatch(RsetfireProofList(getuser.data.data));

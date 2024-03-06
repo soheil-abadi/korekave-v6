@@ -51,7 +51,7 @@ const FactoryModal = ({ card }) => {
   const enetrydata = ["deep chanel", "working"];
 
   const furances = useSelector(selectfurances);
-  console.log(card);
+
   useEffect(() => {
     dispatch(RsetfactoryVolume(card.furnace_volume));
     dispatch(RsetfactoryWorkingVolume(card.working_volume));

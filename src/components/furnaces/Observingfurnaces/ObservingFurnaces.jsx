@@ -247,7 +247,7 @@ const ObservingFurnaces = () => {
             dispatch(deletematerials({ itemId: record._id, furnaceId: id }));
           }}
         >
-          <Button type="primary">حذف {console.log(record._id)}</Button>
+          <Button type="primary">حذف </Button>
         </Popconfirm>
       ),
     },
@@ -478,8 +478,6 @@ const ObservingFurnaces = () => {
   const [event, setevent] = useState([]);
   const [eventName, seteventname] = useState([]);
 
-  console.log(eventName, event);
-
   useEffect(() => {
     if (singlefurances.furnaceEvents !== undefined) {
       const allevent = singlefurances.furnaceEvents.map((item) => item).flat();
@@ -596,8 +594,6 @@ const ObservingFurnaces = () => {
                 className="mt-3 bg-black"
                 spaceBetween={50}
                 slidesPerView={1}
-                onSlideChange={() => console.log("slide change")}
-                onSwiper={(swiper) => console.log(swiper)}
                 navigation={true}
                 modules={[Pagination, Navigation]}
                 pagination={{

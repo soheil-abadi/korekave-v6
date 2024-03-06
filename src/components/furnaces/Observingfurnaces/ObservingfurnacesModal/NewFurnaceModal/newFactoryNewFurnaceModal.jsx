@@ -49,7 +49,6 @@ const NewFactoryNewFurnaceModal = () => {
   const dimentionHight = useSelector(selectdimentionHight);
   const dimentionwidth = useSelector(selectdimentionwidth);
   const dimentionLenght = useSelector(selectdimentionLenght);
-  console.log(dimentionHight, dimentionwidth, dimentionLenght);
 
   const DimentionData = useSelector(selectDimentionData);
 
@@ -103,7 +102,7 @@ const NewFactoryNewFurnaceModal = () => {
         dispatch(RsetaddDimentionModal(false));
         dispatch(RsetaddEventModal(true));
       }
-      console.log(data);
+
       setCurrentIndex(currentIndex + 1);
     } else {
       Swal.fire({

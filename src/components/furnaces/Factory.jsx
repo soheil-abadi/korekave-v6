@@ -68,10 +68,6 @@ const Furnaces = () => {
   const addEventModal = useSelector(selectaddEventModal);
   const getNewDimention = useSelector(selectgetNewDimention);
 
-  console.log(getNewDimention);
-
-  console.log(furances);
-
   const navigate = useNavigate();
   const location = useLocation();
   const id = getIdFromUrl(location.pathname);

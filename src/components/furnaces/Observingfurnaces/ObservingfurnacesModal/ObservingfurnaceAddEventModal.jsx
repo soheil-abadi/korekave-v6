@@ -59,15 +59,12 @@ const ObservingfurnaceAddEventModal = () => {
   //   setformatEnd(ends);
   // }
 
-  // console.log(formatstart, formatend);
-
   // const convertDate = `${startDate.year}/${startDate.mounth}/${startDate.day}`;
 
   const enetrydata = ["ساخت ", "تعمير سرد"];
   const dispatch = useDispatch();
   const location = useLocation();
   const id = getIdFromUrl(location.pathname);
-  console.log(id);
 
   const handlecancelmodal = () => {
     dispatch(RsetFurnaceObservationStatusModal(false));
@@ -134,7 +131,6 @@ const ObservingfurnaceAddEventModal = () => {
   const FurnaceObservationStatusDateOfEnd = useSelector(
     selectFurnaceObservationDateOfEnd
   );
-  console.log(FurnaceObservationStatusDateOfEnd);
 
   const FurnaceObservationStatusEventName = useSelector(
     selectFurnaceObservationEventName

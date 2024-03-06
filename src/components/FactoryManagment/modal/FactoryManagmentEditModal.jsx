@@ -75,8 +75,6 @@ const FactoryManagmentEditModal = () => {
   const FactoryManagmentType = useSelector(selectFactoryManagmentType);
   const FactoryManagmentEditModa = useSelector(selectFactoryManagmentEditModal);
 
-  console.log(FactoryManagmentLogo);
-
   const FactoryManagmentCurrentUser = useSelector(
     selectFactoryManagmentCurrentUser
   );
@@ -152,7 +150,6 @@ const FactoryManagmentEditModal = () => {
     dispatch(RsetFactoryManagmentName(FactoryManagmentCurrentUser.name));
   }, []);
 
-  console.log(FactoryManagmentCurrentUser);
   return (
     <ConfigProvider direction="rtl" locale={fa_IR}>
       <Modal
@@ -262,7 +259,6 @@ const FactoryManagmentEditModal = () => {
               className="avatar-uploader my-3 w-100  d-flex justify-content-center align-items-center "
               showUploadList={false}
               action="/upload_url"
-              fileList={[FactoryManagmentLogo]}
               beforeUpload={(file) => {
                 return false;
               }}

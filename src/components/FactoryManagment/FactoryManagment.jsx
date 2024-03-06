@@ -108,8 +108,6 @@ const FactoryManagment = () => {
   const factoryManagmentAddmodal = useSelector(selectFactoryManagmentAddmodal);
   const UserManagmentList = useSelector(selectUserManagmentList);
 
-  // console.log(userManagmentDeleteModal, userManagmentEditModal);
-
   // ---------------------------------------------------------------
 
   // ---------------------------delete handle
@@ -122,7 +120,6 @@ const FactoryManagment = () => {
         ))}
       </div>
     );
-    console.log(record);
   };
 
   const handleAddUserModalOpen = () => {
@@ -348,7 +345,6 @@ const FactoryManagment = () => {
   useEffect(() => {
     dispatch(fetchdata());
   }, [dispatch]);
-  console.log(factorymanagmentData);
 
   // ---------------------handle delete
 

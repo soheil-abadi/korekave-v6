@@ -27,7 +27,7 @@ const AppRoutes = () => {
           <Route path="/userManagment" element={<UsersList />} />
           <Route path="/FireProof" element={<FireProof />} />
           <Route path="/EssentialGoods" element={<EssentialGoods />} />
-          <Route path="/FurnaceDistribute" element={<FurnaceDistribute />} />
+          <Route path="/FurnacePart" element={<FurnaceDistribute />} />
           <Route path="/FactoryManagment" element={<FactoryManagment />} />
           <Route path="/Dashboard/Factory/:id" element={<Factory />} />
           <Route

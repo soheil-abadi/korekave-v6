@@ -54,11 +54,11 @@ const Dashboard = () => {
                 className="cards col-sm-4 col-md-3  p-3 baxshadow  p-5 .borderRadius-15     "
                 style={{ backgroundColor: "white" }}
               >
-                <div>
+                <div style={{ height: "450px" }}>
                   <img
                     src={`http://192.168.5.60:8007/uploads/images/${item.logo}`}
                     alt="logo"
-                    className=" d-block img-fluid m-auto  "
+                    className=" d-block img-fluid m-auto  rounded-3   "
                     style={{ width: "200px", minHeight: "200px" }}
                   />
                   <h4 className="my-3"> {item.name}</h4>

@@ -58,8 +58,6 @@ const ObservingfurnacesModalAddDimension = () => {
   );
   const FurnaceObservationNumber = useSelector(selectFurnaceObservationNumber);
 
-  console.log(fireprooflistuser);
-
   const handleَAddDimention = () => {
     const data = {
       furnace_material_oid: FurnaceObservationcurrentmaterial,

@@ -52,7 +52,6 @@ const FurnaceDistributeAddModal = () => {
     selectFurnaceDistributeAddmodal
   );
 
-  console.log(FurnaceDistributeSection, FurnaceDistributeType);
   const FurnaceDistributeCurrentUser = useSelector(
     selectFurnaceDistributeCurrentUser
   );

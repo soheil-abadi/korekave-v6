@@ -132,7 +132,6 @@ export const fetchessentialgoodlist = createAsyncThunk(
   async (obj, { dispatch }) => {
     try {
       const getuser = await getessentialgoods();
-      console.log(getuser);
 
       if (getuser.status === 200) {
         dispatch(RsetessentialGoodsList(getuser.data.data));
