@@ -20,6 +20,7 @@ const initialState = {
   FactoryManagmentEstablish: "",
   FactoryManagmentType: "",
   FactoryManagmentLogo: "",
+  loading: false,
 };
 
 // export const handleStaffLogin = createAsyncThunk(
@@ -85,6 +86,22 @@ const FactoryManagmentSlices = createSlice({
     RsetFactoryManagmentLogo: (state, { payload }) => {
       return { ...state, FactoryManagmentLogo: payload };
     },
+    Rsetloading: (state, { payload }) => {
+      return { ...state, loading: payload };
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchdata.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchdata.fulfilled, (state, action) => {
+        state.loading = false;
+      })
+      .addCase(fetchdata.rejected, (state) => {
+        state.loading = false;
+        // Handle rejection if needed
+      });
   },
 });
 
@@ -98,6 +115,7 @@ export const {
   RsetFactoryManagmentAddmodal,
   RsetFactoryManagmentType,
   RsetFactoryManagmentLogo,
+  Rsetloading,
 } = FactoryManagmentSlices.actions;
 
 export const selectFactoryManagmentList = (state) =>
@@ -119,6 +137,7 @@ export const selectFactoryManagmentType = (state) =>
   state.FactoryManagment.FactoryManagmentType;
 export const selectFactoryManagmentLogo = (state) =>
   state.FactoryManagment.FactoryManagmentLogo;
+export const selectloading = (state) => state.FactoryManagment.loading;
 
 export default FactoryManagmentSlices.reducer;
 // ---------------------------------------------------
@@ -128,8 +147,9 @@ export const fetchdata = createAsyncThunk(
   async (obj, { dispatch }) => {
     try {
       const FactoryManagmentData = await getFactoryManagmentData();
-      console.log(FactoryManagmentData);
+
       if (FactoryManagmentData.status === 200) {
+        console.log(FactoryManagmentData.data.data);
         dispatch(RsetFactoryManagmentList(FactoryManagmentData.data.data));
       } else {
         Swal.fire({

@@ -105,7 +105,7 @@ const ObservingFurnaces = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    console.log(singlefurances);
+    console.log(singlefurances.furnaceDimension);
   }, [singlefurances]);
 
   const materialdata = singlefurances.furnaceMaterials;
@@ -115,7 +115,7 @@ const ObservingFurnaces = () => {
         dispatch(RsetaddDimentionModal(true));
       }
     }
-  }, [singlefurances]);
+  }, [singlefurances.furnaceDimension]);
 
   useEffect(() => {
     if (singlefurances.furnaceMaterials !== undefined) {

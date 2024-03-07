@@ -51,20 +51,7 @@ const Login = () => {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-  const parseJwt = (token) => {
-    var base64Url = token.split(".")[1];
-    var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-    var jsonPayload = decodeURIComponent(
-      window
-        .atob(base64)
-        .split("")
-        .map(function (c) {
-          return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-        })
-        .join("")
-    );
-    return JSON.parse(jsonPayload);
-  };
+
   const handleLogin = async (e) => {
     e.preventDefault();
     const values = {
@@ -76,6 +63,8 @@ const Login = () => {
 
       if (postLoginRes.data.code === 200) {
         const userInfo = parseJwt(postLoginRes.data.token);
+
+        console.log(userInfo);
 
         dispatch(Rsetuser(userInfo));
 

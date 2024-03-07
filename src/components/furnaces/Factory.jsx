@@ -39,6 +39,7 @@ import {
 } from "../../slices/Dashboard";
 import { getIdFromUrl } from "./Observingfurnaces/ObservingFurnaces";
 import { Button } from "@mui/material";
+import { RsetaddDimentionModal } from "../../slices/FurnaceObservationSlices";
 
 const card = [
   {
@@ -67,6 +68,8 @@ const Furnaces = () => {
   const addDimentionModal = useSelector(selectaddDimentionModal);
   const addEventModal = useSelector(selectaddEventModal);
   const getNewDimention = useSelector(selectgetNewDimention);
+
+  dispatch(RsetaddDimentionModal(false));
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -116,11 +119,11 @@ const Furnaces = () => {
             furances.map((item, index) => (
               <div
                 key={index}
-                className="cards col-sm-4 col-md-3  p-3 baxshadow  p-5 .borderRadius-15   position-relative overflow-hidden   "
+                className="cards col-sm-4 col-md-3  p-3 baxshadow  p-5 .borderRadius-15   position-relative overflow-hidden    "
               >
                 <div style={{ height: "350px" }}>
                   <div className="furnace-header ">
-                    <h4 className=" my-3 fw-bold bg-secondary w-100 py-3 text-white text-center rounded-3 ">
+                    <h4 className=" my-3 fw-bold bg-secondary py-3 text-white text-center rounded-3 ">
                       {item.name}
                     </h4>
                   </div>

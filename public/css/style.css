@@ -117,9 +117,8 @@ body * {
 }
 
 .furnace-header {
-  position: absolute;
-  top: 0;
-  left: 0;
+  /* top: -10px;
+  left: 10px;
   transform: rotate(-45deg);
-  width: 100px;
+  width: 100px; */
 }

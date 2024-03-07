@@ -374,9 +374,9 @@ export const addevents = createAsyncThunk(
 export const addphoto = createAsyncThunk(
   "Dashboard/addevents",
 
-  async ({ data, id }, { dispatch }) => {
+  async ({ data, id, token }, { dispatch }) => {
     try {
-      const furancesaddphoto = await uploadephoto(data);
+      const furancesaddphoto = await uploadephoto(data, token);
       if (furancesaddphoto.status === 200) {
         dispatch(getsinglefurance(id));
       } else {

@@ -17,6 +17,7 @@ const initialState = {
   DashboardList: [],
   furances: [],
   singlefurances: [],
+  loading: false,
 };
 
 // export const handleStaffLogin = createAsyncThunk(
@@ -62,6 +63,19 @@ const DashboardSlices = createSlice({
       return { ...state, singlefurances: payload };
     },
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchedashboard.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchedashboard.fulfilled, (state, action) => {
+        state.loading = false;
+      })
+      .addCase(fetchedashboard.rejected, (state) => {
+        state.loading = false;
+        // Handle rejection if needed
+      });
+  },
 });
 
 export const { RsetDashboardList, Rsetfurances, Rsetsinglefurances } =
@@ -70,6 +84,7 @@ export const { RsetDashboardList, Rsetfurances, Rsetsinglefurances } =
 export const selectDashboardList = (state) => state.Dashboard.DashboardList;
 export const selectfurances = (state) => state.Dashboard.furances;
 export const selectsinglefurances = (state) => state.Dashboard.singlefurances;
+export const selectloading = (state) => state.Dashboard.loading;
 
 export default DashboardSlices.reducer;
 // -----------------------------api handle

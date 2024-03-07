@@ -44,6 +44,11 @@ const UploadImageModal = () => {
 
   const uploadPhotoDes = useSelector(selectuploadPhotoDes);
 
+  const tokenUser = localStorage.getItem("token");
+
+  // Log the value of the token to the console
+  console.log(tokenUser);
+
   // ------------------uploade photo-----------------------------
   const location = useLocation();
   const id = getIdFromUrl(location.pathname);
@@ -62,7 +67,7 @@ const UploadImageModal = () => {
         data.append("description", uploadPhotoDes);
         data.append("furnace_event_oid", uploadPhotoCurrentRow._id);
       }
-      dispatch(addphoto({ data: data, id: id }));
+      dispatch(addphoto({ data: data, id: id, token: tokenUser }));
       dispatch(RsetuploadPhotoModal(false));
     } else {
       Swal.fire({

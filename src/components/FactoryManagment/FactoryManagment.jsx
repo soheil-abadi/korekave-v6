@@ -12,6 +12,7 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import FactoryManagmentAddModal from "./modal/FactoryManagmentAddModal";
 import { getUserList } from "../../services/authServices";
 import { deleteUser } from "../../services/authServices";
+import { Spin } from "antd";
 
 // -------------------
 // import { ExclamationCircleFilled } from "@ant-design/icons";
@@ -19,7 +20,7 @@ import { deleteUser } from "../../services/authServices";
 // const { confirm } = Modal;
 
 //slices
-import { selectLoading, RsetLoading } from "../../slices/mainSlices";
+
 import {
   selectUserManagmentEditModal,
   RsetUserManagmentEditModal,
@@ -43,6 +44,7 @@ import {
   selectFactoryManagmentAddmodal,
   selectFactoryManagmentEditModal,
   selectFactoryManagmentList,
+  selectloading,
 } from "../../slices/FactoryManagment";
 
 const data = [
@@ -99,7 +101,7 @@ const FactoryManagment = () => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   //select
-  const loading = useSelector(selectLoading);
+  const loading = useSelector(selectloading);
   const factoryManagmentEditModal = useSelector(
     selectFactoryManagmentEditModal
   );
@@ -342,6 +344,7 @@ const FactoryManagment = () => {
     size: "small",
   };
   const factorymanagmentData = useSelector(selectFactoryManagmentList);
+
   useEffect(() => {
     dispatch(fetchdata());
   }, [dispatch]);
@@ -417,10 +420,10 @@ const FactoryManagment = () => {
                 </Fragment>
               ) : (
                 <div
-                  className="d-flex justify-content-center"
+                  className="d-flex justify-content-center w-100"
                   style={{ marginTop: "200px" }}
                 >
-                  {/* <Loading height={"60px"} width={"60px"} /> */}
+                  <Spin />;
                 </div>
               )}
             </div>

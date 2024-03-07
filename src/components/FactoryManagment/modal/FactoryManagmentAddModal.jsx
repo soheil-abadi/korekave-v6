@@ -36,6 +36,7 @@ import {
   selectFactoryManagmentLogo,
   selectFactoryManagmentName,
   selectFactoryManagmentType,
+  selectloading,
 } from "../../../slices/FactoryManagment";
 import Swal from "sweetalert2";
 const selectoption = ["سنگ  ", "آجر  ", "  نسوز"];
@@ -59,6 +60,10 @@ const FactoryManagmentAddModal = () => {
   const FactoryManagmentLogo = useSelector(selectFactoryManagmentLogo);
   const FactoryManagmentName = useSelector(selectFactoryManagmentName);
   const FactoryManagmentType = useSelector(selectFactoryManagmentType);
+
+  const loading = useSelector(selectloading);
+
+  console.log(loading);
 
   const handleModalCancel = () => {
     dispatch(RsetFactoryManagmentAddmodal(false));
