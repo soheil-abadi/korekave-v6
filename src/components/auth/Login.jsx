@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import logo from "../img/logo/kave-logo.png";
 import { useDispatch, useSelector } from "react-redux";
 import Visibility from "@mui/icons-material/Visibility";
@@ -38,6 +38,10 @@ const theme = createTheme({
   },
 });
 
+export const token = () => {
+  return localStorage.getItem("token");
+};
+
 const Login = () => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(selectIsLoggedIn);
@@ -58,15 +62,14 @@ const Login = () => {
       username,
       password,
     };
+
     if ((username.trim() !== " ", password.trim() !== " ")) {
       const postLoginRes = await postLogin(values);
 
       if (postLoginRes.data.code === 200) {
         const userInfo = parseJwt(postLoginRes.data.token);
-
         console.log(userInfo);
-
-        dispatch(Rsetuser(userInfo));
+        dispatch(Rsetuser(userInfo.user));
 
         navigate("/Dashboard");
         dispatch(RsetIsLoggedIn(true));

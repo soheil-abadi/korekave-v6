@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ListIcon from "@mui/icons-material/List";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import FactoryAddModal from "./Modal/factoryAddModal";
+import { Spin } from "antd";
 
 import {
   RsetfactoryEditModal,
@@ -35,6 +36,7 @@ import {
   dashboardgetfurances,
   getsinglefurance,
   selectfurances,
+  selectloadingFurnace,
   selectsinglefurances,
 } from "../../slices/Dashboard";
 import { getIdFromUrl } from "./Observingfurnaces/ObservingFurnaces";
@@ -68,6 +70,7 @@ const Furnaces = () => {
   const addDimentionModal = useSelector(selectaddDimentionModal);
   const addEventModal = useSelector(selectaddEventModal);
   const getNewDimention = useSelector(selectgetNewDimention);
+  const loadingFurnace = useSelector(selectloadingFurnace);
 
   dispatch(RsetaddDimentionModal(false));
 
@@ -114,77 +117,93 @@ const Furnaces = () => {
             <AddCircleIcon className="rounded-5" />
           </Button>
         </div>
-        <div className="parent-card d-flex justify-content-sm-center    justify-content-md-center align-items-center gap-5 flex-wrap  border-top p-2 pt-5 mb-5 w-100  ">
-          {furances &&
-            furances.map((item, index) => (
-              <div
-                key={index}
-                className="cards col-sm-4 col-md-3  p-3 baxshadow  p-5 .borderRadius-15   position-relative overflow-hidden    "
-              >
-                <div style={{ height: "350px" }}>
-                  <div className="furnace-header ">
-                    <h4 className=" my-3 fw-bold bg-secondary py-3 text-white text-center rounded-3 ">
-                      {item.name}
-                    </h4>
+
+        {!loadingFurnace ? (
+          <div className="parent-card d-flex justify-content-sm-center    justify-content-md-center align-items-center gap-5 flex-wrap  border-top p-2 pt-5 mb-5 w-100  ">
+            {furances &&
+              furances.map((item, index) => (
+                <div
+                  key={index}
+                  className="cards col-sm-4 col-md-3  p-3 baxshadow  p-5 .borderRadius-15   position-relative overflow-hidden    "
+                >
+                  <div style={{ height: "350px" }}>
+                    <div className="furnace-header ">
+                      <h4 className=" my-3 fw-bold bg-secondary py-3 text-white text-center rounded-3 ">
+                        {item.name}
+                      </h4>
+                    </div>
+                    <p className="fw-bold ">
+                      نوع :
+                      <span className="fw-bold fs-6   ">
+                        {item.furnace_type}
+                      </span>
+                    </p>
+                    <p className="my-3">
+                      تعداد تعميرات سرد:
+                      <span className="fw-bold fs-6 ">
+                        {item.channel_line_count ? item.channel_line_count : 0}
+                      </span>
+                    </p>
+                    <p className="my-3">
+                      ظرفيت :{" "}
+                      <span className="fw-bold fs-6 ">{item.capacity}</span>
+                    </p>
+                    <p className="my-3">
+                      تعداد خطوط كانال :
+                      <span className="fw-bold fs-6 ">
+                        {item.channel_line_count ? item.channel_line_count : 0}
+                      </span>
+                    </p>
+                    <p className="my-3">
+                      حجم كوره :
+                      <span className="fw-bold fs-6 ">
+                        {item.furnace_volume}
+                      </span>
+                    </p>
+                    <p className="my-3">
+                      نوع ورودي كانال:
+                      <span className="fw-bold fs-6 ">
+                        {item.channel_entrance_type
+                          ? item.channel_entrance_type
+                          : 0}
+                      </span>
+                    </p>
                   </div>
-                  <p className="fw-bold ">
-                    نوع :
-                    <span className="fw-bold fs-6   ">{item.furnace_type}</span>
-                  </p>
-                  <p className="my-3">
-                    تعداد تعميرات سرد:
-                    <span className="fw-bold fs-6 ">
-                      {item.channel_line_count ? item.channel_line_count : 0}
-                    </span>
-                  </p>
-                  <p className="my-3">
-                    ظرفيت :{" "}
-                    <span className="fw-bold fs-6 ">{item.capacity}</span>
-                  </p>
-                  <p className="my-3">
-                    تعداد خطوط كانال :
-                    <span className="fw-bold fs-6 ">
-                      {item.channel_line_count ? item.channel_line_count : 0}
-                    </span>
-                  </p>
-                  <p className="my-3">
-                    حجم كوره :
-                    <span className="fw-bold fs-6 ">{item.furnace_volume}</span>
-                  </p>
-                  <p className="my-3">
-                    نوع ورودي كانال:
-                    <span className="fw-bold fs-6 ">
-                      {item.channel_entrance_type
-                        ? item.channel_entrance_type
-                        : 0}
-                    </span>
-                  </p>
+                  <div className="buttons d-flex justify-content-center align-items-center gap-3">
+                    <button
+                      onClick={() => {
+                        navigate(
+                          `/Dashboard/Factory/:id/Observingfurnaces/${item._id}`
+                        );
+                        dispatch(getsinglefurance(item._id));
+                      }}
+                      className="btn btn-primary w-100 text-center "
+                    >
+                      مشاهده كوره
+                    </button>
+                    <button
+                      onClick={() => {
+                        dispatch(RsetfactoryEditModal(true));
+                        handleCardClick(item);
+                      }}
+                      className="btn btn-secondary w-100 text-center "
+                    >
+                      ويرايش
+                    </button>
+                  </div>
                 </div>
-                <div className="buttons d-flex justify-content-center align-items-center gap-3">
-                  <button
-                    onClick={() => {
-                      navigate(
-                        `/Dashboard/Factory/:id/Observingfurnaces/${item._id}`
-                      );
-                      dispatch(getsinglefurance(item._id));
-                    }}
-                    className="btn btn-primary w-100 text-center "
-                  >
-                    مشاهده كوره
-                  </button>
-                  <button
-                    onClick={() => {
-                      dispatch(RsetfactoryEditModal(true));
-                      handleCardClick(item);
-                    }}
-                    className="btn btn-secondary w-100 text-center "
-                  >
-                    ويرايش
-                  </button>
-                </div>
-              </div>
-            ))}
-        </div>
+              ))}
+          </div>
+        ) : (
+          <>
+            <div
+              className="d-flex justify-content-center w-100"
+              style={{ marginTop: "200px" }}
+            >
+              <Spin />;
+            </div>
+          </>
+        )}
       </div>
 
       {FactoryEditModal && <FactoryModal card={clickedCard} />}

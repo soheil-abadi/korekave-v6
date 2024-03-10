@@ -66,6 +66,7 @@ import {
 import { Container } from "@mui/material";
 import {
   getsinglefurance,
+  selectloadingSingleFurnace,
   selectsinglefurances,
 } from "../../../slices/Dashboard";
 import { useLocation } from "react-router-dom";
@@ -75,6 +76,7 @@ import { Pagination, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import { Spin } from "antd";
 
 import { uploadephoto } from "../../../services/authServices";
 
@@ -461,8 +463,8 @@ const ObservingFurnaces = () => {
   const eventname = useSelector(selectFurnaceObservationEventName);
   const AddTabs = useSelector(selectFurnaceObservationAddTabs);
   const formattabs = useSelector(selectFurnaceObservationFormatTabs);
+  const loadingSingleFurnace = useSelector(selectloadingSingleFurnace);
 
-  // dispatch(RsetFurnaceObservationAddTabs(singlefurances[0].furnace_Events));
   // -----------------add row modal slices
   const FurnaceObservationaddrowmodal = useSelector(
     selectFurnaceObservationaddrowmodal
@@ -515,110 +517,128 @@ const ObservingFurnaces = () => {
             {`مديريت  كوره`}
           </div>
         </div>
-        <div className="topinformation ">
-          <Table
-            className="py-5"
-            columns={columnstop}
-            dataSource={singlefurances.furnace}
-            pagination={false}
-          />
-          <Collapse>
-            {showTable && (
+        {!loadingSingleFurnace ? (
+          <>
+            <div className="topinformation ">
               <Table
-                className="w-75 m-auto py-5"
-                columns={columnsmini}
-                dataSource={singlefurances.furnaceDimension}
+                className="py-5"
+                columns={columnstop}
+                dataSource={singlefurances.furnace}
                 pagination={false}
-                locale={{
-                  emptyText: <Empty description="اطلاعات موجود نیست!" />,
-                }}
               />
-            )}
-          </Collapse>
-        </div>
+              <Collapse>
+                {showTable && (
+                  <Table
+                    className="w-75 m-auto py-5"
+                    columns={columnsmini}
+                    dataSource={singlefurances.furnaceDimension}
+                    pagination={false}
+                    locale={{
+                      emptyText: <Empty description="اطلاعات موجود نیست!" />,
+                    }}
+                  />
+                )}
+              </Collapse>
+            </div>
 
-        <div className="buttom-table">
-          {/* <Button
+            <div className="buttom-table">
+              {/* <Button
           onClick={() => dispatch(RsetFurnaceObservationStatusModal(true))}
           className="m-3"
         >
           اضافه كردن رويداد
         </Button> */}
 
-          <Button
-            className="m-3"
-            onClick={() => dispatch(RsetFurnaceObservationStatusModal(true))}
-          >
-            اضافه كردن رويداد
-          </Button>
-
-          {/* ---------------------------------------------------------------- */}
-          <Tabs>
-            {eventName.map((tab, index) => (
-              <TabPane className="fw-bold" tab={tab} key={index}>
-                <Table
-                  locale={{
-                    emptyText: <Empty description="اطلاعات موجود نیست!" />,
-                  }}
-                  columns={columnsevent}
-                  dataSource={[event[index]]}
-                />
-              </TabPane>
-            ))}
-          </Tabs>
-
-          {/* --------------------------------------------------------------------- */}
-
-          <Tabs activeKey={activeT} onChange={handleTabChan} className="m-4">
-            <TabPane tab="ملزومات استفاده شده" key="tab2">
               <Button
-                onClick={() =>
-                  dispatch(RsetFurnaceObservationaddrowmodal(true))
-                }
                 className="m-3"
+                onClick={() =>
+                  dispatch(RsetFurnaceObservationStatusModal(true))
+                }
               >
-                اضافه كردن رديف
+                اضافه كردن رويداد
               </Button>
 
-              <Table
-                columns={columnsbuttom}
-                dataSource={materialdata}
-                pagination={paginationConfig}
-                locale={{
-                  emptyText: <Empty description="اطلاعات موجود نیست!" />,
-                }}
-              />
-            </TabPane>
-            <TabPane tab=" تصاوير" key="tab3">
-              <Swiper
-                className="mt-3 bg-black"
-                spaceBetween={50}
-                slidesPerView={1}
-                navigation={true}
-                modules={[Pagination, Navigation]}
-                pagination={{
-                  type: "fraction",
-                }}
-              >
-                {pic.map((item) => (
-                  <SwiperSlide
-                    className=" d-flex justify-content-center align-items-center my-3 flex-column "
-                    key={item.id}
-                  >
-                    <h3 className="my-3 bg-secondary w-100 text-center py-2 rounded-3 text-white">
-                      {item.description}
-                    </h3>
-                    <img
-                      style={{ width: "800px", height: "700px" }}
-                      src={`http://192.168.5.60:8007/uploads/furnaces/${item.picture}`}
-                      alt="event image"
+              {/* ---------------------------------------------------------------- */}
+              <Tabs>
+                {eventName.map((tab, index) => (
+                  <TabPane className="fw-bold" tab={tab} key={index}>
+                    <Table
+                      locale={{
+                        emptyText: <Empty description="اطلاعات موجود نیست!" />,
+                      }}
+                      pagination={false}
+                      columns={columnsevent}
+                      dataSource={[event[index]]}
                     />
-                  </SwiperSlide>
+                  </TabPane>
                 ))}
-              </Swiper>
-            </TabPane>
-          </Tabs>
-        </div>
+              </Tabs>
+
+              {/* --------------------------------------------------------------------- */}
+
+              <Tabs
+                activeKey={activeT}
+                onChange={handleTabChan}
+                className="m-4"
+              >
+                <TabPane tab="ملزومات استفاده شده" key="tab2">
+                  <Button
+                    onClick={() =>
+                      dispatch(RsetFurnaceObservationaddrowmodal(true))
+                    }
+                    className="m-3"
+                  >
+                    اضافه كردن رديف
+                  </Button>
+
+                  <Table
+                    columns={columnsbuttom}
+                    dataSource={materialdata}
+                    pagination={paginationConfig}
+                    locale={{
+                      emptyText: <Empty description="اطلاعات موجود نیست!" />,
+                    }}
+                  />
+                </TabPane>
+                <TabPane tab=" تصاوير" key="tab3">
+                  <Swiper
+                    className="mt-3 bg-black"
+                    spaceBetween={50}
+                    slidesPerView={1}
+                    navigation={true}
+                    modules={[Pagination, Navigation]}
+                    pagination={{
+                      type: "fraction",
+                    }}
+                  >
+                    {pic.map((item) => (
+                      <SwiperSlide
+                        className=" d-flex justify-content-center align-items-center my-3 flex-column "
+                        key={item.id}
+                      >
+                        <h3 className="my-3 bg-secondary w-100 text-center py-2 rounded-3 text-white">
+                          {item.description}
+                        </h3>
+                        <img
+                          style={{ width: "800px", height: "700px" }}
+                          src={`http://192.168.5.60:8007/uploads/furnaces/${item.picture}`}
+                          alt="event image"
+                        />
+                      </SwiperSlide>
+                    ))}
+                  </Swiper>
+                </TabPane>
+              </Tabs>
+            </div>
+          </>
+        ) : (
+          <div
+            className="d-flex justify-content-center w-100"
+            style={{ marginTop: "200px" }}
+          >
+            <Spin />;
+          </div>
+        )}
       </div>
       {FurnaceObservationStatusModal && <ObservingfurnaceAddEventModal />}
       {FurnaceObservationaddrowmodal && <ObservingfurnacesModalAddRow />}

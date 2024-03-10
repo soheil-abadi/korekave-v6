@@ -16,6 +16,7 @@ const initialState = {
   FurnaceDistributeAddmodal: false,
   FurnaceDistributeType: "",
   FurnaceDistributeSection: "",
+  loading: false,
 };
 
 // export const handleStaffLogin = createAsyncThunk(
@@ -74,6 +75,19 @@ const FurnaceDistributeSlices = createSlice({
 
     RsetFurnaceDistributeAddmodal: (state, { payload }) => {
       return { ...state, FurnaceDistributeAddmodal: payload };
+    },
+    extraReducers: (builder) => {
+      builder
+        .addCase(fetchfurancepart.pending, (state) => {
+          state.loading = true;
+        })
+        .addCase(fetchfurancepart.fulfilled, (state, action) => {
+          state.loading = false;
+        })
+        .addCase(fetchfurancepart.rejected, (state) => {
+          state.loading = false;
+          // Handle rejection if needed
+        });
     },
   },
 });

@@ -18,6 +18,8 @@ const initialState = {
   furances: [],
   singlefurances: [],
   loading: false,
+  loadingFurnace: false,
+  loadingSingleFurnace: false,
 };
 
 // export const handleStaffLogin = createAsyncThunk(
@@ -76,6 +78,32 @@ const DashboardSlices = createSlice({
         // Handle rejection if needed
       });
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase(dashboardgetfurances.pending, (state) => {
+        state.loadingFurnace = true;
+      })
+      .addCase(dashboardgetfurances.fulfilled, (state, action) => {
+        state.loadingFurnace = false;
+      })
+      .addCase(dashboardgetfurances.rejected, (state) => {
+        state.loadingFurnace = false;
+        // Handle rejection if needed
+      });
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(dashboardgetfurances.pending, (state) => {
+        state.loadingSingleFurnace = true;
+      })
+      .addCase(dashboardgetfurances.fulfilled, (state, action) => {
+        state.loadingSingleFurnace = false;
+      })
+      .addCase(dashboardgetfurances.rejected, (state) => {
+        state.loadingSingleFurnace = false;
+        // Handle rejection if needed
+      });
+  },
 });
 
 export const { RsetDashboardList, Rsetfurances, Rsetsinglefurances } =
@@ -85,15 +113,18 @@ export const selectDashboardList = (state) => state.Dashboard.DashboardList;
 export const selectfurances = (state) => state.Dashboard.furances;
 export const selectsinglefurances = (state) => state.Dashboard.singlefurances;
 export const selectloading = (state) => state.Dashboard.loading;
+export const selectloadingFurnace = (state) => state.Dashboard.loadingFurnace;
+export const selectloadingSingleFurnace = (state) =>
+  state.Dashboard.loadingSingleFurnace;
 
 export default DashboardSlices.reducer;
 // -----------------------------api handle
 export const fetchedashboard = createAsyncThunk(
   "Dashboard/fetchessentialgoodlist",
 
-  async (obj, { dispatch }) => {
+  async (token, { dispatch }) => {
     try {
-      const getuser = await dashboardget();
+      const getuser = await dashboardget(token);
 
       if (getuser.status === 200) {
         dispatch(RsetDashboardList(getuser.data.data));
