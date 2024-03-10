@@ -117,6 +117,8 @@ export const selectFurnaceDistributeEditModal = (state) =>
 export const selectFurnaceDistributeAddmodal = (state) =>
   state.FurnaceDistribute.FurnaceDistributeAddmodal;
 
+export const selectloading = (state) => state.FurnaceDistribute.loading;
+
 export default FurnaceDistributeSlices.reducer;
 
 // -----------------------------------------------firancepart

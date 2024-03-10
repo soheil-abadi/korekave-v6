@@ -132,14 +132,14 @@ const Furnaces = () => {
                         {item.name}
                       </h4>
                     </div>
-                    <p className="fw-bold ">
-                      نوع :
+                    <p>
+                      نوع :{" "}
                       <span className="fw-bold fs-6   ">
                         {item.furnace_type}
                       </span>
                     </p>
                     <p className="my-3">
-                      تعداد تعميرات سرد:
+                      تعداد تعميرات سرد:{" "}
                       <span className="fw-bold fs-6 ">
                         {item.channel_line_count ? item.channel_line_count : 0}
                       </span>
@@ -149,19 +149,19 @@ const Furnaces = () => {
                       <span className="fw-bold fs-6 ">{item.capacity}</span>
                     </p>
                     <p className="my-3">
-                      تعداد خطوط كانال :
+                      تعداد خطوط كانال :{" "}
                       <span className="fw-bold fs-6 ">
                         {item.channel_line_count ? item.channel_line_count : 0}
                       </span>
                     </p>
                     <p className="my-3">
-                      حجم كوره :
+                      حجم كوره :{" "}
                       <span className="fw-bold fs-6 ">
                         {item.furnace_volume}
                       </span>
                     </p>
                     <p className="my-3">
-                      نوع ورودي كانال:
+                      نوع ورودي كانال:{" "}
                       <span className="fw-bold fs-6 ">
                         {item.channel_entrance_type
                           ? item.channel_entrance_type
@@ -200,7 +200,7 @@ const Furnaces = () => {
               className="d-flex justify-content-center w-100"
               style={{ marginTop: "200px" }}
             >
-              <Spin />;
+              <Spin size="large" />;
             </div>
           </>
         )}

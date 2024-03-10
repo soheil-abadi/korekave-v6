@@ -423,7 +423,7 @@ const FactoryManagment = () => {
                   className="d-flex justify-content-center w-100"
                   style={{ marginTop: "200px" }}
                 >
-                  <Spin />;
+                  <Spin size="large" />;
                 </div>
               )}
             </div>

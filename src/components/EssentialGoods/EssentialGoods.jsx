@@ -1,5 +1,13 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { Input, Space, Table, ConfigProvider, Empty, Popconfirm } from "antd";
+import {
+  Input,
+  Space,
+  Table,
+  ConfigProvider,
+  Empty,
+  Popconfirm,
+  Spin,
+} from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { Container, Row, Col, Button, Tabs, Tab } from "react-bootstrap";
@@ -12,7 +20,6 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import EssentialGoodsAddModal from "./modal/EssentialGoodsAddModal";
 import { getessentialgoods } from "../../services/authServices";
 // -------------------------slices
-import { selectLoading, RsetLoading } from "../../slices/mainSlices";
 import {
   RsetessentialGoodsAddmodal,
   RsetessentialGoodsCurrentUser,
@@ -24,6 +31,7 @@ import {
   selectessentialGoodsCurrentUser,
   selectessentialGoodsEditModal,
   selectessentialGoodsList,
+  selectloading,
 } from "../../slices/essentialGoodsSlices";
 const data = [
   {
@@ -59,7 +67,7 @@ const EssentialGoods = () => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   //select
-  const loading = useSelector(selectLoading);
+  const loading = useSelector(selectloading);
   const essentialGoodsEditModal = useSelector(selectessentialGoodsEditModal);
   const essentialGoodsCurrentUser = useSelector(
     selectessentialGoodsCurrentUser
@@ -303,7 +311,7 @@ const EssentialGoods = () => {
           <EditIcon />
         </Button>
         <Popconfirm
-          title="آيا از حذف اين سطر مطمعن هستيد"
+          title="آيا از حذف اين سطر مطمئن هستيد"
           className="btn btn-danger d-flex align-items-center  mb-2 mb-md-2"
           size="sm"
           okText={<span>تایید</span>} // Change the color of "تایید"
@@ -346,41 +354,7 @@ const EssentialGoods = () => {
             <div dir="rtl" className="position-relative">
               {!loading ? (
                 <Fragment>
-                  <ConfigProvider
-                    locale={faIR}
-                    // theme={{
-                    //   token: {
-                    //     // Seed Token
-                    //     // colorPrimary: "#00b96b",
-                    //     // Alias Token
-                    //     colorBgContainer: `${!darkMode ? "#303030" : "#fff"}`,
-                    //     colorText: "white",
-                    //     colorTextPlaceholder: `${
-                    //       !darkMode ? "white" : "black"
-                    //     }`,
-                    //     // borderColor: "#000",
-                    //   },
-                    //   components: {
-                    //     Table: {
-                    //       colorBgContainer: ` ${
-                    //         !darkMode ? "#222a38" : "#e3e3e3"
-                    //       }`,
-                    //       borderColor: "#000",
-                    //       rowHoverBg: `${!darkMode ? "black" : "#ccc"}`,
-                    //       colorText: `${!darkMode ? "white" : "black"}`,
-                    //       headerBg: `${!darkMode ? "#1c283d" : "gray"}`,
-                    //       headerSortHoverBg: `${
-                    //         !darkMode ? "#000" : "#888a89"
-                    //       }`,
-                    //       headerSortActiveBg: `${
-                    //         !darkMode ? "#000" : "#888a89"
-                    //       }`,
-                    //       // headerFilterHoverIcon: "#fff",
-                    //       // headerFilterIcon: "#fff",
-                    //     },
-                    //   },
-                    // }}
-                  >
+                  <ConfigProvider locale={faIR}>
                     <Table
                       locale={{
                         emptyText: <Empty description="اطلاعات موجود نیست!" />,
@@ -397,10 +371,10 @@ const EssentialGoods = () => {
                 </Fragment>
               ) : (
                 <div
-                  className="d-flex justify-content-center"
+                  className="d-flex justify-content-center w-100"
                   style={{ marginTop: "200px" }}
                 >
-                  {/* <Loading height={"60px"} width={"60px"} /> */}
+                  <Spin size="large" />;
                 </div>
               )}
             </div>

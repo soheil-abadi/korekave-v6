@@ -18,6 +18,7 @@ const initialState = {
   sort: "",
   firmorigin: "",
   type: "",
+  loading: false,
 };
 
 // export const handleStaffLogin = createAsyncThunk(
@@ -87,6 +88,19 @@ const essentialGoodsSlices = createSlice({
     RsetessentialGoodsAddmodal: (state, { payload }) => {
       return { ...state, essentialGoodsAddmodal: payload };
     },
+    extraReducers: (builder) => {
+      builder
+        .addCase(fetchessentialgoodlist.pending, (state) => {
+          state.loading = true;
+        })
+        .addCase(fetchessentialgoodlist.fulfilled, (state, action) => {
+          state.loading = false;
+        })
+        .addCase(fetchessentialgoodlist.rejected, (state) => {
+          state.loading = false;
+          // Handle rejection if needed
+        });
+    },
   },
 });
 
@@ -123,6 +137,8 @@ export const selectessentialGoodsEditModal = (state) =>
   state.essentialGoods.essentialGoodsEditModal;
 export const selectessentialGoodsAddmodal = (state) =>
   state.essentialGoods.essentialGoodsAddmodal;
+
+export const selectloading = (state) => state.essentialGoods.loading;
 
 export default essentialGoodsSlices.reducer;
 // ------------------------------------------------------handle api

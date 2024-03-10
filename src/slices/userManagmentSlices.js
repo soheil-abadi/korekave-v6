@@ -20,6 +20,7 @@ const initialState = {
   userManagmentFirstName: "",
   userManagmentPassword: "",
   userManagmentAccess: [],
+  loading: false,
 };
 
 // export const handleStaffLogin = createAsyncThunk(
@@ -89,6 +90,19 @@ const userManagmentSlices = createSlice({
     RsetuserManagmentDeleteModal: (state, { payload }) => {
       return { ...state, userManagmentDeleteModal: payload };
     },
+    extraReducers: (builder) => {
+      builder
+        .addCase(fetchUserList.pending, (state) => {
+          state.loading = true;
+        })
+        .addCase(fetchUserList.fulfilled, (state, action) => {
+          state.loading = false;
+        })
+        .addCase(fetchUserList.rejected, (state) => {
+          state.loading = false;
+          // Handle rejection if needed
+        });
+    },
   },
 });
 
@@ -125,6 +139,7 @@ export const selectuserManagmentAccess = (state) =>
   state.userManagment.userManagmentAccess;
 export const selectuserManagmentDeleteModal = (state) =>
   state.userManagment.userManagmentDeleteModal;
+export const selectloading = (state) => state.userManagment.loading;
 
 export default userManagmentSlices.reducer;
 

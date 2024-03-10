@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { Input, Space, Table, ConfigProvider, Empty, Modal } from "antd";
+import { Input, Space, Table, ConfigProvider, Empty, Modal, Spin } from "antd";
 import { SearchOutlined, WarningOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { Container, Row, Col, Button, Tabs, Tab } from "react-bootstrap";
@@ -19,7 +19,7 @@ import { deleteUser } from "../../services/authServices";
 // const { confirm } = Modal;
 
 //slices
-import { selectLoading, RsetLoading } from "../../slices/mainSlices";
+
 import {
   selectUserManagmentEditModal,
   RsetUserManagmentEditModal,
@@ -33,6 +33,7 @@ import {
   RsetuserManagmentDeleteModal,
   fetchUserList,
   deleteuserlist,
+  selectloading,
 } from "../../slices/userManagmentSlices";
 import { Popconfirm } from "antd/lib";
 
@@ -90,11 +91,12 @@ const UsersList = () => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   //select
-  const loading = useSelector(selectLoading);
+
   const userManagmentEditModal = useSelector(selectUserManagmentEditModal);
 
   const userManagmentAddmodal = useSelector(selectuserManagmentAddmodal);
   const UserManagmentList = useSelector(selectUserManagmentList);
+  const loading = useSelector(selectloading);
 
   // ---------------------------------------------------------------
 
@@ -324,7 +326,7 @@ const UsersList = () => {
           <EditIcon />
         </Button>
         <Popconfirm
-          title="آيا از حذف اين سطر مطمعن هستيد"
+          title="آيا از حذف اين سطر مطمئن هستيد"
           className="btn btn-danger d-flex align-items-center  mb-2 mb-md-2"
           size="sm"
           okText={<span>تایید</span>}
@@ -386,10 +388,10 @@ const UsersList = () => {
                 </Fragment>
               ) : (
                 <div
-                  className="d-flex justify-content-center"
+                  className="d-flex justify-content-center w-100"
                   style={{ marginTop: "200px" }}
                 >
-                  {/* <Loading height={"60px"} width={"60px"} /> */}
+                  <Spin size="large" />;
                 </div>
               )}
             </div>

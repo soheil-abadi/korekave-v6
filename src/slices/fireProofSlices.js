@@ -22,6 +22,7 @@ const initialState = {
   b_size: "",
   l_size: "",
   h: "",
+  loading: false,
 };
 
 // export const handleStaffLogin = createAsyncThunk(
@@ -106,6 +107,19 @@ const fireProofSlices = createSlice({
     RsetfireProofAddmodal: (state, { payload }) => {
       return { ...state, fireProofAddmodal: payload };
     },
+    extraReducers: (builder) => {
+      builder
+        .addCase(fetchfireprooflistList.pending, (state) => {
+          state.loading = true;
+        })
+        .addCase(fetchfireprooflistList.fulfilled, (state, action) => {
+          state.loading = false;
+        })
+        .addCase(fetchfireprooflistList.rejected, (state) => {
+          state.loading = false;
+          // Handle rejection if needed
+        });
+    },
   },
 });
 
@@ -145,6 +159,7 @@ export const selectfireProofb = (state) => state.fireProof.b_size;
 
 export const selectfireProofI = (state) => state.fireProof.l_size;
 export const selectfireProofh = (state) => state.fireProof.h;
+export const selectloading = (state) => state.fireProof.loading;
 
 // -----------------------------------------------------------------
 export const selectfireProofEditModal = (state) =>

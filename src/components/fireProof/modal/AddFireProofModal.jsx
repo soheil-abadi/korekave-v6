@@ -224,7 +224,7 @@ const AddFireProofModal = () => {
           </Box>
           <Box>
             <InputLabel className="fw-bold fs-5">
-              وزن در واحد (کیلوگرم):{" "}
+              وزن در واحد (کیلوگرم):
             </InputLabel>
             <TextField
               variant="outlined"

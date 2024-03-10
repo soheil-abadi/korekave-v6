@@ -7,6 +7,7 @@ import {
   Empty,
   Modal,
   Popconfirm,
+  Spin,
 } from "antd";
 import {
   SearchOutlined,
@@ -25,7 +26,6 @@ import AddFireProofModal from "./modal/AddFireProofModal";
 import { deletefireproof, getfireprooflist } from "../../services/authServices";
 
 //slices
-import { selectLoading, RsetLoading } from "../../slices/mainSlices";
 import {
   RsetfireProofAddmodal,
   RsetfireProofCurrentUser,
@@ -37,6 +37,7 @@ import {
   selectfireProofCurrentUser,
   selectfireProofEditModal,
   selectfireProofList,
+  selectloading,
 } from "../../slices/fireProofSlices";
 
 // delete conformation
@@ -49,7 +50,7 @@ const FireProof = () => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   ////////////////select
-  const loading = useSelector(selectLoading);
+  const loading = useSelector(selectloading);
   const fireProofEditModal = useSelector(selectfireProofEditModal);
   const fireProofCurrentUser = useSelector(selectfireProofCurrentUser);
   const fireProofAddmodal = useSelector(selectfireProofAddmodal);
@@ -380,7 +381,7 @@ const FireProof = () => {
           <EditIcon />
         </Button>
         <Popconfirm
-          title="آيا از حذف اين سطر مطمعن هستيد"
+          title="آيا از حذف اين سطر مطمئن هستيد"
           className="btn btn-danger d-flex align-items-center  mb-2 mb-md-2"
           size="sm"
           okText={<span>تایید</span>} // Change the color of "تایید"
@@ -442,10 +443,10 @@ const FireProof = () => {
                 </Fragment>
               ) : (
                 <div
-                  className="d-flex justify-content-center"
+                  className="d-flex justify-content-center w-100"
                   style={{ marginTop: "200px" }}
                 >
-                  {/* <Loading height={"60px"} width={"60px"} /> */}
+                  <Spin size="large" />;
                 </div>
               )}
             </div>

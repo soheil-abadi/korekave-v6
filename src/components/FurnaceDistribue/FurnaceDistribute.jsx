@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { Input, Space, Table, ConfigProvider, Empty, Modal } from "antd";
+import { Input, Space, Table, ConfigProvider, Empty, Modal, Spin } from "antd";
 import { SearchOutlined, WarningOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { Container, Row, Col, Button, Tabs, Tab } from "react-bootstrap";
@@ -18,7 +18,6 @@ import { getUserList } from "../../services/authServices";
 // const { confirm } = Modal;
 
 //slices
-import { selectLoading, RsetLoading } from "../../slices/mainSlices";
 import {
   selectUserManagmentEditModal,
   RsetUserManagmentEditModal,
@@ -40,6 +39,7 @@ import {
   selectFurnaceDistributeCurrentUser,
   selectFurnaceDistributeEditModal,
   selectFurnaceDistributeList,
+  selectloading,
 } from "../../slices/FurnaceDistribute";
 
 const data = [
@@ -102,7 +102,7 @@ const FurnaceDistribute = () => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   //select
-  const loading = useSelector(selectLoading);
+  const loading = useSelector(selectloading);
   const furnaceDistributeEditModal = useSelector(
     selectFurnaceDistributeEditModal
   );
@@ -351,10 +351,10 @@ const FurnaceDistribute = () => {
                 </Fragment>
               ) : (
                 <div
-                  className="d-flex justify-content-center"
+                  className="d-flex justify-content-center w-100"
                   style={{ marginTop: "200px" }}
                 >
-                  {/* <Loading height={"60px"} width={"60px"} /> */}
+                  <Spin size="large" />;
                 </div>
               )}
             </div>

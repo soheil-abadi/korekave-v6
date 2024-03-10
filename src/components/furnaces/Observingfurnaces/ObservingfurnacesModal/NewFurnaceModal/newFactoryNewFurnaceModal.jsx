@@ -139,7 +139,7 @@ const NewFactoryNewFurnaceModal = () => {
   return (
     <ConfigProvider direction="rtl" locale={fa_IR}>
       <Modal
-        width={800}
+        width={1200}
         title={
           <>
             <h3 className="fw-bold fs-3  "> اضافه كردن ابعاد </h3>
@@ -163,8 +163,12 @@ const NewFactoryNewFurnaceModal = () => {
                   key={index}
                   className="d-flex justify-content-center align-items-center gap-3"
                 >
-                  <InputLabel className="fw-bold fs-5 w-100">
-                    {label.name}
+                  <InputLabel className="fw-bold fs-5 w-100   ">
+                    {
+                      <>
+                        <h3>${label.name}</h3>
+                      </>
+                    }
                   </InputLabel>
                   <TextField
                     variant="outlined"

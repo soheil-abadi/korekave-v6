@@ -623,6 +623,7 @@ const ObservingFurnaces = () => {
                           style={{ width: "800px", height: "700px" }}
                           src={`http://192.168.5.60:8007/uploads/furnaces/${item.picture}`}
                           alt="event image"
+                          className="rounded-3"
                         />
                       </SwiperSlide>
                     ))}
@@ -636,7 +637,7 @@ const ObservingFurnaces = () => {
             className="d-flex justify-content-center w-100"
             style={{ marginTop: "200px" }}
           >
-            <Spin />;
+            <Spin size="large" />;
           </div>
         )}
       </div>

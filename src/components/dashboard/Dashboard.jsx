@@ -107,10 +107,10 @@ const Dashboard = () => {
         ) : (
           <>
             <div
-              className="d-flex justify-content-center w-100"
+              className="d-flex justify-content-center w-100 "
               style={{ marginTop: "200px" }}
             >
-              <Spin />;
+              <Spin size="large" />;
             </div>
           </>
         )}
