@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { errorMessage, successMessage } from "../utils/toast";
+import { SuccessMessage, errorMessage, successMessage } from "../utils/toast";
 import {
   addfurnace,
   dashboardget,
@@ -153,6 +153,7 @@ export const editfurnaces = createAsyncThunk(
     try {
       const editfurnaces = await editfurnace(id, data);
       if (editfurnaces.status !== undefined) {
+        SuccessMessage(editfurnaces.data.message);
         dispatch(dashboardgetfurances(id));
       } else {
         Swal.fire({
@@ -176,6 +177,7 @@ export const addfurnaces = createAsyncThunk(
     try {
       const postfurance = await addfurnace(data);
       if (postfurance.status === 200) {
+        SuccessMessage(postfurance.data.message);
         dispatch(dashboardgetfurances(id));
       } else {
         Swal.fire({

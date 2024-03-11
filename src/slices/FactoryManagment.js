@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { errorMessage, successMessage } from "../utils/toast";
+import { SuccessMessage, errorMessage, successMessage } from "../utils/toast";
 import {
   addfactorymanagment,
   editfactorymanagment,
@@ -174,6 +174,7 @@ export const addfactory = createAsyncThunk(
       const FactoryManagmentData = await addfactorymanagment(data);
 
       if (FactoryManagmentData.status === 200) {
+        SuccessMessage(FactoryManagmentData.data.message);
         dispatch(fetchdata());
       } else {
         Swal.fire({
@@ -198,6 +199,8 @@ export const editfactory = createAsyncThunk(
       const FactoryManagmentData = await editfactorymanagment(data, id);
 
       if (FactoryManagmentData.status === 200) {
+        SuccessMessage(FactoryManagmentData.data.message);
+
         dispatch(fetchdata());
       } else {
         Swal.fire({

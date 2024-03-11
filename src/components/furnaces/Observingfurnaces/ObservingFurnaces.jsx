@@ -13,14 +13,20 @@ import {
 import { Button } from "react-bootstrap";
 import TabPane from "antd/lib/tabs/TabPane";
 import ObservingfurnaceAddEventModal from "./ObservingfurnacesModal/ObservingfurnaceAddEventModal";
+import ObservingfurnaceEditEventModal from "./ObservingfurnacesModal/ObservingfurnaceEditEventModal";
+
 import ObservingfurnacesModalAddRow from "./ObservingfurnacesModal/ObservingfurnacesModalAddRow";
 import ObservingfurnacesModalAddDimension from "./ObservingfurnacesModal/ObservingfurnacesModalAddDimension";
 import ListIcon from "@mui/icons-material/List";
 import UploadImageModal from "./ObservingfurnacesModal/UploadImageModal";
+import ButtomTableUploadPhotoModal from "./ObservingfurnacesModal/DisplayAndUploadingPhotoModal/ButtomTableUploadPhotoModal";
+
 import moment from "moment-jalaali";
 import UndoIcon from "@mui/icons-material/Undo";
 
 import NewFactoryNewFurnaceModal from "./ObservingfurnacesModal/NewFurnaceModal/newFactoryNewFurnaceModal";
+import DisplayUPloadingPhotoModal from "./ObservingfurnacesModal/DisplayAndUploadingPhotoModal/DisplayUPloadingPhotoModal";
+
 import NewFactoryFurnaceAddEvent from "./ObservingfurnacesModal/NewFurnaceModal/newFactoryFurnaceAddEvent";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -58,6 +64,15 @@ import {
   selectaddDimentionModal,
   RsetaddDimentionModal,
   selectaddEventModal,
+  selectFurnaceObservationfurnaceEventEditModal,
+  RsetfurnaceEventEditModal,
+  RsetfurnaceEventEditCurrentRow,
+  selectFurnaceObservationdisplayPictureModal,
+  RsetdisplayPictureModal,
+  selectuploadPhotoSubTable,
+  RsetuploadPhotoSubTable,
+  RsetuploadPhotoSubTableCurrentUser,
+  fetchsubtableimg,
 } from "../../../slices/FurnaceObservationSlices";
 import {
   RsetFurnaceDistributeAddmodal,
@@ -98,6 +113,17 @@ const ObservingFurnaces = () => {
   const furenceObserEvents = useSelector(selectFurenceObserEvents);
   const addDimentionModal = useSelector(selectaddDimentionModal);
   const addEventModal = useSelector(selectaddEventModal);
+  const displayPictureModal = useSelector(
+    selectFurnaceObservationdisplayPictureModal
+  );
+
+  const uploadPhotoSubTable = useSelector(selectuploadPhotoSubTable);
+
+  console.log(uploadPhotoSubTable);
+
+  const FurnaceObservationfurnaceEventEditModal = useSelector(
+    selectFurnaceObservationfurnaceEventEditModal
+  );
 
   const listReloader = useSelector(selectListReloader);
   const [material, setmaterial] = useState([]);
@@ -224,19 +250,71 @@ const ObservingFurnaces = () => {
         <ul>
           {record.shape_code_custome.map((item, index) => (
             <>
-              <li className="fw-bold" key={index}>
-                {item.shape}
-              </li>
-              <p className="fw-bold"> تعداد : {item.numbers}</p>
+              <div className="d-flex justify-content-center align-items-center gap-2 my-2  w-100  ">
+                <div className="w-100">
+                  <li className="fw-bold" key={index}>
+                    {item.shape}
+                  </li>
+                  <p className="fw-bold"> تعداد : {item.numbers}</p>
+                </div>
+              </div>
             </>
           ))}
+        </ul>
+      ),
+    },
+    {
+      title: " نمايش و آپلود عكس	",
+      key: "action",
+      width: 250,
+
+      render: (text, record) => (
+        <ul>
+          <>
+            <div className="d-flex justify-content-center align-items-center gap-3 w-100">
+              <Button
+                onClick={() => {
+                  dispatch(RsetuploadPhotoSubTable(true));
+                  dispatch(RsetuploadPhotoSubTableCurrentUser(record));
+                }}
+                className="w-50 m-auto"
+              >
+                آپلود عكس
+              </Button>
+              <Button
+                onClick={() => {
+                  dispatch(RsetdisplayPictureModal(true));
+                  dispatch(fetchsubtableimg(record._id));
+                }}
+                className="w-50 m-auto"
+              >
+                نمايش تصوير
+              </Button>
+            </div>
+          </>
         </ul>
       ),
     },
 
     ,
     {
-      title: "ابعاد و تعداد	",
+      title: "  افزودن ابعاد",
+      key: "action",
+      render: (record) => (
+        <Button
+          onClick={() => {
+            dispatch(RsetFurnaceObservationAddDimentionModal(true));
+            dispatch(
+              RsetFurnaceObservationAddDimentioncurrentmaterial(record._id)
+            );
+          }}
+        >
+          اضافه كردن ابعاد
+        </Button>
+      ),
+    },
+    {
+      title: " حذف ",
       key: "action",
       width: 150, // Set the width to 100px
 
@@ -251,22 +329,6 @@ const ObservingFurnaces = () => {
         >
           <Button type="primary">حذف </Button>
         </Popconfirm>
-      ),
-    },
-    {
-      title: "افزودن",
-      key: "action",
-      render: (record) => (
-        <Button
-          onClick={() => {
-            dispatch(RsetFurnaceObservationAddDimentionModal(true));
-            dispatch(
-              RsetFurnaceObservationAddDimentioncurrentmaterial(record._id)
-            );
-          }}
-        >
-          اضافه كردن ابعاد
-        </Button>
       ),
     },
   ];
@@ -308,26 +370,50 @@ const ObservingFurnaces = () => {
       width: 500,
     },
     {
-      title: "عمليات",
+      title: "آپلود",
       dataIndex: "function",
       key: "function",
-      width: 150,
+      width: 200,
       render: (text, record) => (
         <>
-          <Button
-            onClick={() => {
-              dispatch(RsetuploadPhotoModal(true));
-              dispatch(RsetuploadPhotoCurrentRow(record));
-            }}
-            type="primary"
-          >
-            آپلود عكس
-          </Button>
+          <div className="d-flex justify-content-center align-items-center gap-2">
+            <Button
+              className="btn btn-secondary"
+              onClick={() => {
+                dispatch(RsetuploadPhotoModal(true));
+                dispatch(RsetuploadPhotoCurrentRow(record));
+              }}
+              type="primary"
+            >
+              آپلود عكس
+            </Button>
+          </div>
         </>
       ),
     },
     {
-      title: "عمليات",
+      title: "ويرايش",
+      dataIndex: "function",
+      key: "function",
+      width: 200,
+      render: (text, record) => (
+        <>
+          <div className="d-flex justify-content-center align-items-center gap-2">
+            <Button
+              onClick={() => {
+                dispatch(RsetfurnaceEventEditModal(true));
+                dispatch(RsetfurnaceEventEditCurrentRow(record));
+              }}
+              type="primary"
+            >
+              ويرايش رويداد
+            </Button>
+          </div>
+        </>
+      ),
+    },
+    {
+      title: "نهايي سازي",
       dataIndex: "function",
       key: "function",
       width: 150,
@@ -650,6 +736,11 @@ const ObservingFurnaces = () => {
 
       {addDimentionModal && <NewFactoryNewFurnaceModal />}
       {addEventModal && <NewFactoryFurnaceAddEvent />}
+      {FurnaceObservationfurnaceEventEditModal && (
+        <ObservingfurnaceEditEventModal />
+      )}
+      {displayPictureModal && <DisplayUPloadingPhotoModal />}
+      {uploadPhotoSubTable && <ButtomTableUploadPhotoModal />}
     </>
   );
 };

@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { errorMessage, successMessage } from "../utils/toast";
+import { SuccessMessage, errorMessage, successMessage } from "../utils/toast";
 import {
   deleteessentialgoods,
   editessentialgoods,
@@ -178,6 +178,7 @@ export const editessentialgood = createAsyncThunk(
     try {
       const editgoods = await editessentialgoods(data, id);
       if (editgoods.status === 200) {
+        SuccessMessage(editgoods.data.message);
         dispatch(fetchessentialgoodlist());
       } else {
         Swal.fire({
@@ -201,6 +202,7 @@ export const addessentialgood = createAsyncThunk(
       console.log(value);
       const adduserdata = await essentialgoodsadd(value);
       if (adduserdata.status === 200) {
+        SuccessMessage(adduserdata.data.message);
         dispatch(fetchessentialgoodlist());
       } else {
         Swal.fire({
@@ -225,6 +227,9 @@ export const deleteessentialgood = createAsyncThunk(
     try {
       const deletegoods = await deleteessentialgoods(id);
       if (deletegoods.status === 200) {
+        console.log(deletegoods.data);
+        SuccessMessage(deletegoods.data.message);
+
         dispatch(fetchessentialgoodlist());
       } else {
         Swal.fire({

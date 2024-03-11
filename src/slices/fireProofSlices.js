@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { errorMessage, successMessage } from "../utils/toast";
+import { SuccessMessage, errorMessage, successMessage } from "../utils/toast";
 import {
   deletefireproof,
   editfireproof,
@@ -199,6 +199,7 @@ export const deletefireprooflist = createAsyncThunk(
     try {
       const deleteuserlist = await deletefireproof(value);
       if (deleteuserlist.status === 200) {
+        SuccessMessage(deleteuserlist.data.message);
         dispatch(fetchfireprooflistList());
       }
     } catch {
@@ -216,6 +217,7 @@ export const editfireproofs = createAsyncThunk(
     try {
       const editusers = await editfireproof(data, id);
       if (editusers.status === 200) {
+        SuccessMessage(editusers.data.message);
         dispatch(fetchfireprooflistList());
       }
     } catch {
@@ -234,6 +236,7 @@ export const addfireproof = createAsyncThunk(
       console.log(value);
       const adduserdata = await fireproofadd(value);
       if (adduserdata.status === 200) {
+        SuccessMessage(adduserdata.data.message);
         dispatch(fetchfireprooflistList());
       }
     } catch {

@@ -1,16 +1,19 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { errorMessage, successMessage } from "../utils/toast";
+import { SuccessMessage, errorMessage, successMessage } from "../utils/toast";
 import {
   adddimention,
   addfurnaceevent,
   addrow,
   dashboardget,
   deletematerial,
+  editfurnaceevent,
   finalevent,
   getfiuranceaddrowmaterial,
   getfiuranceaddrowpart,
+  getsubtableimg,
   newadddimentions,
   uploadephoto,
+  uploadephotosubtable,
 } from "../services/authServices";
 import { getsinglefurance } from "./Dashboard";
 import { useSelector } from "react-redux";
@@ -31,12 +34,18 @@ const initialState = {
 
   persianCalender: {},
   persianCalenderEnd: {},
+  // -------------------------edit event
+  furnaceEventEditModal: false,
+  furnaceEventEditCurrentRow: "",
 
   // ----------add row modal
   addrowmodal: false,
   section: "",
   material: "",
   totaltonnage: "",
+  // -----------------------display picture in buttom table
+  displayPictureModal: false,
+  listOfSubPic: [],
 
   // ------------------add dimention
   AddDimentionModal: false,
@@ -50,6 +59,11 @@ const initialState = {
   uploadPhotoModal: false,
   uploadPhotoDes: "",
   uploadPic: "",
+  // ------------------------------upload photo buttom table
+
+  uploadPhotoSubTable: false,
+  uploadPhotoSubTableCurrentUser: [],
+  uploadPhotoSubTablePic: "",
 
   // ----------------add new dimention
   addDimentionModal: false,
@@ -102,6 +116,36 @@ const FurnaceObservationSlices = createSlice({
     Rsetcurrenfurnaceid: (state, { payload }) => {
       return { ...state, currenfurnaceid: payload };
     },
+    // ---------------------------event edit modal
+    RsetfurnaceEventEditModal: (state, { payload }) => {
+      return { ...state, furnaceEventEditModal: payload };
+    },
+    RsetfurnaceEventEditCurrentRow: (state, { payload }) => {
+      return { ...state, furnaceEventEditCurrentRow: payload };
+    },
+    // --------------------------------display pic in buttom table
+    RsetuploadPhotoSubTableCurrentUser: (state, { payload }) => {
+      return { ...state, uploadPhotoSubTableCurrentUser: payload };
+    },
+
+    RsetlistOfSubPic: (state, { payload }) => {
+      return { ...state, listOfSubPic: payload };
+    },
+
+    // -------------------------------------------------
+
+    RsetuploadPhotoSubTable: (state, { payload }) => {
+      return { ...state, uploadPhotoSubTable: payload };
+    },
+
+    RsetuploadPhotoSubTable: (state, { payload }) => {
+      return { ...state, uploadPhotoSubTable: payload };
+    },
+
+    RsetuploadPhotoSubTablePic: (state, { payload }) => {
+      return { ...state, uploadPhotoSubTablePic: payload };
+    },
+
     // ---------------------add event modal
     RsetFurnaceObservationStatusModal: (state, { payload }) => {
       return { ...state, FurnaceObservationStatusModal: payload };
@@ -243,6 +287,13 @@ export const {
   Rsetdimentionwidth,
   RsetdimentionLenght,
   RsetDimentionData,
+  RsetfurnaceEventEditModal,
+  RsetfurnaceEventEditCurrentRow,
+  RsetdisplayPictureModal,
+  RsetuploadPhotoSubTable,
+  RsetuploadPhotoSubTableCurrentUser,
+  RsetuploadPhotoSubTablePic,
+  RsetlistOfSubPic,
 } = FurnaceObservationSlices.actions;
 
 export const selectFurnaceObservation = (state) =>
@@ -271,6 +322,30 @@ export const selectFurnaceObservationpersianCalender = (state) =>
   state.FurnaceObservation.persianCalender;
 export const selectFurnaceObservationpersianCalenderEnd = (state) =>
   state.FurnaceObservation.persianCalenderEnd;
+// --------------------------------------display pic
+
+export const selectFurnaceObservationdisplayPictureModal = (state) =>
+  state.FurnaceObservation.displayPictureModal;
+
+export const selectlistOfSubPic = (state) =>
+  state.FurnaceObservation.listOfSubPic;
+// ------------------------------------------upload photo buttom table
+
+export const selectuploadPhotoSubTable = (state) =>
+  state.FurnaceObservation.uploadPhotoSubTable;
+
+export const selectuploadPhotoSubTableCurrentUser = (state) =>
+  state.FurnaceObservation.uploadPhotoSubTableCurrentUser;
+
+export const selectuploadPhotoSubTablePic = (state) =>
+  state.FurnaceObservation.uploadPhotoSubTablePic;
+
+// ------------------------------------------------edit event
+
+export const selectFurnaceObservationfurnaceEventEditModal = (state) =>
+  state.FurnaceObservation.furnaceEventEditModal;
+export const selectfurnaceEventEditCurrentRow = (state) =>
+  state.FurnaceObservation.furnaceEventEditCurrentRow;
 
 // ----------------------add row modal
 export const selectFurnaceObservationaddrowmodal = (state) =>
@@ -333,6 +408,7 @@ export const finalingevent = createAsyncThunk(
       const finalevents = await finalevent(value);
 
       if (finalevents.status === 200) {
+        SuccessMessage(finalevents.data.message);
       } else {
         Swal.fire({
           icon: "error",
@@ -355,6 +431,31 @@ export const addevents = createAsyncThunk(
     try {
       const furancesaddevent = await addfurnaceevent(data);
       if (furancesaddevent.status === 200) {
+        SuccessMessage(furancesaddevent.data.message);
+        dispatch(getsinglefurance(id));
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "  اطلاعاتي يافت نشد ",
+        });
+      }
+    } catch {
+      Swal.fire({
+        icon: "error",
+        title: "   عدم دريافت اطلاعات  ",
+      });
+    }
+  }
+);
+export const editevents = createAsyncThunk(
+  "Dashboard/addevents",
+
+  async ({ data, id, oid }, { dispatch }) => {
+    try {
+      const furanceseditevent = await editfurnaceevent(data, oid);
+      console.log(oid);
+      if (furanceseditevent.status === 200) {
+        SuccessMessage(furanceseditevent.data.message);
         dispatch(getsinglefurance(id));
       } else {
         Swal.fire({
@@ -378,6 +479,31 @@ export const addphoto = createAsyncThunk(
     try {
       const furancesaddphoto = await uploadephoto(data, token);
       if (furancesaddphoto.status === 200) {
+        SuccessMessage(furancesaddphoto.data.message);
+        dispatch(getsinglefurance(id));
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "  اطلاعاتي يافت نشد ",
+        });
+      }
+    } catch {
+      Swal.fire({
+        icon: "error",
+        title: "   عدم دريافت اطلاعات  ",
+      });
+    }
+  }
+);
+
+export const addphotosubtable = createAsyncThunk(
+  "FurnaceObservationSlices/addphotosubtable",
+
+  async ({ data, id }, { dispatch }) => {
+    try {
+      const furancesaddphoto = await uploadephotosubtable(data);
+      if (furancesaddphoto.status === 200) {
+        SuccessMessage(furancesaddphoto.data.message);
         dispatch(getsinglefurance(id));
       } else {
         Swal.fire({
@@ -401,6 +527,7 @@ export const deletematerials = createAsyncThunk(
     try {
       const deleteuserlist = await deletematerial(itemId);
       if (deleteuserlist.status == 200) {
+        SuccessMessage(deleteuserlist.data.message);
         dispatch(getsinglefurance(furnaceId));
       } else {
         Swal.fire({
@@ -469,6 +596,7 @@ export const adddimentions = createAsyncThunk(
     try {
       const furancesadddimention = await adddimention(data);
       if (furancesadddimention.status === 200) {
+        SuccessMessage(furancesadddimention.data.message);
         dispatch(getsinglefurance(furnaceId));
       } else {
         Swal.fire({
@@ -494,6 +622,7 @@ export const addrows = createAsyncThunk(
       const furancesaddrow = await addrow(item);
 
       if (furancesaddrow.status === 200) {
+        SuccessMessage(furancesaddrow.data.message);
         dispatch(getsinglefurance(furnaceId));
       } else {
         Swal.fire({
@@ -518,6 +647,7 @@ export const addnewdimentionss = createAsyncThunk(
       const furancesaddrow = await newadddimentions(data);
 
       if (furancesaddrow.status === 200) {
+        SuccessMessage(furancesaddrow.data.message);
         dispatch(getsinglefurance(id));
       } else {
         Swal.fire({
@@ -526,6 +656,30 @@ export const addnewdimentionss = createAsyncThunk(
         });
       }
     } catch {
+      Swal.fire({
+        icon: "error",
+        title: "   عدم دريافت اطلاعات  ",
+      });
+    }
+  }
+);
+
+export const fetchsubtableimg = createAsyncThunk(
+  "FurnaceObservationSlices/fetchMaterialFurnacematerial",
+
+  async (id, { dispatch }) => {
+    try {
+      const getmaterial = await getsubtableimg(id);
+
+      if (getmaterial.status === 200) {
+        dispatch(RsetlistOfSubPic(getmaterial.data.data));
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "   عدم دريافت اطلاعات  ",
+        });
+      }
+    } catch (ex) {
       Swal.fire({
         icon: "error",
         title: "   عدم دريافت اطلاعات  ",

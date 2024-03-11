@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { errorMessage, successMessage } from "../utils/toast";
+import { SuccessMessage, errorMessage, successMessage } from "../utils/toast";
 import {
   adduser,
   deleteUser,
@@ -168,6 +168,7 @@ export const deleteuserlist = createAsyncThunk(
     try {
       const deleteuserlist = await deleteUser(value);
       if (deleteuserlist.status === 200) {
+        SuccessMessage(deleteuserlist.data.message);
         dispatch(fetchUserList());
       }
     } catch (ex) {
@@ -182,6 +183,7 @@ export const editusers = createAsyncThunk(
     try {
       const editusers = await edituser(data, id);
       if (editusers.status === 200) {
+        SuccessMessage(editusers.data.message);
         dispatch(fetchUserList());
       }
     } catch (ex) {
@@ -196,6 +198,8 @@ export const addusers = createAsyncThunk(
     try {
       const adduserdata = await adduser(value);
       if (adduserdata.status === 200) {
+        SuccessMessage(adduserdata.data.message);
+
         dispatch(fetchUserList());
       }
     } catch (ex) {

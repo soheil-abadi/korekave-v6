@@ -234,6 +234,15 @@ export const addfurnaceevent = async (values) => {
   });
 };
 
+export const editfurnaceevent = async (values, oid) => {
+  return await http.put(`${config.local}/api/v1/furnace/event/${oid}`, values, {
+    headers: {
+      Authorization: `Bearer ${token()}`,
+    },
+    timeout: 30000,
+  });
+};
+
 export const finalevent = (value) => {
   return http.get(`${config.local}/api/v1/furnace/event/final/${value}`, {
     headers: {
@@ -319,4 +328,31 @@ export const newadddimentions = async (data) => {
     },
     timeout: 30000,
   });
+};
+
+// ----------------------------------uloade photo sub table
+
+export const uploadephotosubtable = async (values) => {
+  return await http.post(
+    `${config.local}/api/v1/furnace-material/pic`,
+    values,
+    {
+      headers: {
+        Authorization: `Bearer ${token()}`,
+        "Content-Type": "multipart/form-data",
+      },
+    }
+  );
+};
+
+export const getsubtableimg = async (data) => {
+  return await http.get(
+    `${config.local}/api/v1/furnace-material/getpic/${data}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token()}`,
+      },
+      timeout: 30000,
+    }
+  );
 };
