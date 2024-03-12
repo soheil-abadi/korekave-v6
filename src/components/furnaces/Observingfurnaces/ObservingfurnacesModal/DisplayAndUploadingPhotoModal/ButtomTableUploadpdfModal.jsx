@@ -43,20 +43,20 @@ const ButtomTableUploadPhotoModal = () => {
   const uploadPhotos = () => {
     if (uploadPhotoSubTableCurrentUser && uploadPhotoSubTablePic.fileList) {
       const data = new FormData();
+      data.append("furnace_material_oid", uploadPhotoSubTableCurrentUser._id);
       for (var x = 0; x < uploadPhotoSubTablePic.fileList.length; x++) {
         const file = uploadPhotoSubTablePic.fileList[x].originFileObj;
 
-        data.append("image", file);
-
-        data.append("furnace_event_oid", uploadPhotoSubTableCurrentUser._id);
+        data.append("pdf", file);
       }
       dispatch(addphotosubtable({ data: data, id: id }));
       dispatch(RsetuploadPhotoSubTable(false));
+      dispatch(RsetuploadPhotoSubTablePic(""));
     } else {
       Swal.fire({
         icon: "error",
         title: "خالي بودن مقادير",
-        text: "عكس يا شرح عكسي براي اين رويداد انتخاب نشده است",
+        text: "فايلي انتخاب نشده است         ",
       });
     }
   };
@@ -65,10 +65,13 @@ const ButtomTableUploadPhotoModal = () => {
 
   const handleModalCancel = () => {
     dispatch(RsetuploadPhotoSubTable(false));
+    dispatch(RsetuploadPhotoSubTablePic(""));
   };
 
   const uploadPhotoSubTable = useSelector(selectuploadPhotoSubTable);
   const uploadPhotoSubTablePic = useSelector(selectuploadPhotoSubTablePic);
+
+  console.log(uploadPhotoSubTablePic);
 
   const uploadPhotoSubTableCurrentUser = useSelector(
     selectuploadPhotoSubTableCurrentUser
@@ -103,7 +106,7 @@ const ButtomTableUploadPhotoModal = () => {
       <Modal
         title={
           <>
-            <h3 className="fw-bold"> آپلود عكس</h3>
+            <h3 className="fw-bold"> آپلود PDF</h3>
           </>
         }
         open={uploadPhotoSubTable}
@@ -142,16 +145,42 @@ const ButtomTableUploadPhotoModal = () => {
               listType="picture-card"
               className="avatar-uploader my-3 w-100  d-flex justify-content-center align-items-center "
               showUploadList={false}
+              multiple={true}
               action="/upload_url"
               beforeUpload={(file) => {
-                return false; // Return false to prevent automatic upload
+                const isPDF = file.type === "application/pdf";
+                if (!isPDF) {
+                  Swal.fire(" تنها فرمت پي دي اف قابل قبول ميباشد  ");
+                }
+                return isPDF;
               }}
-              onChange={(info) => dispatch(RsetuploadPhotoSubTablePic(info))}
+              onChange={(info) => {
+                const pdfFiles = info.fileList.filter(
+                  (file) => file.type === "application/pdf"
+                );
+                dispatch(RsetuploadPhotoSubTablePic({ fileList: pdfFiles }));
+                console.log(info);
+              }}
             >
               <Button type="primary" className="w-100 my-3">
-                آپلود عكس
+                آپلود PDF
               </Button>
             </Upload>
+            <hr />
+            <div>
+              {uploadPhotoSubTablePic.fileList &&
+                uploadPhotoSubTablePic.fileList.map((item, index) => {
+                  return (
+                    <>
+                      <ul>
+                        <li>
+                          <p key={index}>{item.name}</p>
+                        </li>
+                      </ul>
+                    </>
+                  );
+                })}
+            </div>
           </div>
         </form>
       </Modal>

@@ -97,7 +97,7 @@ const Login = () => {
         ) : (
           <div
             dir="rtl"
-            className="login-main-parent d-flex justify-content-center align-items-center  flex-column col-sm-12 col-md-6  w-100      "
+            className="login-main-parent d-flex justify-content-center align-items-center  flex-column col-sm-12 col-md-6  w-50 m-auto      "
             style={{ height: "100vh" }}
           >
             <div className="login-form   col-md-6 p-4  mt-5 rounded-3 shadow   ">
@@ -106,7 +106,7 @@ const Login = () => {
                   src={logo}
                   alt="logo"
                   className="img-fluid d-block center"
-                  style={{ width: "50px", margin: "auto" }}
+                  style={{ width: "80px", margin: "auto" }}
                 />
                 <h1 className="text-dark fw-bold mt-5">
                   درگاه ورود به كوره کاوه

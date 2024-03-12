@@ -299,6 +299,15 @@ export const addrow = async (values) => {
   });
 };
 
+export const editrow = (value, params) => {
+  return http.put(`${config.local}/api/v1/furnace-material/${params}`, value, {
+    headers: {
+      Authorization: `Bearer ${token()}`,
+    },
+    timeout: 30000,
+  });
+};
+
 export const adddimention = async (values) => {
   return await http.post(
     `${config.local}/api/v1/furnace-material/material/pershape`,
@@ -334,7 +343,7 @@ export const newadddimentions = async (data) => {
 
 export const uploadephotosubtable = async (values) => {
   return await http.post(
-    `${config.local}/api/v1/furnace-material/pic`,
+    `${config.local}/api/v1/furnace-material/pdf`,
     values,
     {
       headers: {
@@ -347,7 +356,7 @@ export const uploadephotosubtable = async (values) => {
 
 export const getsubtableimg = async (data) => {
   return await http.get(
-    `${config.local}/api/v1/furnace-material/getpic/${data}`,
+    `${config.local}/api/v1/furnace-material/getpdf/${data}`,
     {
       headers: {
         Authorization: `Bearer ${token()}`,

@@ -7,6 +7,7 @@ import {
   dashboardget,
   deletematerial,
   editfurnaceevent,
+  editrow,
   finalevent,
   getfiuranceaddrowmaterial,
   getfiuranceaddrowpart,
@@ -34,6 +35,10 @@ const initialState = {
 
   persianCalender: {},
   persianCalenderEnd: {},
+  // ----------------------------edit material row
+  bottomTableEditModal: false,
+  bottomTableEditCurrentUser: [],
+
   // -------------------------edit event
   furnaceEventEditModal: false,
   furnaceEventEditCurrentRow: "",
@@ -46,6 +51,7 @@ const initialState = {
   // -----------------------display picture in buttom table
   displayPictureModal: false,
   listOfSubPic: [],
+  displayPhotoCurrentRow: [],
 
   // ------------------add dimention
   AddDimentionModal: false,
@@ -123,20 +129,34 @@ const FurnaceObservationSlices = createSlice({
     RsetfurnaceEventEditCurrentRow: (state, { payload }) => {
       return { ...state, furnaceEventEditCurrentRow: payload };
     },
+
+    // ----------------------------------------------edit dimention
+
+    RsetbottomTableEditModal: (state, { payload }) => {
+      return { ...state, bottomTableEditModal: payload };
+    },
+    RsetbottomTableEditCurrentUser: (state, { payload }) => {
+      return { ...state, bottomTableEditCurrentUser: payload };
+    },
+
     // --------------------------------display pic in buttom table
     RsetuploadPhotoSubTableCurrentUser: (state, { payload }) => {
       return { ...state, uploadPhotoSubTableCurrentUser: payload };
+    },
+
+    RsetdisplayPhotoCurrentRow: (state, { payload }) => {
+      return { ...state, displayPhotoCurrentRow: payload };
     },
 
     RsetlistOfSubPic: (state, { payload }) => {
       return { ...state, listOfSubPic: payload };
     },
 
-    // -------------------------------------------------
-
-    RsetuploadPhotoSubTable: (state, { payload }) => {
-      return { ...state, uploadPhotoSubTable: payload };
+    RsetdisplayPictureModal: (state, { payload }) => {
+      return { ...state, displayPictureModal: payload };
     },
+
+    // -------------------------------------------------
 
     RsetuploadPhotoSubTable: (state, { payload }) => {
       return { ...state, uploadPhotoSubTable: payload };
@@ -294,6 +314,9 @@ export const {
   RsetuploadPhotoSubTableCurrentUser,
   RsetuploadPhotoSubTablePic,
   RsetlistOfSubPic,
+  RsetdisplayPhotoCurrentRow,
+  RsetbottomTableEditModal,
+  RsetbottomTableEditCurrentUser,
 } = FurnaceObservationSlices.actions;
 
 export const selectFurnaceObservation = (state) =>
@@ -322,6 +345,15 @@ export const selectFurnaceObservationpersianCalender = (state) =>
   state.FurnaceObservation.persianCalender;
 export const selectFurnaceObservationpersianCalenderEnd = (state) =>
   state.FurnaceObservation.persianCalenderEnd;
+
+// ------------------------------------------edit row
+
+export const selectbottomTableEditModal = (state) =>
+  state.FurnaceObservation.bottomTableEditModal;
+
+export const selectbottomTableEditCurrentUser = (state) =>
+  state.FurnaceObservation.bottomTableEditCurrentUser;
+
 // --------------------------------------display pic
 
 export const selectFurnaceObservationdisplayPictureModal = (state) =>
@@ -329,6 +361,9 @@ export const selectFurnaceObservationdisplayPictureModal = (state) =>
 
 export const selectlistOfSubPic = (state) =>
   state.FurnaceObservation.listOfSubPic;
+
+export const selectdisplayPhotoCurrentRow = (state) =>
+  state.FurnaceObservation.displayPhotoCurrentRow;
 // ------------------------------------------upload photo buttom table
 
 export const selectuploadPhotoSubTable = (state) =>
@@ -620,6 +655,32 @@ export const addrows = createAsyncThunk(
   async ({ item, furnaceId }, { dispatch }) => {
     try {
       const furancesaddrow = await addrow(item);
+
+      if (furancesaddrow.status === 200) {
+        SuccessMessage(furancesaddrow.data.message);
+        dispatch(getsinglefurance(furnaceId));
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "   عدم دريافت اطلاعات  ",
+        });
+      }
+    } catch {
+      Swal.fire({
+        icon: "error",
+        title: "   عدم دريافت اطلاعات  ",
+      });
+    }
+  }
+);
+// -------------------------------------edit row
+
+export const editrows = createAsyncThunk(
+  "FurnaceObservationSlices/editrows",
+
+  async ({ item, furnaceId, rowId }, { dispatch }) => {
+    try {
+      const furancesaddrow = await editrow(item, rowId);
 
       if (furancesaddrow.status === 200) {
         SuccessMessage(furancesaddrow.data.message);

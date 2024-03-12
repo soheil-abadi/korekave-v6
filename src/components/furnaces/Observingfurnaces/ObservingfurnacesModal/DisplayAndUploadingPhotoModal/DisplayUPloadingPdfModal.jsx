@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Modal, Button, ConfigProvider, Upload } from "antd";
 import fa_IR from "antd/lib/locale/fa_IR";
 import { useSelector, useDispatch } from "react-redux";
+import FileDownloadIcon from "@mui/icons-material/FileDownload";
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -51,6 +52,7 @@ import {
   selectuploadPhotoDes,
   selectuploadPhotoModal,
 } from "../../../../../slices/FurnaceObservationSlices";
+import Item from "antd/es/list/Item";
 
 const DisplayUPloadingPhotoModal = () => {
   const dispatch = useDispatch();
@@ -61,12 +63,17 @@ const DisplayUPloadingPhotoModal = () => {
 
   const listOfSubPic = useSelector(selectlistOfSubPic);
 
+  console.log(listOfSubPic.length);
+
   // -----------------------------------------------------
 
   const handleModalCancel = () => {
     dispatch(RsetdisplayPictureModal(false));
   };
 
+  // useEffect(() => {
+  //   dispatch(fetchsubtableimg());
+  // }, []);
   const modalStyles = {
     header: {
       background: "gray",
@@ -75,6 +82,7 @@ const DisplayUPloadingPhotoModal = () => {
     body: {
       borderRadius: 5,
       marginTop: "20px",
+      hight: "200px",
     },
     mask: {
       backdropFilter: "blur(10px)",
@@ -83,7 +91,6 @@ const DisplayUPloadingPhotoModal = () => {
       borderTop: "1px solid gray",
       marginTop: "20px",
       padding: "20px",
-      innerHeight: "800px",
     },
     content: {
       boxShadow: "0 0 30px #999",
@@ -96,14 +103,14 @@ const DisplayUPloadingPhotoModal = () => {
         title={
           <>
             <h3 dir="rtl" className="fw-bold text-center">
-              مشاهده عكس
+              دانلود PDF
             </h3>
           </>
         }
         open={displayPictureModal}
         styles={modalStyles}
         closable={false}
-        width={1000}
+        width={900}
         onOk={handleModalCancel}
         onCancel={handleModalCancel}
         footer={(_, { OkBtn, CancelBtn }) => (
@@ -111,7 +118,7 @@ const DisplayUPloadingPhotoModal = () => {
             <div className="bottom-modal d-flex justify-content-between align-items-center gap-3 w-100 flex-row-reverse">
               <Button
                 onClick={handleModalCancel}
-                className="w-100 m-auto"
+                className="w-50 m-auto "
                 type="primary"
                 danger
               >
@@ -122,51 +129,33 @@ const DisplayUPloadingPhotoModal = () => {
         )}
       >
         <>
-          <Swiper
-            style={{ height: "700px" }}
-            effect={"coverflow"}
-            grabCursor={true}
-            centeredSlides={true}
-            slidesPerView={"auto"}
-            coverflowEffect={{
-              rotate: 50,
-              stretch: 0,
-              depth: 100,
-              modifier: 1,
-              slideShadows: true,
-            }}
-            pagination={true}
-            modules={[EffectCoverflow, Pagination]}
-            className="mySwiper"
-          >
-            <SwiperSlide>
-              <img src="https://swiperjs.com/demos/images/nature-1.jpg" />
-            </SwiperSlide>
-            <SwiperSlide>
-              <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
-            </SwiperSlide>
-            <SwiperSlide>
-              <img src="https://swiperjs.com/demos/images/nature-3.jpg" />
-            </SwiperSlide>
-            <SwiperSlide>
-              <img src="https://swiperjs.com/demos/images/nature-4.jpg" />
-            </SwiperSlide>
-            <SwiperSlide>
-              <img src="https://swiperjs.com/demos/images/nature-5.jpg" />
-            </SwiperSlide>
-            <SwiperSlide>
-              <img src="https://swiperjs.com/demos/images/nature-6.jpg" />
-            </SwiperSlide>
-            <SwiperSlide>
-              <img src="https://swiperjs.com/demos/images/nature-7.jpg" />
-            </SwiperSlide>
-            <SwiperSlide>
-              <img src="https://swiperjs.com/demos/images/nature-8.jpg" />
-            </SwiperSlide>
-            <SwiperSlide>
-              <img src="https://swiperjs.com/demos/images/nature-9.jpg" />
-            </SwiperSlide>
-          </Swiper>
+          {listOfSubPic.length !== 0 ? (
+            <>
+              <div className="d-flex justify-content-center align-items-center gap-2  flex-wrap ">
+                {listOfSubPic.map((item, index) => {
+                  return (
+                    <Button
+                      key={index}
+                      className="col-5 overflow-hidden "
+                      type="primary"
+                      icon={<FileDownloadIcon />}
+                    >
+                      <a
+                        className="w-100 col-5 "
+                        href={`http://192.168.5.60:8007/api/v1/furnace-material/pdf/download/${item._id}`}
+                      >{`  دانلود فايل :${item.pdf_name_origin}`}</a>
+                    </Button>
+                  );
+                })}
+              </div>
+            </>
+          ) : (
+            <div className="d-flex justify-content-center align-items-center fw-bold my-5">
+              <h3 className="bg-danger p-3 rounded-2 text-white">
+                جهت نمايش وجود ندارد PDF
+              </h3>
+            </div>
+          )}
         </>
       </Modal>
     </ConfigProvider>

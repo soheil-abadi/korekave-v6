@@ -15,17 +15,19 @@ import TabPane from "antd/lib/tabs/TabPane";
 import ObservingfurnaceAddEventModal from "./ObservingfurnacesModal/ObservingfurnaceAddEventModal";
 import ObservingfurnaceEditEventModal from "./ObservingfurnacesModal/ObservingfurnaceEditEventModal";
 
+import ButtomTableEditModal from "./ObservingfurnacesModal/ButtomTableEditModal";
+
 import ObservingfurnacesModalAddRow from "./ObservingfurnacesModal/ObservingfurnacesModalAddRow";
 import ObservingfurnacesModalAddDimension from "./ObservingfurnacesModal/ObservingfurnacesModalAddDimension";
 import ListIcon from "@mui/icons-material/List";
 import UploadImageModal from "./ObservingfurnacesModal/UploadImageModal";
-import ButtomTableUploadPhotoModal from "./ObservingfurnacesModal/DisplayAndUploadingPhotoModal/ButtomTableUploadPhotoModal";
+import ButtomTableUploadPhotoModal from "./ObservingfurnacesModal/DisplayAndUploadingPhotoModal/ButtomTableUploadpdfModal";
 
 import moment from "moment-jalaali";
 import UndoIcon from "@mui/icons-material/Undo";
 
 import NewFactoryNewFurnaceModal from "./ObservingfurnacesModal/NewFurnaceModal/newFactoryNewFurnaceModal";
-import DisplayUPloadingPhotoModal from "./ObservingfurnacesModal/DisplayAndUploadingPhotoModal/DisplayUPloadingPhotoModal";
+import DisplayUPloadingPhotoModal from "./ObservingfurnacesModal/DisplayAndUploadingPhotoModal/DisplayUPloadingPdfModal";
 
 import NewFactoryFurnaceAddEvent from "./ObservingfurnacesModal/NewFurnaceModal/newFactoryFurnaceAddEvent";
 
@@ -73,6 +75,9 @@ import {
   RsetuploadPhotoSubTable,
   RsetuploadPhotoSubTableCurrentUser,
   fetchsubtableimg,
+  RsetbottomTableEditModal,
+  RsetbottomTableEditCurrentUser,
+  selectbottomTableEditModal,
 } from "../../../slices/FurnaceObservationSlices";
 import {
   RsetFurnaceDistributeAddmodal,
@@ -116,6 +121,9 @@ const ObservingFurnaces = () => {
   const displayPictureModal = useSelector(
     selectFurnaceObservationdisplayPictureModal
   );
+
+  const bottomTableEditModal = useSelector(selectbottomTableEditModal);
+  console.log(bottomTableEditModal);
 
   const uploadPhotoSubTable = useSelector(selectuploadPhotoSubTable);
 
@@ -264,7 +272,7 @@ const ObservingFurnaces = () => {
       ),
     },
     {
-      title: " نمايش و آپلود عكس	",
+      title: " دانلود و آپلود PDF	",
       key: "action",
       width: 250,
 
@@ -279,7 +287,7 @@ const ObservingFurnaces = () => {
                 }}
                 className="w-50 m-auto"
               >
-                آپلود عكس
+                آپلود PDF
               </Button>
               <Button
                 onClick={() => {
@@ -288,7 +296,7 @@ const ObservingFurnaces = () => {
                 }}
                 className="w-50 m-auto"
               >
-                نمايش تصوير
+                دانلود PDF
               </Button>
             </div>
           </>
@@ -300,6 +308,8 @@ const ObservingFurnaces = () => {
     {
       title: "  افزودن ابعاد",
       key: "action",
+      width: 150,
+
       render: (record) => (
         <Button
           onClick={() => {
@@ -314,21 +324,37 @@ const ObservingFurnaces = () => {
       ),
     },
     {
-      title: " حذف ",
+      title: "  حذف و ويرايش",
       key: "action",
-      width: 150, // Set the width to 100px
+      width: 300, // Set the width to 100px
 
       render: (text, record) => (
-        <Popconfirm
-          className="bg-danger"
-          title="حذف"
-          description=" آيا از حذف اين سطر مطمئن هستيد ؟"
-          onConfirm={() => {
-            dispatch(deletematerials({ itemId: record._id, furnaceId: id }));
-          }}
-        >
-          <Button type="primary">حذف </Button>
-        </Popconfirm>
+        <>
+          <div className="d-flex justify-content-center align-items-center gap-3">
+            <Button
+              onClick={() => {
+                dispatch(RsetbottomTableEditCurrentUser(record));
+                dispatch(RsetbottomTableEditModal(true));
+              }}
+              type="primary"
+            >
+              {" "}
+              ويرايش سطر
+            </Button>
+            <Popconfirm
+              className="bg-danger"
+              title="حذف"
+              description=" آيا از حذف اين سطر مطمئن هستيد ؟"
+              onConfirm={() => {
+                dispatch(
+                  deletematerials({ itemId: record._id, furnaceId: id })
+                );
+              }}
+            >
+              <Button type="primary">حذف </Button>
+            </Popconfirm>
+          </div>
+        </>
       ),
     },
   ];
@@ -741,6 +767,7 @@ const ObservingFurnaces = () => {
       )}
       {displayPictureModal && <DisplayUPloadingPhotoModal />}
       {uploadPhotoSubTable && <ButtomTableUploadPhotoModal />}
+      {bottomTableEditModal && <ButtomTableEditModal />}
     </>
   );
 };

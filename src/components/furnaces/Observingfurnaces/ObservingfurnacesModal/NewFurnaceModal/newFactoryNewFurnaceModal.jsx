@@ -157,58 +157,68 @@ const NewFactoryNewFurnaceModal = () => {
       >
         <form>
           <div>
+            <div className="d-flex justify-content-around align-items-center  w-75 m-auto">
+              <h3>طول</h3>
+              <h3>عرض</h3>
+              <h3>ارتفاع</h3>
+            </div>
             {labal &&
               labal.map((label, index) => (
-                <div
-                  key={index}
-                  className="d-flex justify-content-center align-items-center gap-3"
-                >
-                  <InputLabel className="fw-bold fs-5 w-100   ">
-                    {
-                      <>
-                        <h3>${label.name}</h3>
-                      </>
-                    }
-                  </InputLabel>
-                  <TextField
-                    variant="outlined"
-                    fullWidth
-                    margin="normal"
-                    placeholder="طول" // Set placeholder dynamically
-                    onChange={(e) =>
-                      dispatch(RsetdimentionLenght(e.target.value))
-                    }
-                    disabled={currentIndex !== index}
-                  />
-                  <TextField
-                    variant="outlined"
-                    fullWidth
-                    margin="normal"
-                    placeholder="عرض" // Set placeholder dynamically
-                    onChange={(e) =>
-                      dispatch(Rsetdimentionwidth(e.target.value))
-                    }
-                    disabled={currentIndex !== index}
-                  />
-                  <TextField
-                    variant="outlined"
-                    fullWidth
-                    margin="normal"
-                    placeholder="ارتفاع" // Set placeholder dynamically
-                    onChange={(e) =>
-                      dispatch(RsetdimentionHight(e.target.value))
-                    }
-                    disabled={currentIndex !== index}
-                  />
-
-                  <Button
-                    disabled={currentIndex !== index}
-                    onClick={() => adddimention(index)}
-                    variant="contained"
+                <>
+                  <div
+                    key={index}
+                    className="d-flex justify-content-center align-items-center gap-3"
                   >
-                    ارسال
-                  </Button>
-                </div>
+                    <InputLabel className="fw-bold fs-5 w-100   ">
+                      {
+                        <>
+                          <h3>${label.name}</h3>
+                        </>
+                      }
+                    </InputLabel>
+                    <TextField
+                      variant="outlined"
+                      fullWidth
+                      margin="normal"
+                      defaultValue={0}
+                      placeholder="طول" // Set placeholder dynamically
+                      onChange={(e) =>
+                        dispatch(RsetdimentionLenght(e.target.value))
+                      }
+                      disabled={currentIndex !== index}
+                    />
+                    <TextField
+                      variant="outlined"
+                      fullWidth
+                      margin="normal"
+                      defaultValue={0}
+                      placeholder="عرض" // Set placeholder dynamically
+                      onChange={(e) =>
+                        dispatch(Rsetdimentionwidth(e.target.value))
+                      }
+                      disabled={currentIndex !== index}
+                    />
+                    <TextField
+                      variant="outlined"
+                      fullWidth
+                      margin="normal"
+                      defaultValue={0}
+                      placeholder="ارتفاع" // Set placeholder dynamically
+                      onChange={(e) =>
+                        dispatch(RsetdimentionHight(e.target.value))
+                      }
+                      disabled={currentIndex !== index}
+                    />
+
+                    <Button
+                      disabled={currentIndex !== index}
+                      onClick={() => adddimention(index)}
+                      variant="contained"
+                    >
+                      ارسال
+                    </Button>
+                  </div>
+                </>
               ))}
           </div>
         </form>
