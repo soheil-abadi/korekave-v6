@@ -20,19 +20,24 @@ import {
   RsetFurnaceObservationaddrowmodal,
   RsetFurnaceObservationsection,
   RsetFurnaceObservationtotalNumber,
+  RseteditDimentionModal,
   adddimentions,
+  editdimen,
+  editdimentions,
   selectFurnaceObservatioFireProofModel,
   selectFurnaceObservationAddDimentionModal,
   selectFurnaceObservationNumber,
   selectFurnaceObservationaddrowmodal,
   selectFurnaceObservationcurrentmaterial,
+  selecteditDimentionCurrentUser,
+  selecteditDimentionModal,
 } from "../../../../slices/FurnaceObservationSlices";
 import {
   fetchfireprooflistList,
   selectfireProofList,
 } from "../../../../slices/fireProofSlices";
 import { useLocation } from "react-router-dom";
-import { adddimention } from "../../../../services/authServices";
+import { adddimention, editdimention } from "../../../../services/authServices";
 import { getIdFromUrl } from "../ObservingFurnaces";
 import { getsinglefurance } from "../../../../slices/Dashboard";
 import Swal from "sweetalert2";
@@ -44,36 +49,40 @@ const ObservingfurnacesModalEditDimension = () => {
   useEffect(() => {
     dispatch(fetchfireprooflistList());
   }, [dispatch]);
-
-  const FurnaceObservationAddDimentionModal = useSelector(
-    selectFurnaceObservationAddDimentionModal
-  );
+  const editDimentionCurrentUser = useSelector(selecteditDimentionCurrentUser);
 
   const fireprooflistuser = useSelector(selectfireProofList);
   const FurnaceObservatioFireProofModel = useSelector(
     selectFurnaceObservatioFireProofModel
   );
+  console.log(editDimentionCurrentUser);
+  const editDimentionModal = useSelector(selecteditDimentionModal);
+
   const FurnaceObservationcurrentmaterial = useSelector(
     selectFurnaceObservationcurrentmaterial
   );
   const FurnaceObservationNumber = useSelector(selectFurnaceObservationNumber);
-
+  console.log(FurnaceObservationNumber, FurnaceObservatioFireProofModel);
+  console.log(fireprooflistuser);
   const handleَAddDimention = () => {
     const data = {
-      furnace_material_oid: FurnaceObservationcurrentmaterial,
       material_shape_oid: FurnaceObservatioFireProofModel,
       number: FurnaceObservationNumber,
     };
-    if (
-      FurnaceObservationcurrentmaterial &&
-      FurnaceObservatioFireProofModel &&
-      FurnaceObservationNumber
-    ) {
-      dispatch(adddimentions({ data: data, furnaceId: id }));
+    if (data) {
+      dispatch(
+        editdimen({
+          data: data,
+          furnaceId: id,
+          d_id: editDimentionCurrentUser.d_id,
+        })
+      );
+
+      console.log(data);
       dispatch(RsetFurnaceObservationtotalNumber(""));
       dispatch(RsetFurnaceObservationFireProofModel(""));
 
-      dispatch(RsetFurnaceObservationAddDimentionModal(false));
+      dispatch(RseteditDimentionModal(false));
     } else {
       Swal.fire({
         icon: "error",
@@ -85,10 +94,18 @@ const ObservingfurnacesModalEditDimension = () => {
 
   // -----------------------------------------------
 
+  useEffect(() => {
+    dispatch(
+      RsetFurnaceObservationFireProofModel(editDimentionCurrentUser.shape)
+    );
+  }, [editDimentionCurrentUser]);
+
   // -----------------------------------------------------
 
   const handleModalCancel = () => {
-    dispatch(RsetFurnaceObservationAddDimentionModal(false));
+    dispatch(RseteditDimentionModal(false));
+    dispatch(RsetFurnaceObservationtotalNumber(""));
+    dispatch(RsetFurnaceObservationFireProofModel(""));
   };
 
   const modalStyles = {
@@ -121,7 +138,7 @@ const ObservingfurnacesModalEditDimension = () => {
             <h3 className="fw-bold">اضافه كردن ابعاد </h3>
           </>
         }
-        open={FurnaceObservationAddDimentionModal}
+        open={editDimentionModal}
         styles={modalStyles}
         closable={false}
         onOk={handleModalCancel}
@@ -151,17 +168,21 @@ const ObservingfurnacesModalEditDimension = () => {
         )}
       >
         <form>
-          <Box>
-            <InputLabel className="fw-bold fs-5"> تعداد</InputLabel>
-            <TextField
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              onChange={(e) =>
-                dispatch(RsetFurnaceObservationtotalNumber(e.target.value))
-              }
-            />
-          </Box>
+          <InputLabel className="fw-bold fs-5"> تعداد</InputLabel>
+          <FormControl fullWidth>
+            <Box>
+              <TextField
+                variant="outlined"
+                defaultValue={editDimentionCurrentUser.numbers}
+                fullWidth
+                margin="normal"
+                onChange={(e) =>
+                  dispatch(RsetFurnaceObservationtotalNumber(e.target.value))
+                }
+              />
+            </Box>
+          </FormControl>
+
           <FormControl fullWidth className=" my-3 ">
             <InputLabel
               className="fw-bold fs-5  text-center"
@@ -179,7 +200,7 @@ const ObservingfurnacesModalEditDimension = () => {
               }
             >
               {fireprooflistuser &&
-                fireprooflistuser.map((item) => (
+                fireprooflistuser.map((item, index) => (
                   <MenuItem
                     dir="rtl"
                     className="text-center w-100 m-auto  "

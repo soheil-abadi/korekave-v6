@@ -308,6 +308,19 @@ export const editrow = (value, params) => {
   });
 };
 
+export const editdimention = (value, params) => {
+  return http.put(
+    `${config.local}/api/v1/furnace-material/material/pershape/${params}`,
+    value,
+    {
+      headers: {
+        Authorization: `Bearer ${token()}`,
+      },
+      timeout: 30000,
+    }
+  );
+};
+
 export const adddimention = async (values) => {
   return await http.post(
     `${config.local}/api/v1/furnace-material/material/pershape`,

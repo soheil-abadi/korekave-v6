@@ -64,6 +64,14 @@ const FactoryAddModal = () => {
 
   const handleModalCancel = () => {
     dispatch(RsetfactoryAddModal(false));
+    dispatch(RsetfactoryVolume(""));
+    dispatch(RsetfactoryWorkingVolume(""));
+    dispatch(Rsetfactorysname(""));
+    dispatch(Rsetfactorycapicity(""));
+    dispatch(RsetenteryType(""));
+    dispatch(Rsetfactorytype(""));
+    dispatch(Rsetcanals(""));
+    dispatch(Rsetsurfaceofmaterial(""));
   };
 
   const addfurnace = () => {

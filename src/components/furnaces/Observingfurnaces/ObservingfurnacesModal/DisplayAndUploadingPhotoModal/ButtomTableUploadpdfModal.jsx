@@ -152,7 +152,7 @@ const ButtomTableUploadPhotoModal = () => {
                 if (!isPDF) {
                   Swal.fire(" تنها فرمت پي دي اف قابل قبول ميباشد  ");
                 }
-                return isPDF;
+                return false;
               }}
               onChange={(info) => {
                 const pdfFiles = info.fileList.filter(

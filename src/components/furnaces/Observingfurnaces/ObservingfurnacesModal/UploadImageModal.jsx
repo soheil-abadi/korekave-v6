@@ -162,7 +162,14 @@ const UploadImageModal = () => {
               showUploadList={false}
               action="/upload_url"
               beforeUpload={(file) => {
-                return false; // Return false to prevent automatic upload
+                const allowedFormats = ["image/jpeg", "image/jpg", "image/png"];
+                const isAllowedFormat = allowedFormats.includes(file.type);
+                if (!isAllowedFormat) {
+                  Swal.fire(
+                    " فقط فرمت هاي زير قابل قبول است (jpeg ,jpg ,png  ) "
+                  );
+                }
+                return false;
               }}
               onChange={(info) => dispatch(RsetuploadPic(info))}
             >

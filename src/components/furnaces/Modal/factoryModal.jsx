@@ -121,6 +121,14 @@ const FactoryModal = ({ card }) => {
 
   const handleModalCancel = () => {
     dispatch(RsetfactoryEditModal(false));
+    dispatch(RsetfactoryVolume(""));
+    dispatch(RsetfactoryWorkingVolume(""));
+    dispatch(Rsetfactorysname(""));
+    dispatch(Rsetfactorycapicity(""));
+    dispatch(RsetenteryType(""));
+    dispatch(Rsetfactorytype(""));
+    dispatch(Rsetcanals(""));
+    dispatch(Rsetsurfaceofmaterial(""));
   };
 
   const modalStyles = {

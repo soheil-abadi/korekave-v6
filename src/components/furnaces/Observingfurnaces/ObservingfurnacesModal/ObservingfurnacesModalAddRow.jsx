@@ -96,6 +96,9 @@ const ObservingfurnacesModalAddRow = () => {
 
   const handleModalCancel = () => {
     dispatch(RsetFurnaceObservationaddrowmodal(false));
+    dispatch(RsetFurnaceObservationtotaltonnage(""));
+    dispatch(RsetFurnaceObservationmaterial(""));
+    dispatch(RsetFurnaceObservationsection(""));
   };
 
   const modalStyles = {

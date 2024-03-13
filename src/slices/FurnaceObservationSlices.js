@@ -6,6 +6,7 @@ import {
   addrow,
   dashboardget,
   deletematerial,
+  editdimention,
   editfurnaceevent,
   editrow,
   finalevent,
@@ -60,6 +61,11 @@ const initialState = {
   furenceObserEvents: [],
   currentmaterial: "",
   listReloader: false,
+  // --------------------------------------------edit dimention
+
+  editDimentionModal: false,
+  editDimentionCurrentUser: [],
+
   // -----------------Uploade photo-------------------
   uploadPhotoCurrentRow: [],
   uploadPhotoModal: false,
@@ -83,35 +89,6 @@ const initialState = {
   addEventModal: false,
 };
 
-// export const handleStaffLogin = createAsyncThunk(
-//   "main/handleStaffLogin",
-//   async (obj, { dispatch, getState }) => {
-//     const { staffCodeMeli, staffPassword } = getState().auth;
-//     const user = {
-//       username: staffCodeMeli,
-//       password: staffPassword,
-//     };
-//     try {
-//       const loginStaffRes = await loginStaff(user);
-//       console.log(loginStaffRes);
-//       if (loginStaffRes.data.code === 415) {
-//         const userInfo = parseJwt(loginStaffRes.data.token);
-//         dispatch(RsetUser(userInfo));
-//         dispatch(RsetIsLoggedIn(true));
-//         localStorage.setItem("token", loginStaffRes.data.token);
-//         dispatch(RsetStaffCodeMeli(""));
-//         dispatch(RsetStaffPassword(""));
-//         dispatch(RsetFormErrors(""));
-//         successMessage("ورود با موفقیت انجام شد");
-//       } else {
-//         errorMessage("کد ملی یا رمز عبور اشتباه است!");
-//       }
-//     } catch (ex) {
-//       console.log(ex);
-//     }
-//   }
-// );
-
 const FurnaceObservationSlices = createSlice({
   name: "FurnaceObservation",
   initialState,
@@ -130,7 +107,7 @@ const FurnaceObservationSlices = createSlice({
       return { ...state, furnaceEventEditCurrentRow: payload };
     },
 
-    // ----------------------------------------------edit dimention
+    // ----------------------------------------------edit row
 
     RsetbottomTableEditModal: (state, { payload }) => {
       return { ...state, bottomTableEditModal: payload };
@@ -218,6 +195,15 @@ const FurnaceObservationSlices = createSlice({
     RsetFurnaceObservationtotaltonnage: (state, { payload }) => {
       return { ...state, totaltonnage: payload };
     },
+    // -----------------------------edit dimention
+
+    RseteditDimentionModal: (state, { payload }) => {
+      return { ...state, editDimentionModal: payload };
+    },
+    RseteditDimentionCurrentUser: (state, { payload }) => {
+      return { ...state, editDimentionCurrentUser: payload };
+    },
+
     // ----------------------------add dimention modal
 
     RsetFurnaceObservationAddDimentionModal: (state, { payload }) => {
@@ -317,6 +303,8 @@ export const {
   RsetdisplayPhotoCurrentRow,
   RsetbottomTableEditModal,
   RsetbottomTableEditCurrentUser,
+  RseteditDimentionModal,
+  RseteditDimentionCurrentUser,
 } = FurnaceObservationSlices.actions;
 
 export const selectFurnaceObservation = (state) =>
@@ -414,6 +402,13 @@ export const selectuploadPhotoModal = (state) =>
   state.FurnaceObservation.uploadPhotoModal;
 export const selectuploadPhotoCurrentRow = (state) =>
   state.FurnaceObservation.uploadPhotoCurrentRow;
+
+// ------------------------edit dimention
+
+export const selecteditDimentionModal = (state) =>
+  state.FurnaceObservation.editDimentionModal;
+export const selecteditDimentionCurrentUser = (state) =>
+  state.FurnaceObservation.editDimentionCurrentUser;
 
 // -----------------------------------------add dimention
 
@@ -681,6 +676,31 @@ export const editrows = createAsyncThunk(
   async ({ item, furnaceId, rowId }, { dispatch }) => {
     try {
       const furancesaddrow = await editrow(item, rowId);
+
+      if (furancesaddrow.status === 200) {
+        SuccessMessage(furancesaddrow.data.message);
+        dispatch(getsinglefurance(furnaceId));
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "   عدم دريافت اطلاعات  ",
+        });
+      }
+    } catch {
+      Swal.fire({
+        icon: "error",
+        title: "   عدم دريافت اطلاعات  ",
+      });
+    }
+  }
+);
+
+export const editdimen = createAsyncThunk(
+  "FurnaceObservationSlices/editdimentions",
+
+  async ({ data, furnaceId, d_id }, { dispatch }) => {
+    try {
+      const furancesaddrow = await editdimention(data, d_id);
 
       if (furancesaddrow.status === 200) {
         SuccessMessage(furancesaddrow.data.message);

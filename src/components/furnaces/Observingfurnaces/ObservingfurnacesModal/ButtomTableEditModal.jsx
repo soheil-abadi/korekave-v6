@@ -87,11 +87,7 @@ const ButtomTableEditModal = () => {
       weight: FurnaceObservationtotaltonnage,
       material_oid: FurnaceObservationmaterial,
     };
-    if (
-      FurnaceObservationsection &&
-      FurnaceObservationtotaltonnage &&
-      FurnaceObservationmaterial
-    ) {
+    if (data) {
       dispatch(
         editrows({
           item: data,
@@ -115,6 +111,9 @@ const ButtomTableEditModal = () => {
 
   const handleModalCancel = () => {
     dispatch(RsetbottomTableEditModal(false));
+    dispatch(RsetFurnaceObservationtotaltonnage(""));
+    dispatch(RsetFurnaceObservationmaterial(""));
+    dispatch(RsetFurnaceObservationsection(""));
   };
 
   const modalStyles = {
@@ -199,7 +198,7 @@ const ButtomTableEditModal = () => {
             </InputLabel>
             <Select
               className="w-100  "
-              defaultValue={bottomTableEditCurrentUser.materials_category}
+              defaultValue={bottomTableEditCurrentUser.materials_id}
               labelId="demo-simple-select-filled-label"
               id="demo-simple-select-filled"
               label={" متريال"}
@@ -210,7 +209,6 @@ const ButtomTableEditModal = () => {
               {essentialGoodsList &&
                 essentialGoodsList.map((item, index) => (
                   <MenuItem
-                    defaultValue={bottomTableEditCurrentUser.materials_category}
                     dir="rtl"
                     className="text-center w-100 m-auto  "
                     key={item.id}
@@ -230,7 +228,7 @@ const ButtomTableEditModal = () => {
             </InputLabel>
             <Select
               className="w-100  "
-              defaultValue={bottomTableEditCurrentUser.furnace_parts_name}
+              defaultValue={bottomTableEditCurrentUser.furnace_part_oid}
               labelId="demo-simple-select-filled-label"
               id="demo-simple-select-filled"
               label={"بخش"}
@@ -241,7 +239,6 @@ const ButtomTableEditModal = () => {
               {FurnaceDistributeList &&
                 FurnaceDistributeList.map((item, index) => (
                   <MenuItem
-                    defaultValue={bottomTableEditCurrentUser.furnace_parts_name}
                     dir="rtl"
                     className="text-center w-100 m-auto  "
                     key={item.id}

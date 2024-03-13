@@ -89,6 +89,8 @@ const ObservingfurnacesModalAddDimension = () => {
 
   const handleModalCancel = () => {
     dispatch(RsetFurnaceObservationAddDimentionModal(false));
+    dispatch(RsetFurnaceObservationtotalNumber(""));
+    dispatch(RsetFurnaceObservationFireProofModel(""));
   };
 
   const modalStyles = {
@@ -179,7 +181,7 @@ const ObservingfurnacesModalAddDimension = () => {
               }
             >
               {fireprooflistuser &&
-                fireprooflistuser.map((item) => (
+                fireprooflistuser.map((item, index) => (
                   <MenuItem
                     dir="rtl"
                     className="text-center w-100 m-auto  "

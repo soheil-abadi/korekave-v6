@@ -136,14 +136,14 @@ const DisplayUPloadingPhotoModal = () => {
                   return (
                     <Button
                       key={index}
-                      className="col-5 overflow-hidden "
+                      className="  py-4 w-100 d-flex justify-content-center align-items-center "
                       type="primary"
                       icon={<FileDownloadIcon />}
                     >
                       <a
-                        className="w-100 col-5 "
+                        className="  w-100 "
                         href={`http://192.168.5.60:8007/api/v1/furnace-material/pdf/download/${item._id}`}
-                      >{`  دانلود فايل :${item.pdf_name_origin}`}</a>
+                      >{` ${item.pdf_name_origin}`}</a>
                     </Button>
                   );
                 })}

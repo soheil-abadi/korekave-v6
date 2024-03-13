@@ -72,6 +72,11 @@ const ObservingfurnaceEditEventModal = () => {
 
   const handlecancelmodal = () => {
     dispatch(RsetfurnaceEventEditModal(false));
+    dispatch(RsetFurnaceObservationEventName(""));
+    dispatch(RsetFurnaceObservationDateOfStart(""));
+    dispatch(RsetFurnaceObservationDateOfEnd(""));
+    dispatch(RsetFurnaceObservationTypeOfEvent(""));
+    dispatch(RsetFurnaceObservationDescriptionP(""));
   };
 
   const handleَAddEvent = () => {

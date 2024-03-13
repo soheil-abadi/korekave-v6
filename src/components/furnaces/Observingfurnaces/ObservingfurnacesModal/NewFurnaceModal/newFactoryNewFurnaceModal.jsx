@@ -78,6 +78,9 @@ const NewFactoryNewFurnaceModal = () => {
   }, [Data, dispatch]);
   const handleModalCancel = () => {
     dispatch(RsetaddDimentionModal(false));
+    dispatch(RsetdimentionLenght(""));
+    dispatch(Rsetdimentionwidth(""));
+    dispatch(RsetdimentionHight(""));
   };
 
   const adddimention = (index) => {

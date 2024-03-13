@@ -17,6 +17,8 @@ import ObservingfurnaceEditEventModal from "./ObservingfurnacesModal/Observingfu
 
 import ButtomTableEditModal from "./ObservingfurnacesModal/ButtomTableEditModal";
 
+import ObservingfurnacesModalEditDimension from "./ObservingfurnacesModal/ObservingfurnacesModalEditDimension";
+
 import ObservingfurnacesModalAddRow from "./ObservingfurnacesModal/ObservingfurnacesModalAddRow";
 import ObservingfurnacesModalAddDimension from "./ObservingfurnacesModal/ObservingfurnacesModalAddDimension";
 import ListIcon from "@mui/icons-material/List";
@@ -78,6 +80,9 @@ import {
   RsetbottomTableEditModal,
   RsetbottomTableEditCurrentUser,
   selectbottomTableEditModal,
+  RseteditDimentionModal,
+  RseteditDimentionCurrentUser,
+  selecteditDimentionModal,
 } from "../../../slices/FurnaceObservationSlices";
 import {
   RsetFurnaceDistributeAddmodal,
@@ -122,6 +127,8 @@ const ObservingFurnaces = () => {
     selectFurnaceObservationdisplayPictureModal
   );
 
+  const editDimentionModal = useSelector(selecteditDimentionModal);
+
   const bottomTableEditModal = useSelector(selectbottomTableEditModal);
   console.log(bottomTableEditModal);
 
@@ -145,6 +152,8 @@ const ObservingFurnaces = () => {
   }, [singlefurances]);
 
   const materialdata = singlefurances.furnaceMaterials;
+
+  console.log(materialdata);
   useEffect(() => {
     if (singlefurances.furnaceDimension !== undefined) {
       if (singlefurances.furnaceDimension.length === 0) {
@@ -252,7 +261,7 @@ const ObservingFurnaces = () => {
     {
       title: "ابعاد و تعداد	",
       key: "action",
-      width: 300,
+      width: 400,
 
       render: (text, record) => (
         <ul>
@@ -264,6 +273,14 @@ const ObservingFurnaces = () => {
                     {item.shape}
                   </li>
                   <p className="fw-bold"> تعداد : {item.numbers}</p>
+                  <Button
+                    onClick={() => {
+                      dispatch(RseteditDimentionModal(true));
+                      dispatch(RseteditDimentionCurrentUser(item));
+                    }}
+                  >
+                    ويرايش ابعاد
+                  </Button>
                 </div>
               </div>
             </>
@@ -311,16 +328,20 @@ const ObservingFurnaces = () => {
       width: 150,
 
       render: (record) => (
-        <Button
-          onClick={() => {
-            dispatch(RsetFurnaceObservationAddDimentionModal(true));
-            dispatch(
-              RsetFurnaceObservationAddDimentioncurrentmaterial(record._id)
-            );
-          }}
-        >
-          اضافه كردن ابعاد
-        </Button>
+        <>
+          <div className="d-flex justify-content-center align-items-center gap-3">
+            <Button
+              onClick={() => {
+                dispatch(RsetFurnaceObservationAddDimentionModal(true));
+                dispatch(
+                  RsetFurnaceObservationAddDimentioncurrentmaterial(record._id)
+                );
+              }}
+            >
+              اضافه كردن ابعاد
+            </Button>
+          </div>
+        </>
       ),
     },
     {
@@ -768,6 +789,8 @@ const ObservingFurnaces = () => {
       {displayPictureModal && <DisplayUPloadingPhotoModal />}
       {uploadPhotoSubTable && <ButtomTableUploadPhotoModal />}
       {bottomTableEditModal && <ButtomTableEditModal />}
+
+      {editDimentionModal && <ObservingfurnacesModalEditDimension />}
     </>
   );
 };

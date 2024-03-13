@@ -49,6 +49,11 @@ const NewFactoryFurnaceAddEvent = () => {
 
   const handlecancelmodal = () => {
     dispatch(RsetaddEventModal(false));
+    dispatch(RsetFurnaceObservationEventName(""));
+    dispatch(RsetFurnaceObservationDateOfStart(""));
+    dispatch(RsetFurnaceObservationDateOfEnd(""));
+    dispatch(RsetFurnaceObservationTypeOfEvent(""));
+    dispatch(RsetFurnaceObservationDescriptionP(""));
   };
 
   const handleَAddEvent = () => {
