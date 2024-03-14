@@ -5,10 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import {
   Box,
-  Checkbox,
   FormControl,
-  FormControlLabel,
-  FormGroup,
   InputLabel,
   MenuItem,
   Select,
@@ -20,9 +17,6 @@ import {
   RsetFurnaceObservationsection,
   RsetFurnaceObservationtotaltonnage,
   addrows,
-  fetchMaterialFurnaceSection,
-  fetchMaterialFurnacematerial,
-  selectFurnaceObservationAddDimentionModal,
   selectFurnaceObservationaddrowmodal,
   selectFurnaceObservationmaterial,
   selectFurnaceObservationsection,

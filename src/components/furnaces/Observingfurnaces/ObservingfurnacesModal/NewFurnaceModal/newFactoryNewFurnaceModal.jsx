@@ -3,17 +3,7 @@ import { Modal, Button, ConfigProvider } from "antd";
 import fa_IR from "antd/lib/locale/fa_IR";
 import { useSelector, useDispatch } from "react-redux";
 
-import {
-  Box,
-  Checkbox,
-  FormControl,
-  FormControlLabel,
-  FormGroup,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-} from "@mui/material";
+import { InputLabel, TextField } from "@mui/material";
 
 import { useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -24,7 +14,6 @@ import {
   selectgetNewDimention,
 } from "../../../../../slices/factory";
 import {
-  RsetDimentionData,
   RsetaddDimentionModal,
   RsetaddEventModal,
   RsetdimentionHight,
@@ -84,17 +73,16 @@ const NewFactoryNewFurnaceModal = () => {
   };
 
   const adddimention = (index) => {
-    if (dimentionHight && dimentionwidth && dimentionLenght) {
-      const selectedLabel = labal[index];
+    const selectedLabel = labal[index];
 
-      const data = {
-        length: dimentionLenght,
-        width: dimentionwidth,
-        height: dimentionHight,
-        furnace_oid: id,
-        furnace_part_oid: selectedLabel._id,
-      };
-
+    const data = {
+      length: dimentionLenght,
+      width: dimentionwidth,
+      height: dimentionHight,
+      furnace_oid: id,
+      furnace_part_oid: selectedLabel._id,
+    };
+    if (data) {
       dispatch(addnewdimentionss({ data: data, id: id }));
       dispatch(RsetdimentionLenght(""));
       dispatch(Rsetdimentionwidth(""));

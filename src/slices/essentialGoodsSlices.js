@@ -88,19 +88,19 @@ const essentialGoodsSlices = createSlice({
     RsetessentialGoodsAddmodal: (state, { payload }) => {
       return { ...state, essentialGoodsAddmodal: payload };
     },
-    extraReducers: (builder) => {
-      builder
-        .addCase(fetchessentialgoodlist.pending, (state) => {
-          state.loading = true;
-        })
-        .addCase(fetchessentialgoodlist.fulfilled, (state, action) => {
-          state.loading = false;
-        })
-        .addCase(fetchessentialgoodlist.rejected, (state) => {
-          state.loading = false;
-          // Handle rejection if needed
-        });
-    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchessentialgoodlist.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchessentialgoodlist.fulfilled, (state, action) => {
+        state.loading = false;
+      })
+      .addCase(fetchessentialgoodlist.rejected, (state) => {
+        state.loading = false;
+        // Handle rejection if needed
+      });
   },
 });
 

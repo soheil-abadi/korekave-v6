@@ -5,29 +5,19 @@ import { useSelector, useDispatch } from "react-redux";
 
 import {
   Box,
-  Checkbox,
   FormControl,
-  FormControlLabel,
-  FormGroup,
   InputLabel,
   MenuItem,
   Select,
   TextField,
 } from "@mui/material";
 import {
-  RsetFurnaceObservationAddDimentionModal,
   RsetFurnaceObservationFireProofModel,
-  RsetFurnaceObservationaddrowmodal,
-  RsetFurnaceObservationsection,
   RsetFurnaceObservationtotalNumber,
   RseteditDimentionModal,
-  adddimentions,
   editdimen,
-  editdimentions,
   selectFurnaceObservatioFireProofModel,
-  selectFurnaceObservationAddDimentionModal,
   selectFurnaceObservationNumber,
-  selectFurnaceObservationaddrowmodal,
   selectFurnaceObservationcurrentmaterial,
   selecteditDimentionCurrentUser,
   selecteditDimentionModal,
@@ -58,9 +48,6 @@ const ObservingfurnacesModalEditDimension = () => {
   console.log(editDimentionCurrentUser);
   const editDimentionModal = useSelector(selecteditDimentionModal);
 
-  const FurnaceObservationcurrentmaterial = useSelector(
-    selectFurnaceObservationcurrentmaterial
-  );
   const FurnaceObservationNumber = useSelector(selectFurnaceObservationNumber);
   console.log(FurnaceObservationNumber, FurnaceObservatioFireProofModel);
   console.log(fireprooflistuser);

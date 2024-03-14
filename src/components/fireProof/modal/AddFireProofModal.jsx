@@ -135,7 +135,11 @@ const AddFireProofModal = () => {
   return (
     <ConfigProvider direction="rtl" locale={fa_IR}>
       <Modal
-        title={`اضافه كردن مدل و ابعاد نسوز ها`}
+        title={
+          <>
+            <h3 className="fw-bold ">{`  اضافه كردن مدل و ابعاد نسوز ها  `}</h3>
+          </>
+        }
         open={fireProofAddmodal}
         styles={modalStyles}
         closable={false}

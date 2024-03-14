@@ -3,7 +3,7 @@ import { Modal, Button, ConfigProvider, DatePicker } from "antd";
 import fa_IR from "antd/lib/locale/fa_IR";
 import { useSelector, useDispatch } from "react-redux";
 import moment from "jalali-moment";
-import faIR from "antd/lib/locale/fa_IR";
+
 import { DtPicker } from "react-calendar-datetime-picker";
 
 import { Box, InputLabel, MenuItem, Select, TextField } from "@mui/material";
@@ -23,7 +23,6 @@ import {
   selectFurnaceObservationDateOfStart,
   selectFurnaceObservationDescriptionP,
   selectFurnaceObservationEventName,
-  selectFurnaceObservationStatusModal,
   selectFurnaceObservationTypeOfEvent,
   selectaddEventModal,
 } from "../../../../../slices/FurnaceObservationSlices";

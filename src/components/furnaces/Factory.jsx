@@ -103,18 +103,18 @@ const Furnaces = () => {
           <div className="ms-4 mt-2">
             <span className="me-2 text-center ">
               <ListIcon />
-              مديريت كوره
+              مديريت كوره ها
             </span>
           </div>
           <Button
             title="افزودن کاربر جدید"
             size="sm"
             variant="success"
-            className=" me-4 shadow rounded-circle  bg-success  py-3 "
-            style={{ width: "10px" }}
+            className=" me-4 shadow rounded-circle  bg-success  py-2 "
+            style={{ width: "5px" }}
             onClick={() => dispatch(RsetfactoryAddModal(true))}
           >
-            <AddCircleIcon className="rounded-5" />
+            <AddCircleIcon className="rounded-circle w-75 " />
           </Button>
         </div>
 

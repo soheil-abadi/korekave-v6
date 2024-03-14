@@ -142,7 +142,11 @@ const EditFireProofModal = () => {
   return (
     <ConfigProvider direction="rtl" locale={fa_IR}>
       <Modal
-        title={`ويرايش مدل ${fireProofCurrentUser.shape_code}`}
+        title={
+          <>
+            <h3 className="fw-bold ">{` ويرايش مدل  ${fireProofCurrentUser.shape_code}`}</h3>
+          </>
+        }
         open={fireProofEditModal}
         styles={modalStyles}
         closable={false}

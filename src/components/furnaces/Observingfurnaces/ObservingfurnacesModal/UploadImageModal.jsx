@@ -3,17 +3,7 @@ import { Modal, Button, ConfigProvider, Upload } from "antd";
 import fa_IR from "antd/lib/locale/fa_IR";
 import { useSelector, useDispatch } from "react-redux";
 
-import {
-  Box,
-  Checkbox,
-  FormControl,
-  FormControlLabel,
-  FormGroup,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-} from "@mui/material";
+import { Box, InputLabel, TextField } from "@mui/material";
 import {
   RsetuploadPhotoDes,
   RsetuploadPhotoModal,
@@ -24,11 +14,8 @@ import {
   selectuploadPhotoModal,
   selectuploadPic,
 } from "../../../../slices/FurnaceObservationSlices";
-import {
-  getsinglefurance,
-  selectsinglefurances,
-} from "../../../../slices/Dashboard";
-import { uploadephoto } from "../../../../services/authServices";
+import { selectsinglefurances } from "../../../../slices/Dashboard";
+
 import { getIdFromUrl } from "../ObservingFurnaces";
 import { useLocation } from "react-router-dom";
 import Swal from "sweetalert2";

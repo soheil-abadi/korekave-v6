@@ -107,19 +107,19 @@ const fireProofSlices = createSlice({
     RsetfireProofAddmodal: (state, { payload }) => {
       return { ...state, fireProofAddmodal: payload };
     },
-    extraReducers: (builder) => {
-      builder
-        .addCase(fetchfireprooflistList.pending, (state) => {
-          state.loading = true;
-        })
-        .addCase(fetchfireprooflistList.fulfilled, (state, action) => {
-          state.loading = false;
-        })
-        .addCase(fetchfireprooflistList.rejected, (state) => {
-          state.loading = false;
-          // Handle rejection if needed
-        });
-    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchfireprooflistList.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchfireprooflistList.fulfilled, (state, action) => {
+        state.loading = false;
+      })
+      .addCase(fetchfireprooflistList.rejected, (state) => {
+        state.loading = false;
+        // Handle rejection if needed
+      });
   },
 });
 

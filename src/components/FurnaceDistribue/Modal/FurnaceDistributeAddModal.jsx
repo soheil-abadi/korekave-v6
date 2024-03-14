@@ -111,7 +111,11 @@ const FurnaceDistributeAddModal = () => {
   return (
     <ConfigProvider direction="rtl" locale={fa_IR}>
       <Modal
-        title={`اضافه كردن بخش گوره `}
+        title={
+          <>
+            <h3 className="fw-bold ">{`اضافه كردن بخش كوره`}</h3>
+          </>
+        }
         open={FurnaceDistributeAddmodal}
         styles={modalStyles}
         closable={false}

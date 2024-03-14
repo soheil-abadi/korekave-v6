@@ -20,6 +20,7 @@ const initialState = {
   loading: false,
   loadingFurnace: false,
   loadingSingleFurnace: false,
+  error: false,
 };
 
 // export const handleStaffLogin = createAsyncThunk(
@@ -64,6 +65,10 @@ const DashboardSlices = createSlice({
     Rsetsinglefurances: (state, { payload }) => {
       return { ...state, singlefurances: payload };
     },
+
+    Rseterror: (state, { payload }) => {
+      return { ...state, error: payload };
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -76,10 +81,7 @@ const DashboardSlices = createSlice({
       .addCase(fetchedashboard.rejected, (state) => {
         state.loading = false;
         // Handle rejection if needed
-      });
-  },
-  extraReducers: (builder) => {
-    builder
+      })
       .addCase(dashboardgetfurances.pending, (state) => {
         state.loadingFurnace = true;
       })
@@ -89,25 +91,26 @@ const DashboardSlices = createSlice({
       .addCase(dashboardgetfurances.rejected, (state) => {
         state.loadingFurnace = false;
         // Handle rejection if needed
-      });
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase(dashboardgetfurances.pending, (state) => {
+      })
+      .addCase(getsinglefurance.pending, (state) => {
         state.loadingSingleFurnace = true;
       })
-      .addCase(dashboardgetfurances.fulfilled, (state, action) => {
+      .addCase(getsinglefurance.fulfilled, (state, action) => {
         state.loadingSingleFurnace = false;
       })
-      .addCase(dashboardgetfurances.rejected, (state) => {
+      .addCase(getsinglefurance.rejected, (state) => {
         state.loadingSingleFurnace = false;
         // Handle rejection if needed
       });
   },
 });
 
-export const { RsetDashboardList, Rsetfurances, Rsetsinglefurances } =
-  DashboardSlices.actions;
+export const {
+  RsetDashboardList,
+  Rsetfurances,
+  Rsetsinglefurances,
+  Rseterror,
+} = DashboardSlices.actions;
 
 export const selectDashboardList = (state) => state.Dashboard.DashboardList;
 export const selectfurances = (state) => state.Dashboard.furances;
@@ -116,6 +119,8 @@ export const selectloading = (state) => state.Dashboard.loading;
 export const selectloadingFurnace = (state) => state.Dashboard.loadingFurnace;
 export const selectloadingSingleFurnace = (state) =>
   state.Dashboard.loadingSingleFurnace;
+
+export const selecterror = (state) => state.Dashboard.error;
 
 export default DashboardSlices.reducer;
 // -----------------------------api handle
@@ -126,13 +131,16 @@ export const fetchedashboard = createAsyncThunk(
     try {
       const getuser = await dashboardget(token);
 
-      if (getuser.status === 200) {
+      if (getuser.data.code === 200) {
         dispatch(RsetDashboardList(getuser.data.data));
       } else {
-        errorMessage("عدم دريافت اطلاعات");
+        dispatch(Rseterror(true));
       }
-    } catch (ex) {
-      console.log(ex);
+    } catch {
+      Swal.fire({
+        icon: "error",
+        title: "   عدم دريافت اطلاعات  ",
+      });
     }
   }
 );

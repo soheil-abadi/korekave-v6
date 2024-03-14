@@ -90,19 +90,19 @@ const userManagmentSlices = createSlice({
     RsetuserManagmentDeleteModal: (state, { payload }) => {
       return { ...state, userManagmentDeleteModal: payload };
     },
-    extraReducers: (builder) => {
-      builder
-        .addCase(fetchUserList.pending, (state) => {
-          state.loading = true;
-        })
-        .addCase(fetchUserList.fulfilled, (state, action) => {
-          state.loading = false;
-        })
-        .addCase(fetchUserList.rejected, (state) => {
-          state.loading = false;
-          // Handle rejection if needed
-        });
-    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchUserList.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchUserList.fulfilled, (state, action) => {
+        state.loading = false;
+      })
+      .addCase(fetchUserList.rejected, (state) => {
+        state.loading = false;
+        // Handle rejection if needed
+      });
   },
 });
 

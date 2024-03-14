@@ -179,7 +179,14 @@ const FireProof = () => {
 
         return a.category.localeCompare(b.category);
       },
-      ...getColumnSearchProps("category", "جستجو..."),
+      filters: [
+        { text: "نسوز ", value: "نسوز" },
+        { text: "آجر", value: "آجر" },
+        { text: "سنگ", value: "سنگ" },
+      ],
+
+      onFilter: (value, record) => record.category === value,
+
       width: 50,
     },
     {
@@ -350,9 +357,7 @@ const FireProof = () => {
   //table custom pagination
   const paginationConfig = {
     position: ["bottomCenter"],
-    showTotal: (total) => (
-      <span className="font12">مجموع وسیله ها: {total}</span>
-    ),
+    showTotal: (total) => <span className="font12">مجموع: {total}</span>,
     pageSize: 10,
     showSizeChanger: false,
     pageSizeOptions: [],

@@ -124,7 +124,11 @@ const FactoryManagmentAddModal = () => {
   return (
     <ConfigProvider direction="rtl" locale={fa_IR}>
       <Modal
-        title={` اضافه كردن كارخانه`}
+        title={
+          <>
+            <h3 className="fw-bold ">{` اضافه كردن كارخانه  `}</h3>
+          </>
+        }
         open={FactoryManagmentAddmodal}
         styles={modalStyles}
         closable={false}

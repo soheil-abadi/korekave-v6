@@ -153,7 +153,11 @@ const FactoryManagmentEditModal = () => {
   return (
     <ConfigProvider direction="rtl" locale={fa_IR}>
       <Modal
-        title={`  ويرايش  كارخانه ${FactoryManagmentCurrentUser.name} `}
+        title={
+          <>
+            <h3 className="fw-bold ">{` ويرايش كارخانه  ${FactoryManagmentCurrentUser.name}`}</h3>
+          </>
+        }
         open={FactoryManagmentEditModa}
         styles={modalStyles}
         closable={false}

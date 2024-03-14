@@ -138,3 +138,7 @@ a {
   text-decoration: none !important;
   color: white;
 }
+
+.ant-dropdown-menu {
+  direction: rtl;
+}

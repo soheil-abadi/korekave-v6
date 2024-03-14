@@ -36,11 +36,8 @@ import NewFactoryFurnaceAddEvent from "./ObservingfurnacesModal/NewFurnaceModal/
 import { useDispatch, useSelector } from "react-redux";
 import {
   RsetFurnaceObservationAddDimentionModal,
-  RsetFurnaceObservationAddTabs,
   RsetFurnaceObservationStatusModal,
   RsetFurnaceObservationaddrowmodal,
-  RsetFurnaceObservationoveralAddTabs,
-  RsetFurnaceObservationsection,
   selectFurnaceObservationAddDimentionModal,
   selectFurnaceObservationAddTabs,
   selectFurnaceObservationDateOfEnd,
@@ -50,11 +47,6 @@ import {
   selectFurnaceObservationStatusModal,
   selectFurnaceObservationTypeOfEvent,
   selectFurnaceObservationaddrowmodal,
-  selectFurnaceObservationoveralAddTabs,
-  selectFurenceObserEvents,
-  RsteFurenceObserEvents,
-  RsetListReloader,
-  selectListReloader,
   selectFurnaceObservationFormatTabs,
   RsetFurnaceObservationFormatTabs,
   finalingevent,
@@ -63,8 +55,6 @@ import {
   RsetuploadPhotoCurrentRow,
   deletematerials,
   RsetFurnaceObservationAddDimentioncurrentmaterial,
-  Rsetcurrenfurnaceid,
-  selectFurnaceObservationcurrenfurnaceid,
   selectaddDimentionModal,
   RsetaddDimentionModal,
   selectaddEventModal,
@@ -84,10 +74,7 @@ import {
   RseteditDimentionCurrentUser,
   selecteditDimentionModal,
 } from "../../../slices/FurnaceObservationSlices";
-import {
-  RsetFurnaceDistributeAddmodal,
-  selectFurnaceDistributeType,
-} from "../../../slices/FurnaceDistribute";
+import { selectFurnaceDistributeType } from "../../../slices/FurnaceDistribute";
 import { Container } from "@mui/material";
 import {
   getsinglefurance,
@@ -102,8 +89,6 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Spin } from "antd";
-
-import { uploadephoto } from "../../../services/authServices";
 
 const { Panel } = Collapse;
 
@@ -120,7 +105,7 @@ const ObservingFurnaces = () => {
   const id = getIdFromUrl(location.pathname);
 
   const singlefurances = useSelector(selectsinglefurances);
-  const furenceObserEvents = useSelector(selectFurenceObserEvents);
+
   const addDimentionModal = useSelector(selectaddDimentionModal);
   const addEventModal = useSelector(selectaddEventModal);
   const displayPictureModal = useSelector(
@@ -140,7 +125,6 @@ const ObservingFurnaces = () => {
     selectFurnaceObservationfurnaceEventEditModal
   );
 
-  const listReloader = useSelector(selectListReloader);
   const [material, setmaterial] = useState([]);
 
   useEffect(() => {
@@ -218,14 +202,34 @@ const ObservingFurnaces = () => {
     },
   ];
 
+  // materials_per_shape_first_usage_name
+  // materials_per_shape_first_usage_end_date
   // ----------------------------------------------------------------------------------------------
 
   const columnsbuttom = [
     {
       title: " شروع استفاده	",
-      dataIndex: "first_usage_event_id",
-      key: "first_usage_event_id ",
-      render: (text) => <span className="fw-bold ">{text}</span>, // Apply custom class to render function
+      dataIndex: "materials_per_shape_first_usage_name",
+      key: "materials_per_shape_first_usage_name ",
+      render: (text, record) => {
+        console.log(record);
+        return (
+          <>
+            <div className="d-flex justify-content-center align-items-center gap-1 flex-row-reverse">
+              <p className="fw-bold">
+                ( {record.materials_per_shape_first_usage_name})
+              </p>
+              <p className="fw-bold">
+                {moment(record.materials_per_shape_first_usage_end_date).format(
+                  "jYYYY/jMM/jDD"
+                )}
+              </p>
+            </div>
+          </>
+        );
+      },
+
+      width: 280,
     },
     {
       title: " بخش",
@@ -493,28 +497,28 @@ const ObservingFurnaces = () => {
       dataIndex: "furnace_part_name",
       key: "furnace_part_name",
       width: 100,
-      render: (text) => <span className="fw-bold fs-5">{text}</span>, // Apply custom class to render function
+      render: (text) => <span className="fw-bold fs-5">{text ? text : 0}</span>, // Apply custom class to render function
     },
     {
       title: " طول",
       dataIndex: "length",
       key: "length",
       width: 100,
-      render: (text) => <span className="fw-bold fs-5">{text}</span>, // Apply custom class to render function
+      render: (text) => <span className="fw-bold fs-5">{text ? text : 0}</span>, // Apply custom class to render function
     },
     {
       title: " عرض",
       dataIndex: "width",
       key: "width",
       width: 100,
-      render: (text) => <span className="fw-bold fs-5">{text}</span>, // Apply custom class to render function
+      render: (text) => <span className="fw-bold fs-5">{text ? text : 0}</span>, // Apply custom class to render function
     },
     {
       title: "ارتفاع",
       dataIndex: "height",
       key: "height",
       width: 100,
-      render: (text) => <span className="fw-bold fs-5">{text}</span>, // Apply custom class to render function
+      render: (text) => <span className="fw-bold fs-5">{text ? text : 0}</span>, // Apply custom class to render function
     },
   ];
 

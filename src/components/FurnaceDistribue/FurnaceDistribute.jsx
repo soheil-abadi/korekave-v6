@@ -273,9 +273,7 @@ const FurnaceDistribute = () => {
   //table custom pagination
   const paginationConfig = {
     position: ["bottomCenter"],
-    showTotal: (total) => (
-      <span className="font12">مجموع وسیله ها: {total}</span>
-    ),
+    showTotal: (total) => <span className="font12">مجموع: {total}</span>,
     pageSize: 10,
     showSizeChanger: false,
     pageSizeOptions: [],

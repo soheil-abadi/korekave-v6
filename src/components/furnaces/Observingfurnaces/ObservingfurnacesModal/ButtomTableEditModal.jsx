@@ -4,27 +4,18 @@ import fa_IR from "antd/lib/locale/fa_IR";
 import { useSelector, useDispatch } from "react-redux";
 
 import {
-  Box,
-  Checkbox,
   FormControl,
-  FormControlLabel,
-  FormGroup,
   InputLabel,
   MenuItem,
   Select,
   TextField,
 } from "@mui/material";
 import {
-  RsetFurnaceObservationaddrowmodal,
   RsetFurnaceObservationmaterial,
   RsetFurnaceObservationsection,
   RsetFurnaceObservationtotaltonnage,
   RsetbottomTableEditModal,
-  addrows,
   editrows,
-  fetchMaterialFurnaceSection,
-  fetchMaterialFurnacematerial,
-  selectFurnaceObservationAddDimentionModal,
   selectFurnaceObservationaddrowmodal,
   selectFurnaceObservationmaterial,
   selectFurnaceObservationsection,
@@ -43,7 +34,7 @@ import {
 } from "../../../../slices/essentialGoodsSlices";
 import { useLocation } from "react-router-dom";
 import { getIdFromUrl } from "../ObservingFurnaces";
-import { addrow } from "../../../../services/authServices";
+
 import Swal from "sweetalert2";
 
 const ButtomTableEditModal = () => {
@@ -64,9 +55,6 @@ const ButtomTableEditModal = () => {
   );
   console.log(bottomTableEditCurrentUser);
 
-  const FurnaceObservationaddrowmodal = useSelector(
-    selectFurnaceObservationaddrowmodal
-  );
   const essentialGoodsList = useSelector(selectessentialGoodsList);
   const FurnaceDistributeList = useSelector(selectFurnaceDistributeList);
   const FurnaceObservationsection = useSelector(

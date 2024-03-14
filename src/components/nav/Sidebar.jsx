@@ -163,23 +163,24 @@ const Sidebar = () => {
                     </span>
                     <span className="ms-3">مدیریت کاربران</span>
                   </h3>
+                  <div className="my-3 d-flex justify-content-center align-items-center w-100 my-5">
+                    <Button className="px-4 py-2 bg-transparent border-2 border-danger rounded-pill navItem">
+                      <span
+                        className="exit-button"
+                        onClick={() => {
+                          localStorage.removeItem("token");
+                          dispatch(RsetIsLoggedIn(false));
+                          navigate("/");
+                        }}
+                      >
+                        <LogoutIcon />
+                        خروج
+                      </span>
+                    </Button>
+                    <div classstyle={{ height: "50px" }}></div>
+                  </div>
                 </div>
               </Nav>
-            </div>
-            <div className="my-3">
-              <Button className="px-4 py-2 bg-transparent border-2 border-danger rounded-pill navItem">
-                <span
-                  onClick={() => {
-                    localStorage.removeItem("token");
-                    dispatch(RsetIsLoggedIn(false));
-                    navigate("/");
-                  }}
-                >
-                  <LogoutIcon />
-                  خروج
-                </span>
-              </Button>
-              <div classstyle={{ height: "50px" }}></div>
             </div>
           </Navbar.Collapse>
         </Navbar>

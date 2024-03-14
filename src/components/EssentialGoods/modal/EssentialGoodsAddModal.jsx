@@ -130,7 +130,11 @@ const EssentialGoodsADDModal = () => {
   return (
     <ConfigProvider direction="rtl" locale={fa_IR}>
       <Modal
-        title={` اضافه كردن ليست ملزومات `}
+        title={
+          <>
+            <h3 className="fw-bold ">{` اضافه كردن ليست ملزومات`}</h3>
+          </>
+        }
         open={essentialGoodADDModal}
         styles={modalStyles}
         closable={false}

@@ -27,32 +27,12 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-// import {
-//   RsetuploadPhotoDes,
-//   RsetuploadPhotoModal,
-//   RsetuploadPic,
-//   addphoto,
-//   selectuploadPhotoCurrentRow,
-//   selectuploadPhotoDes,
-//   selectuploadPhotoModal,
-//   selectuploadPic,
-// } from "../../../../slices/FurnaceObservationSlices";
 
-import { useLocation } from "react-router-dom";
-import Swal from "sweetalert2";
-import { getIdFromUrl } from "../../ObservingFurnaces";
 import {
   RsetdisplayPictureModal,
-  RsetuploadPhotoDes,
-  RsetuploadPhotoModal,
-  RsetuploadPic,
   selectFurnaceObservationdisplayPictureModal,
   selectlistOfSubPic,
-  selectuploadPhotoCurrentRow,
-  selectuploadPhotoDes,
-  selectuploadPhotoModal,
 } from "../../../../../slices/FurnaceObservationSlices";
-import Item from "antd/es/list/Item";
 
 const DisplayUPloadingPhotoModal = () => {
   const dispatch = useDispatch();
@@ -71,9 +51,6 @@ const DisplayUPloadingPhotoModal = () => {
     dispatch(RsetdisplayPictureModal(false));
   };
 
-  // useEffect(() => {
-  //   dispatch(fetchsubtableimg());
-  // }, []);
   const modalStyles = {
     header: {
       background: "gray",
@@ -96,7 +73,7 @@ const DisplayUPloadingPhotoModal = () => {
       boxShadow: "0 0 30px #999",
     },
   };
-  const [thumbsSwiper, setThumbsSwiper] = useState();
+
   return (
     <ConfigProvider direction="ltr" locale={fa_IR}>
       <Modal

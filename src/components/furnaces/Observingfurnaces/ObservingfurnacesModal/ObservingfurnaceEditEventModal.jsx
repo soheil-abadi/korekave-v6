@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Modal, Button, ConfigProvider, DatePicker } from "antd";
+import { Modal, Button, ConfigProvider } from "antd";
 import fa_IR from "antd/lib/locale/fa_IR";
 import { useSelector, useDispatch } from "react-redux";
 import moment from "jalali-moment";
@@ -8,16 +8,12 @@ import { DtPicker } from "react-calendar-datetime-picker";
 
 import { Box, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 
-import { FormControl } from "react-bootstrap";
 import {
   RsetFurnaceObservationDateOfEnd,
   RsetFurnaceObservationDateOfStart,
   RsetFurnaceObservationDescriptionP,
   RsetFurnaceObservationEventName,
-  RsetFurnaceObservationStatusModal,
   RsetFurnaceObservationTypeOfEvent,
-  RsetFurnaceObservationpersianCalender,
-  RsetFurnaceObservationpersianCalenderEnd,
   RsetfurnaceEventEditModal,
   addevents,
   editevents,
@@ -28,8 +24,6 @@ import {
   selectFurnaceObservationStatusModal,
   selectFurnaceObservationTypeOfEvent,
   selectFurnaceObservationfurnaceEventEditModal,
-  selectFurnaceObservationpersianCalender,
-  selectFurnaceObservationpersianCalenderEnd,
   selectfurnaceEventEditCurrentRow,
 } from "../../../../slices/FurnaceObservationSlices";
 import { addfurnaceevent } from "../../../../services/authServices";
@@ -52,19 +46,6 @@ const solarToGregorian = (solarDate) => {
 };
 
 const ObservingfurnaceEditEventModal = () => {
-  const [start, setStart] = useState({});
-  const [end, setEnd] = useState({});
-  // const [formatstart, setformatStart] = useState("");
-  // const [formatend, setformatEnd] = useState("");
-  // if ((start, end)) {
-  //   const starts = start.year - start.month - start.day;
-  //   setformatStart(starts);
-  //   const ends = end.year - end.month - end.day;
-  //   setformatEnd(ends);
-  // }
-
-  // const convertDate = `${startDate.year}/${startDate.mounth}/${startDate.day}`;
-
   const enetrydata = ["ساخت ", "تعمير سرد"];
   const dispatch = useDispatch();
   const location = useLocation();
@@ -147,9 +128,7 @@ const ObservingfurnaceEditEventModal = () => {
   const FurnaceObservationfurnaceEventEditModal = useSelector(
     selectFurnaceObservationfurnaceEventEditModal
   );
-  const FurnaceObservationStatusModal = useSelector(
-    selectFurnaceObservationStatusModal
-  );
+
   const FurnaceObservationStatusDateOfEnd = useSelector(
     selectFurnaceObservationDateOfEnd
   );

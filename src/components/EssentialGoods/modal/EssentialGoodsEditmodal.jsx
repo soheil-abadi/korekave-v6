@@ -127,7 +127,11 @@ const EssentialGoodsEdditModal = () => {
   return (
     <ConfigProvider direction="rtl" locale={fa_IR}>
       <Modal
-        title={`ويرايش مدل ${essentialGoodsCurrentUser.type_name}`}
+        title={
+          <>
+            <h3 className="fw-bold ">{` ويرايش مدل  ${essentialGoodsCurrentUser.type_name}`}</h3>
+          </>
+        }
         open={essentialGoodsEditModal}
         styles={modalStyles}
         closable={false}

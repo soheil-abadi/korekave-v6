@@ -12,6 +12,7 @@ import {
   dashboardgetfurances,
   fetchedashboard,
   selectDashboardList,
+  selecterror,
   selectfurances,
   selectloading,
 } from "../../slices/Dashboard";
@@ -32,6 +33,12 @@ const Dashboard = () => {
   useEffect(() => {
     dispatch(fetchedashboard());
   }, [dispatch]);
+  const error = useSelector(selecterror);
+
+  if (error) {
+    navigate("/");
+    localStorage.removeItem("token");
+  }
 
   const furanceId = useSelector(selectfurances);
 
@@ -58,7 +65,13 @@ const Dashboard = () => {
                   className="cards col-sm-6 col-md-5  p-3 baxshadow  p-5 .borderRadius-15 position-relative  mt-5    "
                   style={{ backgroundColor: "white" }}
                 >
-                  <div style={{ height: "300px" }}>
+                  <div
+                    onClick={() => {
+                      dispatch(dashboardgetfurances(item._id));
+                      navigate(`/Dashboard/Factory/${item._id}`);
+                    }}
+                    style={{ height: "300px" }}
+                  >
                     <div className="descard p-4 w-100 m-auto  ">
                       <h3>{item.name}</h3>
                       <hr />

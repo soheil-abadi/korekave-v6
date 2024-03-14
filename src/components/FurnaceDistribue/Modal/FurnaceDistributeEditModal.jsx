@@ -120,8 +120,12 @@ const FurnaceDistributeEditModal = () => {
   return (
     <ConfigProvider direction="rtl" locale={fa_IR}>
       <Modal
-        title={`ویرایش بخش ${FurnaceDistributeCurrentUser.name}`}
         open={FurnaceDistributeEditModal}
+        title={
+          <>
+            <h3 className="fw-bold ">{` ويرايش بخش  ${FurnaceDistributeCurrentUser.name}`}</h3>
+          </>
+        }
         styles={modalStyles}
         closable={false}
         onOk={handleModalCancel}

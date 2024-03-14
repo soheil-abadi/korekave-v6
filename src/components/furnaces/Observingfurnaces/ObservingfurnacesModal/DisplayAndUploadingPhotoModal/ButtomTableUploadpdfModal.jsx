@@ -3,18 +3,6 @@ import { Modal, Button, ConfigProvider, Upload } from "antd";
 import fa_IR from "antd/lib/locale/fa_IR";
 import { useSelector, useDispatch } from "react-redux";
 
-import {
-  Box,
-  Checkbox,
-  FormControl,
-  FormControlLabel,
-  FormGroup,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-} from "@mui/material";
-
 import { useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
 import { getIdFromUrl } from "../../ObservingFurnaces";
@@ -28,14 +16,7 @@ import {
 } from "../../../../../slices/FurnaceObservationSlices";
 
 const ButtomTableUploadPhotoModal = () => {
-  const token = localStorage.getItem("token");
   const dispatch = useDispatch();
-
-  const tokenUser = localStorage.getItem("token");
-
-  // Log the value of the token to the console
-  console.log(tokenUser);
-
   // ------------------uploade photo-----------------------------
   const location = useLocation();
   const id = getIdFromUrl(location.pathname);

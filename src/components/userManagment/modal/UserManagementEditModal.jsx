@@ -146,7 +146,11 @@ const UserManagementEditModal = () => {
   return (
     <ConfigProvider direction="rtl" locale={fa_IR}>
       <Modal
-        title={`ویرایش کاربر ${userManagmentCurrentUser.username}`}
+        title={
+          <>
+            <h3 className="fw-bold ">{`ویرایش كاربر  ${userManagmentCurrentUser.username}`}</h3>
+          </>
+        }
         open={userManagmentEditModal}
         styles={modalStyles}
         closable={false}

@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Modal, Button, ConfigProvider, DatePicker } from "antd";
+import { Modal, Button, ConfigProvider } from "antd";
 import fa_IR from "antd/lib/locale/fa_IR";
 import { useSelector, useDispatch } from "react-redux";
 import moment from "jalali-moment";
-import faIR from "antd/lib/locale/fa_IR";
+
 import { DtPicker } from "react-calendar-datetime-picker";
 
 import { Box, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 
-import { FormControl } from "react-bootstrap";
 import {
   RsetFurnaceObservationDateOfEnd,
   RsetFurnaceObservationDateOfStart,
@@ -16,8 +15,6 @@ import {
   RsetFurnaceObservationEventName,
   RsetFurnaceObservationStatusModal,
   RsetFurnaceObservationTypeOfEvent,
-  RsetFurnaceObservationpersianCalender,
-  RsetFurnaceObservationpersianCalenderEnd,
   addevents,
   selectFurnaceObservationDateOfEnd,
   selectFurnaceObservationDateOfStart,
@@ -25,14 +22,9 @@ import {
   selectFurnaceObservationEventName,
   selectFurnaceObservationStatusModal,
   selectFurnaceObservationTypeOfEvent,
-  selectFurnaceObservationpersianCalender,
-  selectFurnaceObservationpersianCalenderEnd,
 } from "../../../../slices/FurnaceObservationSlices";
-import { addfurnaceevent } from "../../../../services/authServices";
-import {
-  getsinglefurance,
-  selectsinglefurances,
-} from "../../../../slices/Dashboard";
+
+import { selectsinglefurances } from "../../../../slices/Dashboard";
 import { getIdFromUrl } from "../ObservingFurnaces";
 import { useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -48,19 +40,6 @@ const solarToGregorian = (solarDate) => {
 };
 
 const ObservingfurnaceAddEventModal = () => {
-  const [start, setStart] = useState({});
-  const [end, setEnd] = useState({});
-  // const [formatstart, setformatStart] = useState("");
-  // const [formatend, setformatEnd] = useState("");
-  // if ((start, end)) {
-  //   const starts = start.year - start.month - start.day;
-  //   setformatStart(starts);
-  //   const ends = end.year - end.month - end.day;
-  //   setformatEnd(ends);
-  // }
-
-  // const convertDate = `${startDate.year}/${startDate.mounth}/${startDate.day}`;
-
   const enetrydata = ["ساخت ", "تعمير سرد"];
   const dispatch = useDispatch();
   const location = useLocation();
