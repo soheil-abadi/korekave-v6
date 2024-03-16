@@ -69,6 +69,14 @@ const EditFireProofModal = () => {
 
   const handleModalCancel = () => {
     dispatch(RsetfireProofEditModal(false));
+    RsetfireProofmodelCode("");
+    RsetfireProofI("");
+    RsetfireProofweight("");
+    RsetfireProofa("");
+    RsetfireProofb("");
+    RsetfireProofh("");
+    RsetfireProofsort("");
+    RsetfireProoftype("");
   };
   // ------------------------sending new input to reducers
   const handleModalEdit = () => {
@@ -178,28 +186,63 @@ const EditFireProofModal = () => {
       >
         <form>
           <Box>
-            <InputLabel className="fw-bold fs-5" id="demo-simple-select-label">
-              دسته بندي
-            </InputLabel>
-            <Select
-              className="w-100  "
-              labelId="demo-simple-select-filled-label"
-              id="demo-simple-select-filled"
-              value={fireProofsort}
-              label=" دسته بندي"
-              onChange={(e) => dispatch(RsetfireProofsort(e.target.value))}
-            >
-              {selectoption &&
-                selectoption.map((item, index) => (
-                  <MenuItem
-                    className="text-center w-100 m-auto"
-                    key={index}
-                    value={item}
-                  >
-                    {item}
-                  </MenuItem>
-                ))}
-            </Select>
+            <FormControl className="my-4" fullWidth>
+              <InputLabel
+                className="fw-bold fs-5"
+                id="demo-simple-select-label"
+              >
+                نوع
+              </InputLabel>
+              <Select
+                value={fireProoftype}
+                className="w-100  "
+                labelId="demo-simple-select-filled-label"
+                id="demo-simple-select-filled"
+                defaultValue={{ label: fireProoftype, value: 2 }}
+                label="مدل"
+                onChange={(e) => dispatch(RsetfireProoftype(e.target.value))}
+              >
+                {type &&
+                  type.map((item, index) => (
+                    <MenuItem
+                      className="text-center w-100 m-auto"
+                      key={index}
+                      value={item}
+                    >
+                      {item}
+                    </MenuItem>
+                  ))}
+              </Select>
+            </FormControl>
+          </Box>
+          <Box>
+            <FormControl className="my-2" fullWidth>
+              <InputLabel
+                className="fw-bold fs-5"
+                id="demo-simple-select-label"
+              >
+                دسته بندي
+              </InputLabel>
+              <Select
+                className="w-100  "
+                labelId="demo-simple-select-filled-label"
+                id="demo-simple-select-filled"
+                value={fireProofsort}
+                label=" دسته بندي"
+                onChange={(e) => dispatch(RsetfireProofsort(e.target.value))}
+              >
+                {selectoption &&
+                  selectoption.map((item, index) => (
+                    <MenuItem
+                      className="text-center w-100 m-auto"
+                      key={index}
+                      value={item}
+                    >
+                      {item}
+                    </MenuItem>
+                  ))}
+              </Select>
+            </FormControl>
           </Box>
 
           <Box>
@@ -212,30 +255,7 @@ const EditFireProofModal = () => {
               onChange={(e) => dispatch(RsetfireProofmodelCode(e.target.value))}
             />
           </Box>
-          <Box>
-            <InputLabel className="fw-bold fs-5" id="demo-simple-select-label">
-              نوع
-            </InputLabel>
-            <Select
-              className="w-100  "
-              labelId="demo-simple-select-filled-label"
-              id="demo-simple-select-filled"
-              defaultValue={{ label: fireProoftype, value: 2 }}
-              label="مدل"
-              onChange={(e) => dispatch(RsetfireProoftype(e.target.value))}
-            >
-              {type &&
-                type.map((item, index) => (
-                  <MenuItem
-                    className="text-center w-100 m-auto"
-                    key={index}
-                    value={item}
-                  >
-                    {item}
-                  </MenuItem>
-                ))}
-            </Select>
-          </Box>
+
           <Box>
             <InputLabel className="fw-bold fs-5">
               وزن در واحد (کیلوگرم):{" "}

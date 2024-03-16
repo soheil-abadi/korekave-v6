@@ -113,7 +113,7 @@ const ButtomTableUploadPhotoModal = () => {
                 size="large"
                 onClick={() => uploadPhotos()}
               >
-                آپلود عكس
+                آپلود PDF
               </Button>
             </div>
           </>

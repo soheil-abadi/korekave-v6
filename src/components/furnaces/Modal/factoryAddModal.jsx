@@ -202,6 +202,7 @@ const FactoryAddModal = () => {
                 {typedata &&
                   typedata.map((item, index) => (
                     <MenuItem
+                      dir="rtl"
                       className="text-center w-100 m-auto"
                       key={index}
                       value={item}
@@ -282,6 +283,7 @@ const FactoryAddModal = () => {
                 {enetrydata &&
                   enetrydata.map((item, index) => (
                     <MenuItem
+                      dir="rtl"
                       className="text-center w-100 m-auto"
                       key={index}
                       value={item}

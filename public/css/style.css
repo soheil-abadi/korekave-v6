@@ -114,6 +114,23 @@ body * {
 
 .descard p {
   font-weight: 700;
+  font-size: 17px;
+}
+
+.descard p > span {
+  font-size: 15px;
+  transition: 0.5s;
+}
+
+.Sidebar-parent h3 {
+  transition: 0.5s;
+  width: 100%;
+}
+
+.Sidebar-parent h3:hover {
+  transform: translateX(-10px);
+  color: #f4e907 !important;
+  transition: 0.5s;
 }
 
 .swiper {
@@ -141,4 +158,116 @@ a {
 
 .ant-dropdown-menu {
   direction: rtl;
+}
+
+.MuiList-root {
+  direction: rtl;
+}
+/* ============================ */
+.menueic {
+  background-color: rgb(33, 37, 41) !important;
+  height: 100%;
+  width: 100% !important;
+  position: relative;
+}
+
+.MuiPaper-root {
+  border-radius: 16px;
+}
+.men {
+  position: fixed !important;
+  right: 3%;
+}
+
+.furnace-header {
+  background-color: rgb(34, 56, 150) !important;
+  border-radius: 47px / 10px;
+}
+
+.header-main {
+  border-radius: 15px;
+  border: none;
+  background-image: linear-gradient(to right, #434343 0%, rgb(32, 32, 32) 100%);
+}
+
+.ant-table-row {
+  font-weight: 700;
+  font-size: 15px !important;
+}
+
+/* ----------------------------------- */
+
+.box-1 {
+  border-radius: 15px;
+  background-color: #ff2e2e;
+  padding: 20px 0px;
+}
+
+.btns {
+  line-height: 50px;
+
+  text-align: center;
+  width: 100%;
+  cursor: pointer;
+  border-radius: 15px;
+}
+
+.btn-one {
+  color: #fff;
+  transition: all 0.3s;
+  position: relative;
+}
+.btn-one span {
+  transition: all 0.3s;
+}
+.btn-one::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  opacity: 0;
+  transition: all 0.3s;
+  border-top-width: 1px;
+  border-bottom-width: 1px;
+  border-top-style: solid;
+  border-bottom-style: solid;
+  border-top-color: rgba(255, 255, 255, 0.5);
+  border-bottom-color: rgba(255, 255, 255, 0.5);
+  transform: scale(0.1, 1);
+}
+.btn-one:hover span {
+  letter-spacing: 2px;
+}
+.btn-one:hover::before {
+  border-radius: 15px;
+  opacity: 1;
+  transform: scale(1, 1);
+}
+.btn-one::after {
+  border-radius: 15px;
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  transition: all 0.3s;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+.btn-one:hover::after {
+  border-radius: 15px;
+  opacity: 0;
+  transform: scale(0.1, 1);
+}
+
+div[class*="box"] {
+  height: 33.33%;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

@@ -127,8 +127,8 @@ const Furnaces = () => {
                   className="cards col-sm-4 col-md-3  p-3 baxshadow  p-5 .borderRadius-15   position-relative overflow-hidden    "
                 >
                   <div style={{ height: "350px" }}>
-                    <div className="furnace-header ">
-                      <h4 className=" my-3 fw-bold bg-secondary py-3 text-white text-center rounded-3 ">
+                    <div>
+                      <h4 className=" my-3 fw-bold  py-3 text-white text-center  furnace-header ">
                         {item.name}
                       </h4>
                     </div>

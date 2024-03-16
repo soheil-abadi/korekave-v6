@@ -73,6 +73,7 @@ import {
   RseteditDimentionModal,
   RseteditDimentionCurrentUser,
   selecteditDimentionModal,
+  RsetaddEventModal,
 } from "../../../slices/FurnaceObservationSlices";
 import { selectFurnaceDistributeType } from "../../../slices/FurnaceDistribute";
 import { Container } from "@mui/material";
@@ -139,12 +140,20 @@ const ObservingFurnaces = () => {
 
   console.log(materialdata);
   useEffect(() => {
-    if (singlefurances.furnaceDimension !== undefined) {
-      if (singlefurances.furnaceDimension.length === 0) {
-        dispatch(RsetaddDimentionModal(true));
+    if (singlefurances.furnaceEvents !== undefined) {
+      if (singlefurances.furnaceEvents.length === 0) {
+        dispatch(RsetaddEventModal(true));
       }
     }
-  }, [singlefurances.furnaceDimension]);
+  }, [singlefurances.furnaceEvents]);
+
+  // useEffect(() => {
+  //   if (singlefurances.furnaceDimension !== undefined) {
+  //     if (singlefurances.furnaceDimension.length === 0) {
+  //       dispatch(RsetaddEventModal(true));
+  //     }
+  //   }
+  // }, [singlefurances.furnaceDimension]);
 
   useEffect(() => {
     if (singlefurances.furnaceMaterials !== undefined) {
@@ -573,7 +582,11 @@ const ObservingFurnaces = () => {
   const [activeT, setActiveT] = useState("tab2");
 
   const toggleTable = () => {
-    setShowTable(!showTable);
+    if (singlefurances.furnaceDimension.length === 0) {
+      dispatch(RsetaddDimentionModal(true));
+    } else {
+      setShowTable(!showTable);
+    }
   };
 
   const handleTabChan = (key) => {

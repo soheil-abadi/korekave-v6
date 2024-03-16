@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   Box,
   Checkbox,
+  FormControl,
   FormControlLabel,
   FormGroup,
   InputLabel,
@@ -58,6 +59,9 @@ const EssentialGoodsADDModal = () => {
 
   const handleModalCancel = () => {
     dispatch(RsetessentialGoodsAddmodal(false));
+    dispatch(RsetessentialGoodscountryoforigin(""));
+    dispatch(RsetessentialGoodstype(""));
+    dispatch(RsetessentialGoodsfirmorigin(""));
   };
   // ------------------------sending new input to reducers
 
@@ -166,27 +170,34 @@ const EssentialGoodsADDModal = () => {
       >
         <form>
           <Box>
-            <InputLabel className="fw-bold fs-5" id="demo-simple-select-label">
-              دسته بندي
-            </InputLabel>
-            <Select
-              className="w-100  "
-              labelId="demo-simple-select-filled-label"
-              id="demo-simple-select-filled"
-              label=" دسته بندي"
-              onChange={(e) => dispatch(RsetessentialGoodssort(e.target.value))}
-            >
-              {selectoption &&
-                selectoption.map((item, index) => (
-                  <MenuItem
-                    className="text-center w-100 m-auto"
-                    key={index}
-                    value={item}
-                  >
-                    {item}
-                  </MenuItem>
-                ))}
-            </Select>
+            <FormControl className="my-4" fullWidth>
+              <InputLabel
+                className="fw-bold fs-5"
+                id="demo-simple-select-label"
+              >
+                دسته بندي
+              </InputLabel>
+              <Select
+                className="w-100  "
+                labelId="demo-simple-select-filled-label"
+                id="demo-simple-select-filled"
+                label=" دسته بندي"
+                onChange={(e) =>
+                  dispatch(RsetessentialGoodssort(e.target.value))
+                }
+              >
+                {selectoption &&
+                  selectoption.map((item, index) => (
+                    <MenuItem
+                      className="text-center w-100 m-auto"
+                      key={index}
+                      value={item}
+                    >
+                      {item}
+                    </MenuItem>
+                  ))}
+              </Select>
+            </FormControl>
           </Box>
           <Box>
             <InputLabel className="fw-bold fs-5">كشور سازنده</InputLabel>

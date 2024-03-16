@@ -6,7 +6,15 @@ import moment from "jalali-moment";
 import faIR from "antd/lib/locale/fa_IR";
 import { DtPicker } from "react-calendar-datetime-picker";
 
-import { Box, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import {
+  Box,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+  TextareaAutosize,
+} from "@mui/material";
 
 import {
   RsetFurnaceObservationDateOfEnd,
@@ -34,6 +42,7 @@ import {
 import { getIdFromUrl } from "../ObservingFurnaces";
 import { useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
+import TextArea from "antd/es/input/TextArea";
 
 const solarToGregorian = (solarDate) => {
   // Parse the Solar Hijri date using jalali-moment
@@ -60,7 +69,8 @@ const ObservingfurnaceEditEventModal = () => {
     dispatch(RsetFurnaceObservationDescriptionP(""));
   };
 
-  const handleَAddEvent = () => {
+  const handleَAddEvent = (e) => {
+    console.log(e);
     const eventdata = {
       name: FurnaceObservationStatusEventName,
       begin_date: FurnaceObservationStatusDateOfStart,
@@ -68,13 +78,7 @@ const ObservingfurnaceEditEventModal = () => {
       event_type: FurnaceObservationStatusTypeOfEvent,
       description: FurnaceObservationDescriptionP,
     };
-    if (
-      FurnaceObservationStatusEventName &&
-      FurnaceObservationStatusEventName &&
-      FurnaceObservationStatusDateOfEnd &&
-      FurnaceObservationStatusTypeOfEvent &&
-      FurnaceObservationDescriptionP
-    ) {
+    if (eventdata) {
       dispatch(
         editevents({
           data: eventdata,
@@ -197,7 +201,7 @@ const ObservingfurnaceEditEventModal = () => {
                   size="large"
                   onClick={() => handleَAddEvent()}
                 >
-                  اضافه كردن رويداد
+                  ويرايش رويداد
                 </Button>
               </div>
             </>
@@ -265,46 +269,47 @@ const ObservingfurnaceEditEventModal = () => {
             />
 
             <Box>
-              <InputLabel
-                className="fw-bold  fs-5 my-4"
-                id="demo-simple-select-standard-label"
-              >
-                نوع رویداد
-              </InputLabel>
-              <Select
-                className="w-100  "
-                labelId="demo-simple-select-filled-label"
-                id="demo-simple-select-filled"
-                label={"نوع رويداد"}
-                value={FurnaceObservationStatusTypeOfEvent}
-                onChange={(e) => {
-                  dispatch(RsetFurnaceObservationTypeOfEvent(e.target.value));
-                }}
-              >
-                {enetrydata &&
-                  enetrydata.map((item, index) => (
-                    <MenuItem
-                      className="text-center w-100 m-auto"
-                      key={index}
-                      value={item}
-                    >
-                      {item}
-                    </MenuItem>
-                  ))}
-              </Select>
+              <FormControl fullWidth>
+                <InputLabel
+                  className="fw-bold  fs-5 "
+                  id="demo-simple-select-standard-label"
+                >
+                  نوع رویداد
+                </InputLabel>
+                <Select
+                  className="w-100  "
+                  labelId="demo-simple-select-filled-label"
+                  id="demo-simple-select-filled"
+                  label={"نوع رويداد"}
+                  value={FurnaceObservationStatusTypeOfEvent}
+                  onChange={(e) => {
+                    dispatch(RsetFurnaceObservationTypeOfEvent(e.target.value));
+                  }}
+                >
+                  {enetrydata &&
+                    enetrydata.map((item, index) => (
+                      <MenuItem
+                        dir="rtl"
+                        className="text-center w-100 m-auto"
+                        key={index}
+                        value={item}
+                      >
+                        {item}
+                      </MenuItem>
+                    ))}
+                </Select>
+              </FormControl>
             </Box>
+
             <Box>
-              <TextField
+              <TextArea
                 className="w-100 my-3 text-center h-50 p-2  "
-                id="outlined-multiline-static"
-                label="توضيحات"
-                multiline
-                rows={4}
-                variant="outlined"
                 value={FurnaceObservationDescriptionP}
                 onChange={(e) => {
                   dispatch(RsetFurnaceObservationDescriptionP(e.target.value));
                 }}
+                placeholder="توضيحات"
+                rows={5}
               />
             </Box>
           </form>

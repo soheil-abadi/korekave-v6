@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   Box,
   Checkbox,
+  FormControl,
   FormControlLabel,
   FormGroup,
   InputLabel,
@@ -68,6 +69,14 @@ const AddFireProofModal = () => {
 
   const handleModalCancel = () => {
     dispatch(RsetfireProofAddmodal(false));
+    RsetfireProofmodelCode("");
+    RsetfireProofI("");
+    RsetfireProofweight("");
+    RsetfireProofa("");
+    RsetfireProofb("");
+    RsetfireProofh("");
+    RsetfireProofsort("");
+    RsetfireProoftype("");
   };
   // ------------------------sending new input to reducers
   const handleModalEdit = () => {
@@ -171,31 +180,63 @@ const AddFireProofModal = () => {
       >
         <form>
           <Box>
-            <InputLabel className="fw-bold fs-5" id="demo-simple-select-label">
-              دسته بندي
-            </InputLabel>
-            <Select
-              className="w-100  "
-              labelId="demo-simple-select-filled-label"
-              id="demo-simple-select-filled"
-              value={fireProofsort}
-              label=" دسته بندي"
-              onChange={(e) => dispatch(RsetfireProofsort(e.target.value))}
-            >
-              {selectoption &&
-                selectoption.map((item, index) => (
-                  <MenuItem
-                    className="text-center w-100 m-auto"
-                    key={index}
-                    value={item}
-                  >
-                    {item}
-                  </MenuItem>
-                ))}
-            </Select>
+            <FormControl className="my-4" fullWidth>
+              <InputLabel
+                className="fw-bold fs-5"
+                id="demo-simple-select-label"
+              >
+                نوع
+              </InputLabel>
+              <Select
+                className="w-100  "
+                labelId="demo-simple-select-filled-label"
+                id="demo-simple-select-filled"
+                label="مدل"
+                onChange={(e) => dispatch(RsetfireProoftype(e.target.value))}
+              >
+                {type &&
+                  type.map((item, index) => (
+                    <MenuItem
+                      className="text-center w-100 m-auto"
+                      key={index}
+                      value={item}
+                    >
+                      {item}
+                    </MenuItem>
+                  ))}
+              </Select>
+            </FormControl>
           </Box>
           <Box>
-            <InputLabel className="fw-bold fs-5">كد مدل </InputLabel>
+            <FormControl fullWidth>
+              <InputLabel
+                className="fw-bold fs-5"
+                id="demo-simple-select-label"
+              >
+                دسته بندي
+              </InputLabel>
+              <Select
+                className="w-100  "
+                labelId="demo-simple-select-filled-label"
+                id="demo-simple-select-filled"
+                label=" دسته بندي"
+                onChange={(e) => dispatch(RsetfireProofsort(e.target.value))}
+              >
+                {selectoption &&
+                  selectoption.map((item, index) => (
+                    <MenuItem
+                      className="text-center w-100 m-auto"
+                      key={index}
+                      value={item}
+                    >
+                      {item}
+                    </MenuItem>
+                  ))}
+              </Select>
+            </FormControl>
+          </Box>
+          <Box>
+            <InputLabel className="fw-bold fs-5 my-2">كد مدل </InputLabel>
             <TextField
               variant="outlined"
               fullWidth
@@ -203,29 +244,7 @@ const AddFireProofModal = () => {
               onChange={(e) => dispatch(RsetfireProofmodelCode(e.target.value))}
             />
           </Box>
-          <Box>
-            <InputLabel className="fw-bold fs-5" id="demo-simple-select-label">
-              نوع
-            </InputLabel>
-            <Select
-              className="w-100  "
-              labelId="demo-simple-select-filled-label"
-              id="demo-simple-select-filled"
-              label="مدل"
-              onChange={(e) => dispatch(RsetfireProoftype(e.target.value))}
-            >
-              {type &&
-                type.map((item, index) => (
-                  <MenuItem
-                    className="text-center w-100 m-auto"
-                    key={index}
-                    value={item}
-                  >
-                    {item}
-                  </MenuItem>
-                ))}
-            </Select>
-          </Box>
+
           <Box>
             <InputLabel className="fw-bold fs-5">
               وزن در واحد (کیلوگرم):

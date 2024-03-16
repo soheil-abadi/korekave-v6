@@ -91,7 +91,6 @@ const NewFactoryNewFurnaceModal = () => {
       if (index === labal.length - 1) {
         // Last index reached, do something here
         dispatch(RsetaddDimentionModal(false));
-        dispatch(RsetaddEventModal(true));
       }
 
       setCurrentIndex(currentIndex + 1);

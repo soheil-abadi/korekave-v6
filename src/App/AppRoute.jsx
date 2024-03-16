@@ -10,6 +10,7 @@ import FurnaceDistribute from "../components/FurnaceDistribue/FurnaceDistribute"
 import FactoryManagment from "../components/FactoryManagment/FactoryManagment";
 import Factory from "../components/furnaces/Factory";
 import ObservingFurnaces from "../components/furnaces/Observingfurnaces/ObservingFurnaces";
+import { BrowserRouter as Router, Switch } from "react-router-dom";
 
 const AppRoutes = () => {
   const hasJWT = () => {

@@ -50,12 +50,12 @@ const Header = () => {
   }, [user]);
 
   return (
-    <div className="w-100 text-white">
+    <div className="w-100 text-white header-main">
       <Nav className="d-flex justify-content-center align-items-center w-100">
         <div
           className={`d-flex ${
             !smallNav ? "justify-content-center" : "justify-content-start"
-          } bg-dark borderRadius-15 p-1 border w-100`}
+          }  borderRadius-15 p-1 border w-100`}
         >
           <div className="d-flex justify-content-between align-items-center">
             <div className="" id="profile-name w-100">

@@ -27,6 +27,7 @@ import {
   selectaddEventModal,
 } from "../../../../../slices/FurnaceObservationSlices";
 import { selectsinglefurances } from "../../../../../slices/Dashboard";
+import TextArea from "antd/es/input/TextArea";
 
 const solarToGregorian = (solarDate) => {
   // Parse the Solar Hijri date using jalali-moment
@@ -236,16 +237,14 @@ const NewFactoryFurnaceAddEvent = () => {
               </Select>
             </Box>
             <Box>
-              <TextField
+              <TextArea
                 className="w-100 my-3 text-center h-50 p-2  "
-                id="outlined-multiline-static"
-                label="توضيحات"
-                multiline
-                rows={4}
-                variant="outlined"
+                value={FurnaceObservationDescriptionP}
                 onChange={(e) => {
                   dispatch(RsetFurnaceObservationDescriptionP(e.target.value));
                 }}
+                placeholder="توضيحات"
+                rows={5}
               />
             </Box>
           </form>

@@ -220,6 +220,7 @@ const FactoryModal = ({ card }) => {
                 {typedata &&
                   typedata.map((item, index) => (
                     <MenuItem
+                      dir="rtl"
                       className="text-center w-100 m-auto"
                       key={index}
                       value={item}
@@ -306,6 +307,7 @@ const FactoryModal = ({ card }) => {
                 {enetrydata &&
                   enetrydata.map((item, index) => (
                     <MenuItem
+                      dir="rtl"
                       className="text-center w-100 m-auto"
                       key={index}
                       value={item}
