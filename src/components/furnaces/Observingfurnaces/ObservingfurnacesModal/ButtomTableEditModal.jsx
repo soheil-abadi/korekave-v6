@@ -131,7 +131,7 @@ const ButtomTableEditModal = () => {
       <Modal
         title={
           <>
-            <h3 className="fw-bold">اضافه كردن رديف </h3>
+            <h3 className="fw-bold">ويرايش رديف </h3>
           </>
         }
         open={bottomTableEditModal}

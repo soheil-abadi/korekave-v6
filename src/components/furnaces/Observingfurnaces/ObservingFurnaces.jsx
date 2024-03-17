@@ -481,6 +481,8 @@ const ObservingFurnaces = () => {
         <Popconfirm
           className="bg-danger"
           title="نهايي سازي"
+          okText={<span>تایید</span>}
+          cancelText={<span>انصراف</span>}
           description="   آيا از نهايي كردن اين سطر مطمئن هستيد ؟  "
           onConfirm={() => {
             dispatch(finalingevent(record._id));

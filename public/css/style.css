@@ -294,3 +294,11 @@ div[class*="box"] {
   border-radius: 50px 10px !important;
   background-color: #3a54ca !important;
 }
+.ant-popconfirm-title {
+  direction: rtl;
+
+  text-align: right;
+}
+.ant-popconfirm-message-icon {
+  direction: rtl;
+}
