@@ -158,7 +158,10 @@ const FactoryModal = ({ card }) => {
       <Modal
         title={
           <>
-            <h3 className="fw-bold fs-3  "> ويرايش كوره {factorysname}</h3>
+            <h3 className="fw-bold fs-3 modal-h  ">
+              {" "}
+              ويرايش كوره {factorysname}
+            </h3>
           </>
         }
         open={FactoryEditModal}

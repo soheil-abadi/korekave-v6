@@ -763,12 +763,13 @@ const ObservingFurnaces = () => {
                   >
                     {pic.map((item) => (
                       <SwiperSlide
-                        className=" d-flex justify-content-center align-items-center my-3 flex-column "
+                        className="  d-flex justify-content-center align-items-center my-3 flex-column "
                         key={item.id}
                       >
-                        <h3 className="my-3 bg-secondary w-100 text-center py-2 rounded-3 text-white">
+                        <h3 className=" img-h my-3 bg-secondary w-100 text-center py-2 rounded-3 text-white">
                           {item.description}
                         </h3>
+
                         <img
                           style={{ width: "800px", height: "700px" }}
                           src={`http://192.168.5.60:8007/uploads/furnaces/${item.picture}`}

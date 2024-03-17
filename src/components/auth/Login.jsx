@@ -107,7 +107,7 @@ const Login = () => {
                   src={logo}
                   alt="logo"
                   className="img-fluid d-block center"
-                  style={{ width: "80px", margin: "auto" }}
+                  style={{ width: "200px", margin: "auto" }}
                 />
                 <h1 className="text-dark fw-bold mt-5">
                   درگاه ورود به كوره کاوه

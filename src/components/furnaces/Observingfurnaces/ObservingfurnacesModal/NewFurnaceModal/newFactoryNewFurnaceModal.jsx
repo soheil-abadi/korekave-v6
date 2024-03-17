@@ -139,9 +139,19 @@ const NewFactoryNewFurnaceModal = () => {
         styles={modalStyles}
         closable={false}
         onOk={handleModalCancel}
+        onCancel={handleModalCancel}
         footer={(_, { OkBtn, CancelBtn }) => (
           <>
-            <div className="bottom-modal d-flex justify-content-between align-items-center gap-3 w-100 flex-row-reverse "></div>
+            <div className="bottom-modal d-flex justify-content-between align-items-center gap-3 w-100 flex-row-reverse ">
+              <Button
+                className="w-100"
+                style={{ background: "red", color: "white" }}
+                size="large"
+                onClick={() => handleModalCancel()}
+              >
+                لغو
+              </Button>
+            </div>
           </>
         )}
       >

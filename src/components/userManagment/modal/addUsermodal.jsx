@@ -87,6 +87,11 @@ const UserManagementEditModal = () => {
 
   const handleModalCancel = () => {
     dispatch(RsetuserManagmentAddmodal(false));
+    dispatch(RsetUserManagmentFirstName(""));
+    dispatch(RsetUserManagmentLastName(""));
+    dispatch(RsetUserManagmentUserName(""));
+    dispatch(RsetUserManagmentPassword(""));
+    dispatch(RsetUserManagmentAccess([]));
   };
 
   const handleModalEdit = () => {
@@ -155,7 +160,7 @@ const UserManagementEditModal = () => {
         onCancel={handleModalCancel}
         footer={(_, { OkBtn, CancelBtn }) => (
           <>
-            <div className="bottom-modal d-flex justify-content-between align-items-center gap-3 w-100">
+            <div className="bottom-modal d-flex justify-content-between align-items-center gap-3 w-100 flex-row-reverse">
               <Button
                 style={{ background: "red", color: "white" }}
                 size="large"
@@ -163,13 +168,16 @@ const UserManagementEditModal = () => {
               >
                 لغو
               </Button>
+
               <Button
                 className="w-100"
-                style={{ background: "blue", color: "white" }}
+                variant="outlined"
+                type="primary"
+                color="primary"
                 size="large"
                 onClick={() => handleModalEdit()}
               >
-                اضافه كردن
+                ویرایش کاربر
               </Button>
             </div>
           </>

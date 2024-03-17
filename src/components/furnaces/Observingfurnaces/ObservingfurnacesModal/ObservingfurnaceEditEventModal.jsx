@@ -175,7 +175,7 @@ const ObservingfurnaceEditEventModal = () => {
         <Modal
           title={
             <>
-              <h3 className="fw-bold ">ویرایش کوره</h3>
+              <h3 className="fw-bold ">{`ويرايش كوره ${furnaceEventEditCurrentRow.name}`}</h3>
             </>
           }
           open={FurnaceObservationfurnaceEventEditModal}

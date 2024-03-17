@@ -39,8 +39,8 @@ import {
   selectloading,
 } from "../../../slices/FactoryManagment";
 import Swal from "sweetalert2";
-const selectoption = ["سنگ  ", "آجر  ", "  نسوز"];
-const type = ["غير منتظم  ", "منتظم  "];
+const selectoption = ["سنگ  ", "آجر  ", "نسوز"];
+const type = ["شیشه تخت", "بلور"];
 
 const FactoryManagmentAddModal = () => {
   //   -----------------------------handeling modal selectors
@@ -136,7 +136,7 @@ const FactoryManagmentAddModal = () => {
         onCancel={handleModalCancel}
         footer={(_, { OkBtn, CancelBtn }) => (
           <>
-            <div className="bottom-modal d-flex justify-content-between align-items-center gap-3 w-100">
+            <div className="bottom-modal d-flex justify-content-between align-items-center gap-3 w-100 flex-row-reverse">
               <Button
                 style={{ background: "red", color: "white" }}
                 size="large"

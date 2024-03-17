@@ -271,3 +271,26 @@ div[class*="box"] {
   justify-content: center;
   align-items: center;
 }
+
+.MuiDrawer-paperAnchorRight {
+  background-color: #212529 !important;
+}
+
+.ant-modal-header {
+  border-radius: 50px 10px !important;
+  background-color: #3a54ca !important;
+}
+.ant-modal-header h3 {
+  color: white !important ;
+  text-align: center;
+}
+.men {
+  transition: 0.5s !important;
+}
+.men:hover {
+  transform: rotate(90deg) !important;
+}
+.img-h {
+  border-radius: 50px 10px !important;
+  background-color: #3a54ca !important;
+}

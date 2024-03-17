@@ -46,7 +46,8 @@ const Sidebar = () => {
     <Box
       sx={{
         width: anchor === "top" || anchor === "bottom" ? "auto" : 350,
-        height: anchor === "top" || anchor === "bottom" ? "auto" : "100vh",
+        height: anchor === "top" || anchor === "bottom" ? "auto" : "100%",
+        borderRadius: "15px",
       }}
       role="presentation"
       onClick={toggleDrawer(anchor, false)}
@@ -56,16 +57,21 @@ const Sidebar = () => {
         dir="rtl"
         expand="lg"
         bg="dark"
-        className=" d-flex justify-content-center align-items-center h-100  w-100  borderRadius-15"
+        className=" d-flex justify-content-center align-items-center h-100  w-100  borderRadius-15 "
       >
         <Navbar.Collapse
           id="basic-navbar-nav"
           className="w-100 h-100 d-flex flex-column justify-content-between align-items-center"
         >
           <div className="w-100 h-100 mt-3">
-            <Nav className="flex-column h-100  w-100">
-              <img className="p-3 w-75 m-auto" src={logo} alt="logo" />
-              <div className="Sidebar-parent   h-100 d-flex flex-column justify-content-center align-items-start mx-2  ">
+            <Nav className="flex-column justify-content-center h-100  w-100 img-fluid">
+              <img
+                className="p-3  m-auto mt-2"
+                src={logo}
+                alt="logo"
+                style={{ width: "250px" }}
+              />
+              <div className="Sidebar-parent   h-100 d-flex flex-column justify-content-start align-items-start mx-2  ">
                 <h3
                   class
                   onClick={() => navigate("/Dashboard")}
@@ -172,12 +178,12 @@ const Sidebar = () => {
         {["right"].map((anchor) => (
           <React.Fragment key={anchor}>
             <button
-              className=" m-auto my-3 bg-transparent border-0 men"
+              className=" m-auto my-3 bg-transparent border-0 men "
               onClick={toggleDrawer(anchor, true)}
             >
               <MenuIcon
                 style={{ cursor: "pointer" }}
-                className="   text-white "
+                className="    text-white "
                 sx={{ fontSize: 40 }}
               />
             </button>

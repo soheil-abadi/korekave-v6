@@ -59,7 +59,7 @@ import {
 } from "../../../slices/FactoryManagment";
 import Swal from "sweetalert2";
 const selectoption = ["سنگ  ", "آجر  ", "  نسوز"];
-const type = ["غير منتظم  ", "منتظم  "];
+const type = ["شیشه تخت", "بلور"];
 
 const FactoryManagmentEditModal = () => {
   //   -----------------------------handeling modal selectors
@@ -73,6 +73,8 @@ const FactoryManagmentEditModal = () => {
   const FactoryManagmentLogo = useSelector(selectFactoryManagmentLogo);
   const FactoryManagmentName = useSelector(selectFactoryManagmentName);
   const FactoryManagmentType = useSelector(selectFactoryManagmentType);
+
+  console.log(FactoryManagmentType);
   const FactoryManagmentEditModa = useSelector(selectFactoryManagmentEditModal);
 
   const FactoryManagmentCurrentUser = useSelector(
@@ -165,7 +167,7 @@ const FactoryManagmentEditModal = () => {
         onCancel={handleModalCancel}
         footer={(_, { OkBtn, CancelBtn }) => (
           <>
-            <div className="bottom-modal d-flex justify-content-between align-items-center gap-3 w-100">
+            <div className="bottom-modal d-flex justify-content-between align-items-center gap-3 w-100 flex-row-reverse">
               <Button
                 style={{ background: "red", color: "white" }}
                 size="large"
