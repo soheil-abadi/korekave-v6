@@ -48,7 +48,7 @@ const FactoryModal = ({ card }) => {
   const id = getIdFromUrl(location.pathname);
   const dispatch = useDispatch();
   const typedata = ["side-port", "end-port"];
-  const enetrydata = ["deep chanel", "working"];
+  const enetrydata = ["deepchanel", "working"];
 
   const furances = useSelector(selectfurances);
 
@@ -75,16 +75,7 @@ const FactoryModal = ({ card }) => {
       channel_entrance_type: enteryType,
     };
 
-    if (
-      factorysname &&
-      factorytype &&
-      factorycapicity &&
-      factoryVolume &&
-      factoryWorkingVolume &&
-      surfaceofmaterial &&
-      canals &&
-      enteryType
-    ) {
+    if (factorysname && factorytype && factorycapicity && factoryVolume) {
       dispatch(editfurnaces({ data: data, id: id }));
       dispatch(RsetfactoryVolume(""));
       dispatch(RsetfactoryWorkingVolume(""));
@@ -197,6 +188,9 @@ const FactoryModal = ({ card }) => {
           <Box>
             <InputLabel className="fw-bold fs-5 ">نام كوره </InputLabel>
             <TextField
+              required
+              error={!factorysname}
+              helperText={!factorysname ? " وارد كردن نام كوره الزامی است" : ""}
               variant="outlined"
               fullWidth
               margin="normal"
@@ -213,6 +207,8 @@ const FactoryModal = ({ card }) => {
                 نوع
               </InputLabel>
               <Select
+                required
+                error={!factorytype}
                 className="w-100  "
                 labelId="demo-simple-select-filled-label"
                 id="demo-simple-select-filled"
@@ -237,6 +233,11 @@ const FactoryModal = ({ card }) => {
           <Box>
             <InputLabel className="fw-bold fs-5 my-2"> ظرفيت(تن)</InputLabel>
             <TextField
+              required
+              error={!factorycapicity}
+              helperText={
+                !factorycapicity ? " وارد كردن ظرفيت كوره الزامی است" : ""
+              }
               variant="outlined"
               fullWidth
               margin="normal"
@@ -247,6 +248,11 @@ const FactoryModal = ({ card }) => {
           <Box>
             <InputLabel className="fw-bold fs-5"> حجم كوره</InputLabel>
             <TextField
+              required
+              error={!factoryVolume}
+              helperText={
+                !factoryVolume ? " وارد كردن حجم كوره الزامی است" : ""
+              }
               variant="outlined"
               fullWidth
               margin="normal"
@@ -255,18 +261,22 @@ const FactoryModal = ({ card }) => {
             />
           </Box>
           <Box>
-            <InputLabel className="fw-bold fs-5">
-              حجم working (متر مکعب):
-            </InputLabel>
-            <TextField
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              value={factoryWorkingVolume}
-              onChange={(e) =>
-                dispatch(RsetfactoryWorkingVolume(e.target.value))
-              }
-            />
+            {factorytype !== "end-port" && (
+              <>
+                <InputLabel className="fw-bold fs-5">
+                  حجم working (متر مکعب):
+                </InputLabel>
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  margin="normal"
+                  value={factoryWorkingVolume}
+                  onChange={(e) =>
+                    dispatch(RsetfactoryWorkingVolume(e.target.value))
+                  }
+                />
+              </>
+            )}
           </Box>
           <Box>
             <InputLabel className="fw-bold fs-5"> سطح حمام قلع </InputLabel>
@@ -279,47 +289,53 @@ const FactoryModal = ({ card }) => {
             />
           </Box>
           <Box>
-            <InputLabel className="fw-bold fs-5">
-              {" "}
-              تعداد خطوط کانال (FOREHEARTH)
-            </InputLabel>
-            <TextField
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              value={canals}
-              onChange={(e) => dispatch(Rsetcanals(e.target.value))}
-            />
+            {factorytype !== "side-port" && (
+              <>
+                <InputLabel className="fw-bold fs-5">
+                  {" "}
+                  تعداد خطوط کانال (FOREHEARTH)
+                </InputLabel>
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  margin="normal"
+                  value={canals}
+                  onChange={(e) => dispatch(Rsetcanals(e.target.value))}
+                />
+              </>
+            )}
           </Box>
           <Box>
-            <FormControl fullWidth className=" my-3 ">
-              <InputLabel
-                className="fw-bold fs-5"
-                id="demo-simple-select-standard-label"
-              >
-                نوع ورودی
-              </InputLabel>
-              <Select
-                className="w-100  "
-                labelId="demo-simple-select-filled-label"
-                id="demo-simple-select-filled"
-                value={enteryType}
-                label={"نوع ورودي"}
-                onChange={(e) => dispatch(RsetenteryType(e.target.value))}
-              >
-                {enetrydata &&
-                  enetrydata.map((item, index) => (
-                    <MenuItem
-                      dir="rtl"
-                      className="text-center w-100 m-auto"
-                      key={index}
-                      value={item}
-                    >
-                      {item}
-                    </MenuItem>
-                  ))}
-              </Select>
-            </FormControl>
+            {factorytype !== "side-port" && (
+              <FormControl fullWidth className=" my-3 ">
+                <InputLabel
+                  className="fw-bold fs-5"
+                  id="demo-simple-select-standard-label"
+                >
+                  نوع ورودی
+                </InputLabel>
+                <Select
+                  className="w-100  "
+                  labelId="demo-simple-select-filled-label"
+                  id="demo-simple-select-filled"
+                  value={enteryType}
+                  label={"نوع ورودي"}
+                  onChange={(e) => dispatch(RsetenteryType(e.target.value))}
+                >
+                  {enetrydata &&
+                    enetrydata.map((item, index) => (
+                      <MenuItem
+                        dir="rtl"
+                        className="text-center w-100 m-auto"
+                        key={index}
+                        value={item}
+                      >
+                        {item}
+                      </MenuItem>
+                    ))}
+                </Select>
+              </FormControl>
+            )}
           </Box>
         </form>
       </Modal>

@@ -106,7 +106,7 @@ const FurnaceDistributeAddModal = () => {
     },
   };
 
-  const typeData = ["side sort", "end sort", "side sort , end sort"];
+  const typeData = ["side sort", "end sort", "	side-port and end-port"];
 
   return (
     <ConfigProvider direction="rtl" locale={fa_IR}>
@@ -163,6 +163,7 @@ const FurnaceDistributeAddModal = () => {
               نام بخش
             </InputLabel>
             <Select
+              defaultValue={""}
               className="w-100  "
               labelId="demo-simple-select-filled-label"
               id="demo-simple-select-filled"

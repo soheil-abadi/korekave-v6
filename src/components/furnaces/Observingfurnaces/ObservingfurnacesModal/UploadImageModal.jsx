@@ -19,6 +19,7 @@ import { selectsinglefurances } from "../../../../slices/Dashboard";
 import { getIdFromUrl } from "../ObservingFurnaces";
 import { useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
+import { UploadOutlined } from "@ant-design/icons";
 
 const UploadImageModal = () => {
   const token = localStorage.getItem("token");
@@ -34,7 +35,6 @@ const UploadImageModal = () => {
   const tokenUser = localStorage.getItem("token");
 
   // Log the value of the token to the console
-  console.log(tokenUser);
 
   // ------------------uploade photo-----------------------------
   const location = useLocation();
@@ -56,6 +56,8 @@ const UploadImageModal = () => {
       }
       dispatch(addphoto({ data: data, id: id, token: tokenUser }));
       dispatch(RsetuploadPhotoModal(false));
+      dispatch(RsetuploadPic(" "));
+      dispatch(RsetuploadPhotoDes(" "));
     } else {
       Swal.fire({
         icon: "error",
@@ -69,6 +71,8 @@ const UploadImageModal = () => {
 
   const handleModalCancel = () => {
     dispatch(RsetuploadPhotoModal(false));
+    dispatch(RsetuploadPic(" "));
+    dispatch(RsetuploadPhotoDes(" "));
   };
 
   const modalStyles = {

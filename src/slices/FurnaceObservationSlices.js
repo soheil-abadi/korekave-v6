@@ -483,7 +483,7 @@ export const editevents = createAsyncThunk(
   async ({ data, id, oid }, { dispatch }) => {
     try {
       const furanceseditevent = await editfurnaceevent(data, oid);
-      console.log(oid);
+
       if (furanceseditevent.status === 200) {
         SuccessMessage(furanceseditevent.data.message);
         dispatch(getsinglefurance(id));
@@ -634,7 +634,6 @@ export const adddimentions = createAsyncThunk(
           title: "   عدم دريافت اطلاعات  ",
         });
       }
-      console.log(furancesadddimention);
     } catch {
       Swal.fire({
         icon: "error",

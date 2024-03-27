@@ -41,7 +41,15 @@ import {
 } from "../../../slices/fireProofSlices";
 import { fireproofadd } from "../../../services/authServices";
 import Swal from "sweetalert2";
-const selectoption = ["سنگ  ", "آجر  ", "  نسوز"];
+const selectoption = [
+  "فیبر",
+  "تجهیزات فیدر",
+  "تنگستن",
+  "گرافیت",
+  "سنگ  ",
+  "آجر  ",
+  "  نسوز",
+];
 const type = ["غير منتظم  ", "منتظم  "];
 
 const EditFireProofModal = () => {
@@ -140,7 +148,7 @@ const EditFireProofModal = () => {
 
     dispatch(RsetfireProofb(fireProofCurrentUser.b_size));
 
-    dispatch(RsetfireProofh(fireProofCurrentUser.h));
+    dispatch(RsetfireProofh(fireProofCurrentUser.h_size));
 
     dispatch(RsetfireProofsort(fireProofCurrentUser.category));
 

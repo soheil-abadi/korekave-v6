@@ -52,13 +52,9 @@ const ButtomTableUploadPhotoModal = () => {
   const uploadPhotoSubTable = useSelector(selectuploadPhotoSubTable);
   const uploadPhotoSubTablePic = useSelector(selectuploadPhotoSubTablePic);
 
-  console.log(uploadPhotoSubTablePic);
-
   const uploadPhotoSubTableCurrentUser = useSelector(
     selectuploadPhotoSubTableCurrentUser
   );
-
-  console.log(uploadPhotoSubTableCurrentUser);
 
   const modalStyles = {
     header: {
@@ -140,7 +136,6 @@ const ButtomTableUploadPhotoModal = () => {
                   (file) => file.type === "application/pdf"
                 );
                 dispatch(RsetuploadPhotoSubTablePic({ fileList: pdfFiles }));
-                console.log(info);
               }}
             >
               <Button type="primary" className="w-100 my-3">

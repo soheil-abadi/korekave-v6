@@ -73,13 +73,12 @@ const FactoryManagmentEditModal = () => {
   const FactoryManagmentLogo = useSelector(selectFactoryManagmentLogo);
   const FactoryManagmentName = useSelector(selectFactoryManagmentName);
   const FactoryManagmentType = useSelector(selectFactoryManagmentType);
-
-  console.log(FactoryManagmentType);
   const FactoryManagmentEditModa = useSelector(selectFactoryManagmentEditModal);
 
   const FactoryManagmentCurrentUser = useSelector(
     selectFactoryManagmentCurrentUser
   );
+  console.log(FactoryManagmentCurrentUser);
 
   // -----------------------------------------------
 

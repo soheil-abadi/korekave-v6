@@ -31,41 +31,12 @@ export const parseJwt = (token) => {
   return JSON.parse(jsonPayload);
 };
 
-// export const handleStaffLogin = createAsyncThunk(
-//   "main/handleStaffLogin",
-//   async (obj, { dispatch, getState }) => {
-//     const { staffCodeMeli, staffPassword } = getState().auth;
-//     const user = {
-//       username: staffCodeMeli,
-//       password: staffPassword,
-//     };
-//     try {
-//       const loginStaffRes = await loginStaff(user);
-//       console.log(loginStaffRes);
-//       if (loginStaffRes.data.code === 415) {
-//         const userInfo = parseJwt(loginStaffRes.data.token);
-//         dispatch(RsetUser(userInfo));
-//         dispatch(RsetIsLoggedIn(true));
-//         localStorage.setItem("token", loginStaffRes.data.token);
-//         dispatch(RsetStaffCodeMeli(""));
-//         dispatch(RsetStaffPassword(""));
-//         dispatch(RsetFormErrors(""));
-//         successMessage("ورود با موفقیت انجام شد");
-//       } else {
-//         errorMessage("کد ملی یا رمز عبور اشتباه است!");
-//       }
-//     } catch (ex) {
-//       console.log(ex);
-//     }
-//   }
-// );
-
 export const handleUsetInfo = createAsyncThunk(
   "authSlices/handleUsetInfo",
   async ({ dispatch }) => {
     try {
       const userInfoRes = await refreshuser(localStorage.getItem("id"));
-      console.log(userInfoRes);
+
       if (userInfoRes.data.code === 200) {
         dispatch(Rsetuser(userInfoRes.data.user));
         SuccessMessage("ورود موفق");

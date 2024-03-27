@@ -50,6 +50,7 @@ const ObservingfurnacesModalAddDimension = () => {
   const FurnaceObservationcurrentmaterial = useSelector(
     selectFurnaceObservationcurrentmaterial
   );
+  console.log(FurnaceObservationcurrentmaterial);
   const FurnaceObservationNumber = useSelector(selectFurnaceObservationNumber);
 
   const handleَAddDimention = () => {
@@ -170,6 +171,7 @@ const ObservingfurnacesModalAddDimension = () => {
               labelId="demo-simple-select-filled-label"
               id="demo-simple-select-filled"
               label={" مدل نسوز"}
+              defaultValue={""}
               onChange={(e) =>
                 dispatch(RsetFurnaceObservationFireProofModel(e.target.value))
               }

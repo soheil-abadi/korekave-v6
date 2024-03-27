@@ -147,7 +147,7 @@ const ObservingfurnaceAddEventModal = () => {
         <Modal
           title={
             <>
-              <h3 className="fw-bold ">ویرایش کوره</h3>
+              <h3 className="fw-bold ">اضافه كردن رويداد</h3>
             </>
           }
           open={FurnaceObservationStatusModal}
@@ -239,6 +239,7 @@ const ObservingfurnaceAddEventModal = () => {
                   className="w-100  "
                   labelId="demo-simple-select-filled-label"
                   id="demo-simple-select-filled"
+                  defaultValue={""}
                   label={"نوع رويداد"}
                   onChange={(e) => {
                     dispatch(RsetFurnaceObservationTypeOfEvent(e.target.value));

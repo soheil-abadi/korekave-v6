@@ -302,3 +302,6 @@ div[class*="box"] {
 .ant-popconfirm-message-icon {
   direction: rtl;
 }
+.ant-pagination {
+  direction: ltr !important;
+}

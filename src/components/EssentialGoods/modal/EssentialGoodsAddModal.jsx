@@ -35,7 +35,17 @@ import { RsetfireProofAddmodal } from "../../../slices/fireProofSlices";
 import Swal from "sweetalert2";
 
 const EssentialGoodsADDModal = () => {
-  const selectoption = ["نسوز - ملات", "نسوز - آجر", "نسوز - فیبر"];
+  const selectoption = [
+    "قلع",
+    "نسوز - تجهیزات فیدر",
+    "نسوز - فیبر",
+    "نسوز - تنگستن",
+    "نسوز - جرم",
+    "نسوز - گرافیت",
+    "نسوز - ملات",
+    "نسوز - آجر",
+    "نسوز - فیبر",
+  ];
   const type = ["غير منتظم  ", "منتظم  "];
   //   -----------------------------handeling modal selectors
   const essentialGoodscountryoforigin = useSelector(
@@ -181,6 +191,7 @@ const EssentialGoodsADDModal = () => {
                 className="w-100  "
                 labelId="demo-simple-select-filled-label"
                 id="demo-simple-select-filled"
+                defaultValue={""}
                 label=" دسته بندي"
                 onChange={(e) =>
                   dispatch(RsetessentialGoodssort(e.target.value))

@@ -44,7 +44,15 @@ import { fireproofadd } from "../../../services/authServices";
 import Swal from "sweetalert2";
 
 const AddFireProofModal = () => {
-  const selectoption = ["سنگ  ", "آجر  ", "  نسوز"];
+  const selectoption = [
+    "فیبر",
+    "تجهیزات فیدر",
+    "تنگستن",
+    "گرافیت",
+    "سنگ  ",
+    "آجر  ",
+    "  نسوز",
+  ];
   const type = ["غير منتظم  ", "منتظم  "];
   //   -----------------------------handeling modal selectors
   const fireProofmodelCode = useSelector(selectfireProofModelCode);
@@ -191,6 +199,7 @@ const AddFireProofModal = () => {
                 className="w-100  "
                 labelId="demo-simple-select-filled-label"
                 id="demo-simple-select-filled"
+                defaultValue={""}
                 label="مدل"
                 onChange={(e) => dispatch(RsetfireProoftype(e.target.value))}
               >
@@ -216,6 +225,7 @@ const AddFireProofModal = () => {
                 دسته بندي
               </InputLabel>
               <Select
+                defaultValue={""}
                 className="w-100  "
                 labelId="demo-simple-select-filled-label"
                 id="demo-simple-select-filled"

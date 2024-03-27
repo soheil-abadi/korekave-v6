@@ -25,7 +25,6 @@ import {
   Rsetfactorytype,
   Rsetsurfaceofmaterial,
   addfurnaces,
-  selectFactoryEditModal,
   selectcanals,
   selectenteryType,
   selectfactoryAddModal,
@@ -41,11 +40,12 @@ import { useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const FactoryAddModal = () => {
+  const typedata = ["side-port", "end-port"];
+  const enetrydata = ["deepchanel", "working"];
   const location = useLocation();
   const id = getIdFromUrl(location.pathname);
   const dispatch = useDispatch();
-  const typedata = ["side-port", "end-port"];
-  const enetrydata = ["deepchanel", "working"];
+
   const factoryAddModal = useSelector(selectfactoryAddModal);
   const factorysname = useSelector(selectfactorysname);
   const factoryVolume = useSelector(selectfactoryVolume);
@@ -86,16 +86,7 @@ const FactoryAddModal = () => {
       channel_entrance_type: enteryType,
       factory_oid: id,
     };
-    if (
-      factorysname &&
-      factorytype &&
-      factorycapicity &&
-      factoryVolume &&
-      factoryWorkingVolume &&
-      surfaceofmaterial &&
-      canals &&
-      enteryType
-    ) {
+    if (factorysname && factorytype && factorycapicity && factoryVolume) {
       dispatch(addfurnaces({ data: data, id: id }));
       dispatch(RsetfactoryVolume(""));
       dispatch(RsetfactoryWorkingVolume(""));
@@ -182,6 +173,9 @@ const FactoryAddModal = () => {
               fullWidth
               margin="normal"
               onChange={(e) => dispatch(Rsetfactorysname(e.target.value))}
+              required
+              error={!factorysname}
+              helperText={!factorysname ? " وارد كردن نام كوره الزامی است" : ""}
             />
           </Box>
           <Box>
@@ -193,10 +187,16 @@ const FactoryAddModal = () => {
                 نوع
               </InputLabel>
               <Select
+                required
+                error={!factorytype}
+                helperText={
+                  !factorytype ? " وارد كردن نوع كوره الزامی است" : ""
+                }
                 className="w-100  "
                 labelId="demo-simple-select-filled-label"
                 id="demo-simple-select-filled"
                 label={" نوع "}
+                defaultValue={""}
                 onChange={(e) => dispatch(Rsetfactorytype(e.target.value))}
               >
                 {typedata &&
@@ -216,6 +216,11 @@ const FactoryAddModal = () => {
           <Box>
             <InputLabel className="fw-bold fs-5"> ظرفيت(تن)</InputLabel>
             <TextField
+              required
+              error={!factorycapicity}
+              helperText={
+                !factorycapicity ? " وارد كردن ظرفيت كوره الزامی است" : ""
+              }
               variant="outlined"
               fullWidth
               margin="normal"
@@ -225,6 +230,11 @@ const FactoryAddModal = () => {
           <Box>
             <InputLabel className="fw-bold fs-5"> حجم كوره</InputLabel>
             <TextField
+              required
+              error={!factoryVolume}
+              helperText={
+                !factoryVolume ? " وارد كردن حجم كوره الزامی است" : ""
+              }
               variant="outlined"
               fullWidth
               margin="normal"
@@ -232,17 +242,21 @@ const FactoryAddModal = () => {
             />
           </Box>
           <Box>
-            <InputLabel className="fw-bold fs-5">
-              حجم working (متر مکعب):
-            </InputLabel>
-            <TextField
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              onChange={(e) =>
-                dispatch(RsetfactoryWorkingVolume(e.target.value))
-              }
-            />
+            {factorytype !== "end-port" && (
+              <>
+                <InputLabel className="fw-bold fs-5">
+                  حجم working (متر مکعب):
+                </InputLabel>
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  margin="normal"
+                  onChange={(e) =>
+                    dispatch(RsetfactoryWorkingVolume(e.target.value))
+                  }
+                />
+              </>
+            )}
           </Box>
           <Box>
             <InputLabel className="fw-bold fs-5"> سطح حمام قلع </InputLabel>
@@ -254,45 +268,52 @@ const FactoryAddModal = () => {
             />
           </Box>
           <Box>
-            <InputLabel className="fw-bold fs-5">
-              {" "}
-              تعداد خطوط کانال (FOREHEARTH)
-            </InputLabel>
-            <TextField
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              onChange={(e) => dispatch(Rsetcanals(e.target.value))}
-            />
+            {factorytype !== "side-port" && (
+              <>
+                <InputLabel className="fw-bold fs-5">
+                  {" "}
+                  تعداد خطوط کانال (FOREHEARTH)
+                </InputLabel>
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  margin="normal"
+                  onChange={(e) => dispatch(Rsetcanals(e.target.value))}
+                />
+              </>
+            )}
           </Box>
           <Box>
-            <FormControl fullWidth className=" my-3 ">
-              <InputLabel
-                className="fw-bold fs-5"
-                id="demo-simple-select-standard-label"
-              >
-                نوع ورودی
-              </InputLabel>
-              <Select
-                className="w-100  "
-                labelId="demo-simple-select-filled-label"
-                id="demo-simple-select-filled"
-                label={"نوع ورودي"}
-                onChange={(e) => dispatch(RsetenteryType(e.target.value))}
-              >
-                {enetrydata &&
-                  enetrydata.map((item, index) => (
-                    <MenuItem
-                      dir="rtl"
-                      className="text-center w-100 m-auto"
-                      key={index}
-                      value={item}
-                    >
-                      {item}
-                    </MenuItem>
-                  ))}
-              </Select>
-            </FormControl>
+            {factorytype !== "side-port" && (
+              <FormControl fullWidth className=" my-3 ">
+                <InputLabel
+                  className="fw-bold fs-5"
+                  id="demo-simple-select-standard-label"
+                >
+                  نوع ورودی
+                </InputLabel>
+                <Select
+                  className="w-100  "
+                  labelId="demo-simple-select-filled-label"
+                  id="demo-simple-select-filled"
+                  label={"نوع ورودي"}
+                  defaultValue={""}
+                  onChange={(e) => dispatch(RsetenteryType(e.target.value))}
+                >
+                  {enetrydata &&
+                    enetrydata.map((item, index) => (
+                      <MenuItem
+                        dir="rtl"
+                        className="text-center w-100 m-auto"
+                        key={index}
+                        value={item}
+                      >
+                        {item}
+                      </MenuItem>
+                    ))}
+                </Select>
+              </FormControl>
+            )}
           </Box>
         </form>
       </Modal>

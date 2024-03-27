@@ -69,7 +69,7 @@ const Login = () => {
 
       if (postLoginRes.data.code === 200) {
         const userInfo = parseJwt(postLoginRes.data.token);
-        console.log(userInfo);
+
         dispatch(Rsetuser(userInfo.user));
 
         navigate("/Dashboard");
@@ -127,6 +127,8 @@ const Login = () => {
                   نام کاربری
                 </InputLabel>
                 <Input
+                  required
+                  error={!username}
                   id="user-name"
                   label="username"
                   variant="standard"
@@ -144,6 +146,8 @@ const Login = () => {
                   رمز عبور
                 </InputLabel>
                 <Input
+                  required
+                  error={!password}
                   label="password"
                   variant="outline"
                   value={password}

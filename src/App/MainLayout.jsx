@@ -8,6 +8,7 @@ import { RsetIsLoggedIn, selectIsLoggedIn } from "../slices/authSlices";
 import Login from "../components/auth/Login";
 import background from "../components/img/kave.jpg";
 import { useNavigate } from "react-router-dom";
+import { selecterror } from "../slices/Dashboard";
 
 const MainLayout = ({ children }) => {
   const dispatch = useDispatch();
@@ -16,10 +17,16 @@ const MainLayout = ({ children }) => {
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
 
+  const error = useSelector(selecterror);
+
+  if (error) {
+    navigate("/");
+    localStorage.removeItem("token");
+  }
+
   useEffect(() => {
     if (token) {
       dispatch(RsetIsLoggedIn(true));
-      navigate("/Dashboard");
     } else {
       dispatch(RsetIsLoggedIn(false));
     }

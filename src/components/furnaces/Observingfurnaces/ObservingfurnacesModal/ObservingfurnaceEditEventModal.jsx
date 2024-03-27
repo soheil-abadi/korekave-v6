@@ -70,7 +70,6 @@ const ObservingfurnaceEditEventModal = () => {
   };
 
   const handleَAddEvent = (e) => {
-    console.log(e);
     const eventdata = {
       name: FurnaceObservationStatusEventName,
       begin_date: FurnaceObservationStatusDateOfStart,
@@ -127,7 +126,6 @@ const ObservingfurnaceEditEventModal = () => {
   const furnaceEventEditCurrentRow = useSelector(
     selectfurnaceEventEditCurrentRow
   );
-  console.log(furnaceEventEditCurrentRow);
 
   const FurnaceObservationfurnaceEventEditModal = useSelector(
     selectFurnaceObservationfurnaceEventEditModal

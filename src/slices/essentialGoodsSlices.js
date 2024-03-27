@@ -21,35 +21,6 @@ const initialState = {
   loading: false,
 };
 
-// export const handleStaffLogin = createAsyncThunk(
-//   "main/handleStaffLogin",
-//   async (obj, { dispatch, getState }) => {
-//     const { staffCodeMeli, staffPassword } = getState().auth;
-//     const user = {
-//       username: staffCodeMeli,
-//       password: staffPassword,
-//     };
-//     try {
-//       const loginStaffRes = await loginStaff(user);
-//       console.log(loginStaffRes);
-//       if (loginStaffRes.data.code === 415) {
-//         const userInfo = parseJwt(loginStaffRes.data.token);
-//         dispatch(RsetUser(userInfo));
-//         dispatch(RsetIsLoggedIn(true));
-//         localStorage.setItem("token", loginStaffRes.data.token);
-//         dispatch(RsetStaffCodeMeli(""));
-//         dispatch(RsetStaffPassword(""));
-//         dispatch(RsetFormErrors(""));
-//         successMessage("ورود با موفقیت انجام شد");
-//       } else {
-//         errorMessage("کد ملی یا رمز عبور اشتباه است!");
-//       }
-//     } catch (ex) {
-//       console.log(ex);
-//     }
-//   }
-// );
-
 const essentialGoodsSlices = createSlice({
   name: "essentialGoods",
   initialState,
@@ -155,22 +126,11 @@ export const fetchessentialgoodlist = createAsyncThunk(
         errorMessage("عدم دريافت اطلاعات");
       }
     } catch (ex) {
-      console.log(ex);
+      errorMessage("عدم دريافت اطلاعات");
     }
   }
 );
-// export const deleteessentialgoodlist = createAsyncThunk(
-//   "userManagement/deleteessentialgoodlist",
 
-//   async (value, { dispatch }) => {
-//     try {
-//       const deleteuserlist = await deleteessentialgood(value);
-//       dispatch(fetchessentialgoodlistList());
-//     } catch (ex) {
-//       console.log("عدم دريافت اطلاعات");
-//     }
-//   }
-// );
 export const editessentialgood = createAsyncThunk(
   "essentialGoodsSlices/editessentialgood",
 
@@ -199,7 +159,6 @@ export const addessentialgood = createAsyncThunk(
 
   async (value, { dispatch }) => {
     try {
-      console.log(value);
       const adduserdata = await essentialgoodsadd(value);
       if (adduserdata.status === 200) {
         SuccessMessage(adduserdata.data.message);
@@ -227,7 +186,6 @@ export const deleteessentialgood = createAsyncThunk(
     try {
       const deletegoods = await deleteessentialgoods(id);
       if (deletegoods.status === 200) {
-        console.log(deletegoods.data);
         SuccessMessage(deletegoods.data.message);
 
         dispatch(fetchessentialgoodlist());
@@ -238,7 +196,10 @@ export const deleteessentialgood = createAsyncThunk(
         });
       }
     } catch (ex) {
-      console.log("عدم دريافت اطلاعات");
+      Swal.fire({
+        icon: "error",
+        title: "عدم دريافت اطلاعات",
+      });
     }
   }
 );

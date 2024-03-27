@@ -95,7 +95,7 @@ const UserManagementEditModal = () => {
     dispatch(RsetUserManagmentPassword(""));
     dispatch(RsetUserManagmentAccess([]));
   };
-  console.log(userManagmentAccess);
+
   const handleModalEdit = async () => {
     const userValues = {
       first_name: UserManagmentFirstName,

@@ -34,10 +34,15 @@ import Swal from "sweetalert2";
 
 const EssentialGoodsEdditModal = () => {
   const selectoption = [
+    "قلع",
+    "نسوز - تجهیزات فیدر",
+    "نسوز - فیبر",
+    "نسوز - تنگستن",
+    "نسوز - جرم",
+    "نسوز - گرافیت",
     "نسوز - ملات",
     "نسوز - آجر",
     "نسوز - فیبر",
-    "نسوز - جرم	",
   ];
   //   -----------------------------handeling modal selectors
   const essentialGoodscountryoforigin = useSelector(

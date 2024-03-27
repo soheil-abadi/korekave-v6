@@ -1,15 +1,7 @@
 import React, { useEffect, useState } from "react";
-import {
-  Table,
-  Collapse,
-  Tabs,
-  Popconfirm,
-  Modal,
-  Form,
-  Input,
-  Upload,
-  Empty,
-} from "antd";
+import { Table, Collapse, Tabs, Popconfirm, Empty, ConfigProvider } from "antd";
+import faIR from "antd/lib/locale/fa_IR";
+
 import { Button } from "react-bootstrap";
 import TabPane from "antd/lib/tabs/TabPane";
 import ObservingfurnaceAddEventModal from "./ObservingfurnacesModal/ObservingfurnaceAddEventModal";
@@ -26,7 +18,6 @@ import UploadImageModal from "./ObservingfurnacesModal/UploadImageModal";
 import ButtomTableUploadPhotoModal from "./ObservingfurnacesModal/DisplayAndUploadingPhotoModal/ButtomTableUploadpdfModal";
 
 import moment from "moment-jalaali";
-import UndoIcon from "@mui/icons-material/Undo";
 
 import NewFactoryNewFurnaceModal from "./ObservingfurnacesModal/NewFurnaceModal/newFactoryNewFurnaceModal";
 import DisplayUPloadingPhotoModal from "./ObservingfurnacesModal/DisplayAndUploadingPhotoModal/DisplayUPloadingPdfModal";
@@ -39,16 +30,8 @@ import {
   RsetFurnaceObservationStatusModal,
   RsetFurnaceObservationaddrowmodal,
   selectFurnaceObservationAddDimentionModal,
-  selectFurnaceObservationAddTabs,
-  selectFurnaceObservationDateOfEnd,
-  selectFurnaceObservationDateOfStart,
-  selectFurnaceObservationDescriptionP,
-  selectFurnaceObservationEventName,
   selectFurnaceObservationStatusModal,
-  selectFurnaceObservationTypeOfEvent,
   selectFurnaceObservationaddrowmodal,
-  selectFurnaceObservationFormatTabs,
-  RsetFurnaceObservationFormatTabs,
   finalingevent,
   selectuploadPhotoModal,
   RsetuploadPhotoModal,
@@ -99,8 +82,6 @@ export const getIdFromUrl = (pathname) => {
 };
 
 const ObservingFurnaces = () => {
-  const token = localStorage.getItem("token");
-
   const dispatch = useDispatch();
   const location = useLocation();
   const id = getIdFromUrl(location.pathname);
@@ -116,11 +97,8 @@ const ObservingFurnaces = () => {
   const editDimentionModal = useSelector(selecteditDimentionModal);
 
   const bottomTableEditModal = useSelector(selectbottomTableEditModal);
-  console.log(bottomTableEditModal);
 
   const uploadPhotoSubTable = useSelector(selectuploadPhotoSubTable);
-
-  console.log(uploadPhotoSubTable);
 
   const FurnaceObservationfurnaceEventEditModal = useSelector(
     selectFurnaceObservationfurnaceEventEditModal
@@ -132,28 +110,19 @@ const ObservingFurnaces = () => {
     dispatch(getsinglefurance(id));
   }, [dispatch]);
 
-  useEffect(() => {
-    console.log(singlefurances.furnaceDimension);
-  }, [singlefurances]);
-
   const materialdata = singlefurances.furnaceMaterials;
-
-  console.log(materialdata);
+  window.addEventListener("popstate", function (event) {
+    dispatch(RsetaddEventModal(false));
+  });
   useEffect(() => {
     if (singlefurances.furnaceEvents !== undefined) {
       if (singlefurances.furnaceEvents.length === 0) {
         dispatch(RsetaddEventModal(true));
       }
+    } else {
+      dispatch(RsetaddEventModal(false));
     }
   }, [singlefurances.furnaceEvents]);
-
-  // useEffect(() => {
-  //   if (singlefurances.furnaceDimension !== undefined) {
-  //     if (singlefurances.furnaceDimension.length === 0) {
-  //       dispatch(RsetaddEventModal(true));
-  //     }
-  //   }
-  // }, [singlefurances.furnaceDimension]);
 
   useEffect(() => {
     if (singlefurances.furnaceMaterials !== undefined) {
@@ -221,7 +190,6 @@ const ObservingFurnaces = () => {
       dataIndex: "materials_per_shape_first_usage_name",
       key: "materials_per_shape_first_usage_name ",
       render: (text, record) => {
-        console.log(record);
         return (
           <>
             <div className="d-flex justify-content-center align-items-center gap-1 flex-row-reverse">
@@ -238,13 +206,14 @@ const ObservingFurnaces = () => {
         );
       },
 
-      width: 280,
+      width: 170,
     },
     {
       title: " بخش",
       dataIndex: "furnace_parts_name",
       key: "furnace_parts_name",
       render: (text) => <span className="fw-bold ">{text}</span>, // Apply custom class to render function
+      width: 50,
     },
     {
       title: "متريال ",
@@ -274,7 +243,7 @@ const ObservingFurnaces = () => {
     {
       title: "ابعاد و تعداد	",
       key: "action",
-      width: 400,
+      width: 250,
 
       render: (text, record) => (
         <ul>
@@ -304,7 +273,7 @@ const ObservingFurnaces = () => {
     {
       title: " دانلود و آپلود PDF	",
       key: "action",
-      width: 250,
+      width: 220,
 
       render: (text, record) => (
         <ul>
@@ -360,7 +329,7 @@ const ObservingFurnaces = () => {
     {
       title: "  حذف و ويرايش",
       key: "action",
-      width: 300, // Set the width to 100px
+      width: 250, // Set the width to 100px
 
       render: (text, record) => (
         <>
@@ -559,8 +528,8 @@ const ObservingFurnaces = () => {
   ];
   const paginationConfig = {
     position: ["bottomCenter"],
-    showTotal: (total) => <span className="font12">مجموع : {total}</span>,
-    pageSize: 10,
+    showTotal: (total) => <span className="font12">مجموع: {total}</span>,
+    pageSize: 20,
     showSizeChanger: false,
     pageSizeOptions: [],
     size: "small",
@@ -602,19 +571,6 @@ const ObservingFurnaces = () => {
   );
   const uploadPhotoModal = useSelector(selectuploadPhotoModal);
 
-  const FurnaceObservationDateOfEnd = useSelector(
-    selectFurnaceObservationTypeOfEvent
-  );
-  const FurnaceObservationDateOfStart = useSelector(
-    selectFurnaceObservationDateOfStart
-  );
-  const FurnaceDistributeType = useSelector(selectFurnaceDistributeType);
-  const FurnaceObservationDescriptionP = useSelector(
-    selectFurnaceObservationDescriptionP
-  );
-  const eventname = useSelector(selectFurnaceObservationEventName);
-  const AddTabs = useSelector(selectFurnaceObservationAddTabs);
-  const formattabs = useSelector(selectFurnaceObservationFormatTabs);
   const loadingSingleFurnace = useSelector(selectloadingSingleFurnace);
 
   // -----------------add row modal slices
@@ -694,13 +650,6 @@ const ObservingFurnaces = () => {
             </div>
 
             <div className="buttom-table">
-              {/* <Button
-          onClick={() => dispatch(RsetFurnaceObservationStatusModal(true))}
-          className="m-3"
-        >
-          اضافه كردن رويداد
-        </Button> */}
-
               <Button
                 className="m-3"
                 onClick={() =>
@@ -712,8 +661,8 @@ const ObservingFurnaces = () => {
 
               {/* ---------------------------------------------------------------- */}
               <Tabs>
-                {eventName.map((tab, index) => (
-                  <TabPane className="fw-bold" tab={tab} key={index}>
+                {eventName.map((item, index) => (
+                  <TabPane className="fw-bold" tab={item} key={index}>
                     <Table
                       locale={{
                         emptyText: <Empty description="اطلاعات موجود نیست!" />,
@@ -742,16 +691,20 @@ const ObservingFurnaces = () => {
                   >
                     اضافه كردن رديف
                   </Button>
-
-                  <Table
-                    columns={columnsbuttom}
-                    dataSource={materialdata}
-                    pagination={paginationConfig}
-                    locale={{
-                      emptyText: <Empty description="اطلاعات موجود نیست!" />,
-                    }}
-                  />
+                  <ConfigProvider locale={faIR}>
+                    <Table
+                      className="sss"
+                      columns={columnsbuttom}
+                      dataSource={materialdata}
+                      pagination={paginationConfig}
+                      scroll={{ x: "max-content" }}
+                      locale={{
+                        emptyText: <Empty description="اطلاعات موجود نیست!" />,
+                      }}
+                    />
+                  </ConfigProvider>
                 </TabPane>
+
                 <TabPane tab=" تصاوير" key="tab3">
                   <Swiper
                     className="mt-3 bg-black"

@@ -43,8 +43,6 @@ const DisplayUPloadingPhotoModal = () => {
 
   const listOfSubPic = useSelector(selectlistOfSubPic);
 
-  console.log(listOfSubPic.length);
-
   // -----------------------------------------------------
 
   const handleModalCancel = () => {

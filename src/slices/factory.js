@@ -26,36 +26,8 @@ const initialState = {
 
   addDimentionModal: false,
   addEventModal: false,
+  loading: false,
 };
-
-// export const handleStaffLogin = createAsyncThunk(
-//   "main/handleStaffLogin",
-//   async (obj, { dispatch, getState }) => {
-//     const { staffCodeMeli, staffPassword } = getState().auth;
-//     const user = {
-//       username: staffCodeMeli,
-//       password: staffPassword,
-//     };
-//     try {
-//       const loginStaffRes = await loginStaff(user);
-//       console.log(loginStaffRes);
-//       if (loginStaffRes.data.code === 415) {
-//         const userInfo = parseJwt(loginStaffRes.data.token);
-//         dispatch(RsetUser(userInfo));
-//         dispatch(RsetIsLoggedIn(true));
-//         localStorage.setItem("token", loginStaffRes.data.token);
-//         dispatch(RsetStaffCodeMeli(""));
-//         dispatch(RsetStaffPassword(""));
-//         dispatch(RsetFormErrors(""));
-//         successMessage("ورود با موفقیت انجام شد");
-//       } else {
-//         errorMessage("کد ملی یا رمز عبور اشتباه است!");
-//       }
-//     } catch (ex) {
-//       console.log(ex);
-//     }
-//   }
-// );
 
 const factorySlices = createSlice({
   name: "Factory",
@@ -103,6 +75,22 @@ const factorySlices = createSlice({
     RsetgeaddEventModal: (state, { payload }) => {
       return { ...state, addEventModal: payload };
     },
+    Rsetloading: (state, { payload }) => {
+      return { ...state, loading: payload };
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(getnewdimentions.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getnewdimentions.fulfilled, (state, action) => {
+        state.loading = false;
+      })
+      .addCase(getnewdimentions.rejected, (state) => {
+        state.loading = false;
+        // Handle rejection if needed
+      });
   },
 });
 
@@ -121,6 +109,7 @@ export const {
   RsetgetNewDimention,
   RsetaddDimentionModal,
   RsetgeaddEventModal,
+  Rsetloading,
 } = factorySlices.actions;
 
 export const selectFactory = (state) => state.Factory.factorysList;
@@ -143,6 +132,8 @@ export const selectaddDimentionModal = (state) =>
   state.Factory.addDimentionModal;
 
 export const selectaddEventModal = (state) => state.Factory.addEventModal;
+
+export const selectloading = (state) => state.Factory.loading;
 
 export default factorySlices.reducer;
 

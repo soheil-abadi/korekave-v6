@@ -23,35 +23,6 @@ const initialState = {
   loading: false,
 };
 
-// export const handleStaffLogin = createAsyncThunk(
-//   "main/handleStaffLogin",
-//   async (obj, { dispatch, getState }) => {
-//     const { staffCodeMeli, staffPassword } = getState().auth;
-//     const user = {
-//       username: staffCodeMeli,
-//       password: staffPassword,
-//     };
-//     try {
-//       const loginStaffRes = await loginStaff(user);
-//       console.log(loginStaffRes);
-//       if (loginStaffRes.data.code === 415) {
-//         const userInfo = parseJwt(loginStaffRes.data.token);
-//         dispatch(RsetUser(userInfo));
-//         dispatch(RsetIsLoggedIn(true));
-//         localStorage.setItem("token", loginStaffRes.data.token);
-//         dispatch(RsetStaffCodeMeli(""));
-//         dispatch(RsetStaffPassword(""));
-//         dispatch(RsetFormErrors(""));
-//         successMessage("ورود با موفقیت انجام شد");
-//       } else {
-//         errorMessage("کد ملی یا رمز عبور اشتباه است!");
-//       }
-//     } catch (ex) {
-//       console.log(ex);
-//     }
-//   }
-// );
-
 const userManagmentSlices = createSlice({
   name: "userManagment",
   initialState,
@@ -150,14 +121,14 @@ export const fetchUserList = createAsyncThunk(
   async (obj, { dispatch }) => {
     try {
       const getuser = await getUserList();
-      console.log(getuser);
+
       if (getuser.status === 200) {
         dispatch(RsetUserManagmentList(getuser.data));
       } else {
         errorMessage("عدم دريافت اطلاعات");
       }
-    } catch (ex) {
-      console.log(ex);
+    } catch {
+      errorMessage("عدم دريافت اطلاعات");
     }
   }
 );
@@ -171,8 +142,8 @@ export const deleteuserlist = createAsyncThunk(
         SuccessMessage(deleteuserlist.data.message);
         dispatch(fetchUserList());
       }
-    } catch (ex) {
-      console.log("عدم دريافت اطلاعات");
+    } catch {
+      errorMessage("عدم دريافت اطلاعات");
     }
   }
 );
@@ -186,8 +157,8 @@ export const editusers = createAsyncThunk(
         SuccessMessage(editusers.data.message);
         dispatch(fetchUserList());
       }
-    } catch (ex) {
-      console.log("عدم دريافت اطلاعات");
+    } catch {
+      errorMessage("عدم دريافت اطلاعات");
     }
   }
 );
@@ -202,8 +173,8 @@ export const addusers = createAsyncThunk(
 
         dispatch(fetchUserList());
       }
-    } catch (ex) {
-      console.log("عدم دريافت اطلاعات");
+    } catch {
+      errorMessage("عدم دريافت اطلاعات");
     }
   }
 );

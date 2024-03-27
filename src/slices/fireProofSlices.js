@@ -25,35 +25,6 @@ const initialState = {
   loading: false,
 };
 
-// export const handleStaffLogin = createAsyncThunk(
-//   "main/handleStaffLogin",
-//   async (obj, { dispatch, getState }) => {
-//     const { staffCodeMeli, staffPassword } = getState().auth;
-//     const user = {
-//       username: staffCodeMeli,
-//       password: staffPassword,
-//     };
-//     try {
-//       const loginStaffRes = await loginStaff(user);
-//       console.log(loginStaffRes);
-//       if (loginStaffRes.data.code === 415) {
-//         const userInfo = parseJwt(loginStaffRes.data.token);
-//         dispatch(RsetUser(userInfo));
-//         dispatch(RsetIsLoggedIn(true));
-//         localStorage.setItem("token", loginStaffRes.data.token);
-//         dispatch(RsetStaffCodeMeli(""));
-//         dispatch(RsetStaffPassword(""));
-//         dispatch(RsetFormErrors(""));
-//         successMessage("ورود با موفقیت انجام شد");
-//       } else {
-//         errorMessage("کد ملی یا رمز عبور اشتباه است!");
-//       }
-//     } catch (ex) {
-//       console.log(ex);
-//     }
-//   }
-// );
-
 const fireProofSlices = createSlice({
   name: "fireProof",
   initialState,
@@ -233,7 +204,6 @@ export const addfireproof = createAsyncThunk(
 
   async (value, { dispatch }) => {
     try {
-      console.log(value);
       const adduserdata = await fireproofadd(value);
       if (adduserdata.status === 200) {
         SuccessMessage(adduserdata.data.message);

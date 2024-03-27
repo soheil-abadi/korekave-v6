@@ -53,7 +53,6 @@ const ButtomTableEditModal = () => {
   const bottomTableEditCurrentUser = useSelector(
     selectbottomTableEditCurrentUser
   );
-  console.log(bottomTableEditCurrentUser);
 
   const essentialGoodsList = useSelector(selectessentialGoodsList);
   const FurnaceDistributeList = useSelector(selectFurnaceDistributeList);

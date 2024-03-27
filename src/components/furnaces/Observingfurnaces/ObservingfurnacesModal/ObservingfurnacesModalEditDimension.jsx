@@ -40,17 +40,17 @@ const ObservingfurnacesModalEditDimension = () => {
     dispatch(fetchfireprooflistList());
   }, [dispatch]);
   const editDimentionCurrentUser = useSelector(selecteditDimentionCurrentUser);
+  console.log(editDimentionCurrentUser);
 
   const fireprooflistuser = useSelector(selectfireProofList);
   const FurnaceObservatioFireProofModel = useSelector(
     selectFurnaceObservatioFireProofModel
   );
-  console.log(editDimentionCurrentUser);
+
   const editDimentionModal = useSelector(selecteditDimentionModal);
 
   const FurnaceObservationNumber = useSelector(selectFurnaceObservationNumber);
-  console.log(FurnaceObservationNumber, FurnaceObservatioFireProofModel);
-  console.log(fireprooflistuser);
+
   const handleَAddDimention = () => {
     const data = {
       material_shape_oid: FurnaceObservatioFireProofModel,
@@ -65,7 +65,6 @@ const ObservingfurnacesModalEditDimension = () => {
         })
       );
 
-      console.log(data);
       dispatch(RsetFurnaceObservationtotalNumber(""));
       dispatch(RsetFurnaceObservationFireProofModel(""));
 
@@ -182,6 +181,7 @@ const ObservingfurnacesModalEditDimension = () => {
               labelId="demo-simple-select-filled-label"
               id="demo-simple-select-filled"
               label={" مدل نسوز"}
+              defaultValue={editDimentionCurrentUser.mat_id}
               onChange={(e) =>
                 dispatch(RsetFurnaceObservationFireProofModel(e.target.value))
               }

@@ -43,25 +43,6 @@ import { getIdFromUrl } from "./Observingfurnaces/ObservingFurnaces";
 import { Button } from "@mui/material";
 import { RsetaddDimentionModal } from "../../slices/FurnaceObservationSlices";
 
-const card = [
-  {
-    header: "کارخانه بلور کاوه",
-    number: "5",
-    logo: logo,
-    year: 1350,
-    type: "بلور",
-    location: "تهران میدان انقلاب نرسیده ب آزادی",
-  },
-  {
-    header: "کارخانه بلور کاوه",
-    number: "5",
-    logo: logo,
-    year: 1350,
-    type: "بلور",
-    location: "تهران میدان انقلاب نرسیده ب آزادی",
-  },
-];
-
 const Furnaces = () => {
   const dispatch = useDispatch();
   const FactoryEditModal = useSelector(selectFactoryEditModal);
@@ -71,8 +52,6 @@ const Furnaces = () => {
   const addEventModal = useSelector(selectaddEventModal);
   const getNewDimention = useSelector(selectgetNewDimention);
   const loadingFurnace = useSelector(selectloadingFurnace);
-
-  dispatch(RsetaddDimentionModal(false));
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -103,19 +82,18 @@ const Furnaces = () => {
           <div className="ms-4 mt-2">
             <span className="me-2 text-center ">
               <ListIcon />
-              مديريت كوره ها
+              {` مديريت كوره ها `}
             </span>
           </div>
-          <Button
-            title="افزودن کاربر جدید"
-            size="sm"
-            variant="success"
-            className=" me-4 shadow rounded-circle  bg-success  py-2 "
-            style={{ width: "5px" }}
-            onClick={() => dispatch(RsetfactoryAddModal(true))}
-          >
-            <AddCircleIcon className="rounded-circle w-75 " />
-          </Button>
+          <div>
+            <button
+              title="  افزودن كوره جديد"
+              className=" btn me-4 shadow rounded-circle  bg-success  py-2   fa btn-success "
+              onClick={() => dispatch(RsetfactoryAddModal(true))}
+            >
+              <AddCircleIcon className="rounded-circle w-100 z-3 " />
+            </button>
+          </div>
         </div>
 
         {!loadingFurnace ? (
@@ -141,7 +119,9 @@ const Furnaces = () => {
                     <p className="my-3">
                       تعداد تعميرات سرد:{" "}
                       <span className="fw-bold fs-6 ">
-                        {item.channel_line_count ? item.channel_line_count : 0}
+                        {item.channel_line_count
+                          ? item.channel_line_count
+                          : "-"}
                       </span>
                     </p>
                     <p className="my-3">
@@ -151,7 +131,9 @@ const Furnaces = () => {
                     <p className="my-3">
                       تعداد خطوط كانال :{" "}
                       <span className="fw-bold fs-6 ">
-                        {item.channel_line_count ? item.channel_line_count : 0}
+                        {item.channel_line_count
+                          ? item.channel_line_count
+                          : "-"}
                       </span>
                     </p>
                     <p className="my-3">
@@ -165,7 +147,7 @@ const Furnaces = () => {
                       <span className="fw-bold fs-6 ">
                         {item.channel_entrance_type
                           ? item.channel_entrance_type
-                          : 0}
+                          : "-"}
                       </span>
                     </p>
                   </div>

@@ -39,7 +39,6 @@ const Header = () => {
   const smallNav = useSelector(selectSmallNav);
   const user = useSelector(selectuser);
 
-  console.log(user);
   // const firstName = user.firstName;
 
   useEffect(() => {

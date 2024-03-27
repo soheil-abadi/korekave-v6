@@ -416,7 +416,7 @@ const FireProof = () => {
               </span>
             </div>
             <Button
-              title="افزودن کاربر جدید"
+              title="افزودن نسوز  جدید"
               size="sm"
               variant="success"
               className=" me-4 shadow rounded-circle py-2"

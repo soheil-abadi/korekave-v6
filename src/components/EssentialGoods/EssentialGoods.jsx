@@ -346,7 +346,7 @@ const EssentialGoods = () => {
               </span>
             </div>
             <Button
-              title="افزودن کاربر جدید"
+              title="افزودن  ملزومات جديد"
               size="sm"
               variant="success"
               className=" me-4 shadow rounded-circle py-2"

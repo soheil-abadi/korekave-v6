@@ -63,8 +63,6 @@ const FactoryManagmentAddModal = () => {
 
   const loading = useSelector(selectloading);
 
-  console.log(loading);
-
   const handleModalCancel = () => {
     dispatch(RsetFactoryManagmentAddmodal(false));
   };
@@ -198,6 +196,7 @@ const FactoryManagmentAddModal = () => {
               نوع كارخانه
             </InputLabel>
             <Select
+              defaultValue={""}
               className="w-100  "
               labelId="demo-simple-select-filled-label"
               id="demo-simple-select-filled"

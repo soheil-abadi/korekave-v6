@@ -33,12 +33,6 @@ const Dashboard = () => {
   useEffect(() => {
     dispatch(fetchedashboard());
   }, [dispatch]);
-  const error = useSelector(selecterror);
-
-  if (error) {
-    navigate("/");
-    localStorage.removeItem("token");
-  }
 
   const furanceId = useSelector(selectfurances);
 

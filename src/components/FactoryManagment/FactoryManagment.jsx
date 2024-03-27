@@ -386,7 +386,7 @@ const FactoryManagment = () => {
               مديريت كارخانه ها
             </div>
             <Button
-              title="افزودن کاربر جدید"
+              title="افزودن كارخانه جدید"
               size="sm"
               variant="success"
               className=" me-4 shadow rounded-circle py-2"

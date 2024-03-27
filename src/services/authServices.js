@@ -2,8 +2,6 @@ import http from "./httpServices";
 import config from "./config.json";
 import { token } from "../components/auth/Login";
 
-console.log(token());
-
 export const postLogin = (values) => {
   return http.post(`${config.local}/auth/login`, values, {
     timeout: 30000,

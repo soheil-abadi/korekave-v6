@@ -220,6 +220,7 @@ const NewFactoryFurnaceAddEvent = () => {
                 labelId="demo-simple-select-filled-label"
                 id="demo-simple-select-filled"
                 label={"نوع رويداد"}
+                defaultValue={""}
                 onChange={(e) => {
                   dispatch(RsetFurnaceObservationTypeOfEvent(e.target.value));
                 }}

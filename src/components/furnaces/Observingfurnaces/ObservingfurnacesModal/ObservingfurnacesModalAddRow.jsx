@@ -174,6 +174,7 @@ const ObservingfurnacesModalAddRow = () => {
               متريال
             </InputLabel>
             <Select
+              defaultValue={""}
               className="w-100  "
               labelId="demo-simple-select-filled-label"
               id="demo-simple-select-filled"
@@ -207,6 +208,7 @@ const ObservingfurnacesModalAddRow = () => {
               labelId="demo-simple-select-filled-label"
               id="demo-simple-select-filled"
               label={"بخش"}
+              defaultValue={""}
               onChange={(e) =>
                 dispatch(RsetFurnaceObservationsection(e.target.value))
               }
